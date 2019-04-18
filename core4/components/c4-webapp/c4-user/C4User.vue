@@ -107,10 +107,4 @@ export default {
   margin-top: -1px;
 }
 
-/* .theme-button{
-  border: 1px solid #fff;
-  border-radius: 0%;
-  padding:0;
-} */
-
 </style>

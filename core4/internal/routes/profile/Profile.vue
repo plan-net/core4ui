@@ -1,6 +1,6 @@
   <template>
-    <pnbi-page header-type="2" small>
-      <pnbi-card headline="Profile">
+    <c4-page header-type="2" small>
+      <c4-card headline="Profile">
         <!-- Reset password: to be implemented
         <div slot="primary-controls">
           <v-btn color="primary">
@@ -37,8 +37,8 @@
             </v-layout>
           </v-flex>
         </v-layout>
-      </pnbi-card>
-    </pnbi-page>
+      </c4-card>
+    </c4-page>
   </template>
 
 <script>

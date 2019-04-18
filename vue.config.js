@@ -21,7 +21,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        'pnbi-base': path.resolve(__dirname, '.')
+        'core4ui': path.resolve(__dirname, '.')
       }
     },
     output: {

@@ -92,6 +92,16 @@ export default {
     }
   },
   watch: {
+    username () {
+      if (this.profile.error != null) {
+        this.onFocus()
+      }
+    },
+    password () {
+      if (this.profile.error != null) {
+        this.onFocus()
+      }
+    }
   },
   computed: {
     nextRoute () {

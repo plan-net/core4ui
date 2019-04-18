@@ -55,7 +55,7 @@ export function setAjaxConfig (config) {
     Vue.prototype.$store.dispatch('showError', dto)
   }
   // AXIOS //
-  // used in pnbi-base client
+  // used in c4ui client
   // used internally by Auth.js because Auth Path is different then api above
   const instances = [axios, axiosInternal]
   instances.forEach(axiosInstance => {
