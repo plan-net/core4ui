@@ -26,7 +26,7 @@
           ></slot>
           <h2
             v-else
-            class="app-title"
+            class="app-title" :class="{'reset-font': !!inWidget}"
           >{{title}}</h2>
           <v-spacer class="core-dotted"></v-spacer>
           <c4-user></c4-user>
@@ -69,9 +69,9 @@
 </template>
 <script>
   /* import {
-    TRACK,
-    ERROR
-  } from '../../event-bus' */
+  TRACK,
+  ERROR
+} from '../../event-bus' */
   import C4Snackbar from './c4-snackbar/Snackbar.vue'
   import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
   import Navigation from './c4-navigation/Navigation.vue'
@@ -139,6 +139,7 @@
     computed: {
       ...mapGetters([
         'profile',
+        'inWidget',
         'loading',
         'title',
         'dark'
@@ -195,7 +196,7 @@
   }
 
   .c4-toolbar >>> .v-toolbar__content {
-    padding-right: 5px;
+    padding-right: 8px;
     padding-left: 18px;
   }
 

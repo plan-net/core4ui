@@ -9,11 +9,12 @@ const state = {
   loading: false,
   dark: false,
   title: 'CORE4OS',
+  inWidget: false,
   // notification: null,
-/*  profileError: null,
-  profileAuthenticated: false,
-  profileName: null,
-  profileEmail: 'No email'*/
+  /*  profileError: null,
+    profileAuthenticated: false,
+    profileName: null,
+    profileEmail: 'No email'*/
   profile: {
     error: null,
     // cookie: CookieService.isPriPolCookieSet(),
@@ -113,6 +114,14 @@ const actions = {
       state.hasOwnTheme = true // do not show theme switch
     }
   },
+  setWidgetTitle({commit, dispatch}, payload) {
+    commit('set_in_widget', true)
+    commit('set_title', payload)
+  },
+  resetWidgetTitle({commit, dispatch}, payload) {
+    commit('set_in_widget', false)
+    dispatch('setTitle', payload)
+  },
   toggleDark({commit, getters}) {
     const dark = !getters.dark
     commit('set_dark', dark)
@@ -128,8 +137,8 @@ const mutations = {
   /*  set_notification(state, payload) {
       state.notification = payload
     },*/
-  set_nav_button_visible(state, payload) {
-    state.navButtonVisible = payload
+  set_in_widget(state, payload) {
+    state.inWidget = payload
   },
   set_dark(state, dark) {
     if (dark != null) {
@@ -174,6 +183,9 @@ const getters = {
   },
   loading(state) {
     return state.loading
+  },
+  inWidget(state) {
+    return state.inWidget
   },
   title(state) {
     return state.title

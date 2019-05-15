@@ -16,7 +16,7 @@ let $router = {
   publicPages: authPages.concat(publicPages)
 }
 
-export function setRoutes (router) {
+export function setRoutes(router) {
   router.addRoutes([
     {
       path: '/login',
@@ -116,4 +116,5 @@ export function setRoutes (router) {
   })
   $router.instance = router
 }
+
 export default $router

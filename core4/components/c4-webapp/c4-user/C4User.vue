@@ -1,21 +1,22 @@
 <template>
   <div class="c4-user">
-    <v-spacer></v-spacer>
     <v-tooltip bottom v-if="hasOwnTheme !== true">
       <v-btn
         slot="activator"
-        class="theme-btn pr-0 mr-0 "
+        class="theme-btn"
         flat icon
         @click="toggleDark()"
       >
         <v-icon>invert_colors</v-icon>
-        <!-- set api call to toggle dark theme -->
-        <!-- <span >{{dark === true ? 'light' : 'dark'}}</span> -->
       </v-btn>
       <span>Toggle theme</span>
     </v-tooltip>
 
-    <v-menu left class="c4-more-menu">
+    <v-menu left class="c4-more-menu"
+            absolute
+            offset-y
+            close-on-click close-on-content-click
+    >
       <template v-slot:activator="{ on }">
         <v-btn
           dark
@@ -54,6 +55,16 @@
         </v-list-tile>
       </v-list>
     </v-menu>
+    <v-tooltip bottom v-if="inWidget">
+      <v-btn @click="$bus.$emit('c4-application-close')"
+             slot="activator"
+             class=""
+             flat icon
+      >
+        <v-icon>cancel</v-icon>
+      </v-btn>
+      <span>Close widget</span>
+    </v-tooltip>
   </div>
 </template>
 <script>
@@ -85,6 +96,7 @@
         'profile',
         'title',
         'dark',
+        'inWidget',
         'hasOwnTheme'
       ])
     }
@@ -92,5 +104,12 @@
 </script>
 
 <style scoped lang="css">
+  .c4-user > * {
+    display: inline-flex;
+  }
 
+  .c4-user .v-btn {
+    margin-left: 0;
+    margin-right: 0;
+  }
 </style>
