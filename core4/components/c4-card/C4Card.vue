@@ -3,7 +3,7 @@
     <v-toolbar
       flat
 
-      class="c4-datatable__toolbar pb-0 pt-2"
+      class="c4-card__toolbar pb-0 pt-2"
     >
       <h3 class="card-headline">{{label}}</h3>
       <v-spacer></v-spacer>
@@ -33,17 +33,22 @@ export default {
   mixins: [ContentContainerMixin]
 }
 </script>
-
 <style scoped lang="scss">
-.theme--dark{
-  .card-headline{
-    color: #fff;
-  }
-}
-.theme--light{
-  .card-headline{
-    color: var(--v-accent-base);
+  .theme--dark {
+    .card-headline {
+      color: #fff;
+    }
+
+    .v-toolbar, &.v-toolbar {
+      background-color: var(--v-secondary-lighten2) !important;
+    }
   }
 
-}
+  .theme--light {
+    .card-headline {
+      color: var(--v-accent-base);
+    }
+
+  }
 </style>
+
