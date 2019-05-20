@@ -35,15 +35,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.theme--dark{
-  .card-headline{
-    color: #fff;
-  }
-}
-.theme--light{
-  .card-headline{
-    color: var(--v-accent-base);
+  .theme--dark {
+    .card-headline {
+      color: #fff;
+    }
+
+    .v-toolbar, &.v-toolbar {
+      background-color: var(--v-secondary-lighten2) !important;
+    }
   }
 
-}
+  .theme--light {
+    .card-headline {
+      color: var(--v-accent-base);
+    }
+
+  }
 </style>
+
