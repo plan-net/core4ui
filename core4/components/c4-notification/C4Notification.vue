@@ -7,7 +7,7 @@
 
 <script>
   export default {
-    name: 'notification',
+    name: 'C4Notification',
     props: {
       method: {
         // @timeout-handler
