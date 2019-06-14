@@ -23,7 +23,7 @@
         </v-flex>
       </v-layout>
     </div>
-    <v-list
+    <!--<v-list
       dense
       class="default-routes"
     >
@@ -61,20 +61,15 @@
           </v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-    </v-list>
+    </v-list>-->
   </v-navigation-drawer>
 </template>
 
 <script>
-import {
-  mapActions
-} from 'vuex'
-export default {
+  export default {
   name: 'c4-navigation',
   mounted () {
     this.$bus.$on('toggleSidenav', this.toggleSidenav)
-  },
-  props: {
   },
   data () {
     return {
@@ -84,18 +79,15 @@ export default {
   methods: {
     toggleSidenav () {
       this.sidenavOpen = !this.sidenavOpen
-    },
-    ...mapActions([
-      'logout'
-    ])
+    }
   }
 }
 </script>
 
 <style scoped>
-.default-routes {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
+  /*.default-routes {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }*/
 </style>

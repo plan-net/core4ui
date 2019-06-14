@@ -4,22 +4,19 @@ import C4Card from './components/c4-card/C4Card'
 import C4Dialog from './components/c4-dialog/C4Dialog'
 import C4Numbers from './components/c4-numbers/C4Numbers'
 import C4Notification from './components/c4-notification/C4Notification'
-import { setRoutes } from './internal/routes/index.js'
-import { setAjaxConfig } from './internal/axios.config.js'
-import { setCookieConfig } from './internal/cookie.service.js'
-import { setStore } from './store'
-import C4DataTable from './components/pnc4bi-table/C4Table'
+import {setRoutes} from './internal/routes/index.js'
+import {setAjaxConfig} from './internal/axios.config.js'
+import {setCookieConfig} from './internal/cookie.service.js'
+import {setStore} from './store'
+import C4DataTable from './components/c4-table/C4Table'
 // import C4DataTablePlus from './components/c4-table-plus/C4TablePlus'
 import C4Empty from './components/c4-empty/C4Empty'
 import bus from './event-bus'
 import helper from './helper'
 import './plugins/vee-validate'
-import VeeValidate, { Validator } from 'vee-validate'
+import VeeValidate, {Validator} from 'vee-validate'
 import en from 'vee-validate/dist/locale/en'
 import Router from 'vue-router'
-// Vee-Validator
-// app wide styles, fonts
-
 import Vuetify from 'vuetify'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
@@ -32,7 +29,9 @@ import './styles/theme-light.scss'
 import numbro from 'numbro'
 import deDE from 'numbro/languages/de-DE.js'
 
-import { i18n, veeValidateDictionary } from './translations'
+import {i18n, veeValidateDictionary} from './translations'
+// Vee-Validator
+// app wide styles, fonts
 
 numbro.registerLanguage(deDE)
 numbro.setLanguage(deDE.languageTag)
@@ -84,4 +83,4 @@ export default {
   install
 }
 
-export { C4Webapp }
+export {C4Webapp}

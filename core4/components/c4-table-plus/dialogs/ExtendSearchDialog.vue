@@ -1,5 +1,5 @@
 <template lang="html">
-  <pnbi-dialog title="Advanced search" :open="dialogVisible" @close="dialogVisible=false">
+  <c4-dialog title="Advanced search" :open="dialogVisible" @close="dialogVisible=false">
     <div slat="dialog-content">
       <v-list>
         <v-list-tile v-for="header in computedItems" :key="header.text" :class="{'highlighted': header.highlight}">
@@ -27,13 +27,12 @@
         </v-list-tile>
       </v-list>
     </div>
-  </pnbi-dialog>
+  </c4-dialog>
 </template>
 
 <script>
-import EventBus from 'pnbi-base/src/event-bus'
 export default {
-  name: 'extendSearchDialog',
+  name: 'extend-search-dialog',
   props: {
     /**
      * Items for displaying in an list
@@ -54,14 +53,14 @@ export default {
     }
   },
   data: function () {
-    return  {
+    return {
       dialogVisible: false
     }
   },
   mounted () {
     this.$bus.$on('openExtendSearchDialog', this.showDialog)
   },
-  beforeDestroy(){
+  beforeDestroy () {
     this.$bus.$off('openExtendSearchDialog', this.showDialog)
   },
   methods: {
@@ -69,11 +68,11 @@ export default {
       this.dialogVisible = true
     },
     updateItems (item) {
-      if(item.selectedForSearch === false) {
+      if (item.selectedForSearch === false) {
         delete item.searchValue
       }
       this.computedItems = this.computedItems.map(chip => {
-        if(chip.value === item.value) {
+        if (chip.value === item.value) {
           chip = item
         }
         return chip

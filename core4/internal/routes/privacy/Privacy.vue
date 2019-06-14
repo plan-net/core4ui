@@ -1,11 +1,11 @@
 <template>
-  <pnbi-page header-type="2" small>
-    <pnbi-card headline="Privacy Policy">
+  <c4-page header-type="2" small>
+    <c4-card headline="Privacy Policy">
       <v-flex d-flex xs12>
         -
       </v-flex>
-    </pnbi-card>
-  </pnbi-page>
+    </c4-card>
+  </c4-page>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template lang="html">
-  <pnbi-dialog :title="dialogTitle" :open="dialogVisible" @close="dialogVisible=false" width="500">
+  <c4-dialog :title="dialogTitle" :open="dialogVisible" @close="dialogVisible=false" width="500">
     <div slot="dialog-content">
       <v-list>
         <v-subheader>
@@ -15,7 +15,7 @@
             <v-list-tile-action>
               <v-text-field
                 clearable
-                class="pnbi-search"
+                class="c4-search"
                 append-icon="search"
                 flat full-width
                 :label="dialogSearchlabel"
@@ -48,13 +48,13 @@
         {{dialogCloselabel}}
       </v-btn>
     </div>
-  </pnbi-dialog>
+  </c4-dialog>
 </template>
 
 <script>
 import draggable from 'vuedraggable'
 export default {
-  name: 'customiseDialog',
+  name: 'customize-dialog',
   components: {
     draggable
   },
@@ -100,7 +100,7 @@ export default {
     dialogCloselabel: {
       type: String,
       default: 'Close'
-    },
+    }
   },
   data: function () {
     return {
@@ -112,22 +112,22 @@ export default {
   mounted () {
     this.$bus.$on('openCustomizeDialog', this.showDialog)
   },
-  beforeDestroy(){
+  beforeDestroy () {
     this.$bus.$off('openCustomizeDialog', this.showDialog)
   },
   methods: {
     showDialog () {
       this.dialogVisible = true
     },
-    saveHeaders() {
+    saveHeaders () {
       this.$emit('saveHeaders')
-    },
+    }
   },
   watch: {
     searchStr: function () {
       this.$emit('filterHeadersBySearch', this.searchStr)
     }
-  },
+  }
 }
 </script>
 

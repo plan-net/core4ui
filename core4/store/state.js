@@ -2,30 +2,33 @@ import Auth from '../Auth'
 import bus from '../event-bus.js'
 // import CookieService from '../internal/cookie.service.js'
 import router from '../internal/routes/index.js'
-import { axiosInternal } from '../internal/axios.config.js'
+import {axiosInternal} from '../internal/axios.config.js'
 
 const state = {
   hasOwnTheme: false,
   loading: false,
   dark: false,
   title: 'CORE4OS',
-  notification: null,
-
+  inWidget: false,
+  // notification: null,
+  /*  profileError: null,
+    profileAuthenticated: false,
+    profileName: null,
+    profileEmail: 'No email'*/
   profile: {
     error: null,
     // cookie: CookieService.isPriPolCookieSet(),
     authenticated: false,
     name: null,
-    email: 'No email',
-    short: 'NA'
+    email: 'No email'
   }
 }
 
 const actions = {
-  showNotification ({ commit }, payload) {
+  showNotification({commit}, payload) {
     bus.$emit('SHOW_NOTIFICATION', payload)
   },
-  fetchProfile ({ commit, dispatch, getters }, payload) {
+  fetchProfile({commit, dispatch, getters}, payload) {
     const promiseProfile = Auth.profile()
     const promiseSetting = Auth.setting()
     Promise.all([promiseProfile, promiseSetting])
@@ -37,7 +40,6 @@ const actions = {
           name: profile.name,
           realname: profile.realname,
           email: profile.email,
-          short: profile.short,
           perm: profile.perm,
           role: profile.role
         }
@@ -53,42 +55,42 @@ const actions = {
         // commit('set_profile', { error: 'auth' })
       })
   },
-  gotoStart ({ commit, dispatch }) {
+  gotoStart({commit, dispatch}) {
     commit('clear_auth_error')
-    commit('set_profile', { authenticated: true })
+    commit('set_profile', {authenticated: true})
     dispatch('fetchProfile')
     router.instance.push('/')
   },
-  gotoLogin ({ commit }) {
+  gotoLogin({commit}) {
     window.localStorage.clear()
     commit('clear_profile')
     router.instance.push('/login')
   },
-  checkLogin ({ commit, dispatch }, payload) {
+  checkLogin({commit, dispatch}, payload) {
     const user = JSON.parse(window.localStorage.getItem('user'))
     if (user != null) {
       Auth.login(user).then(val => {
         dispatch('gotoStart')
       }).catch(() => {
         dispatch('gotoLogin')
-        commit('set_profile', { error: 'auth' })
+        commit('set_profile', {error: 'auth'})
       })
     }
   },
-  login ({ commit, dispatch }, payload) {
+  login({commit, dispatch}, payload) {
     return new Promise((resolve, reject) => {
       Auth.login(payload).then(result => {
         resolve(true)
         dispatch('gotoStart')
       }).catch((err) => {
         console.log(err.response, 'Login.Error')
-        commit('set_profile', { error: 'auth' })
+        commit('set_profile', {error: 'auth'})
         reject(new Error('LoginError'))
         return Promise.reject(err)
       })
     })
   },
-  logout ({ commit, dispatch }, payload) {
+  logout({dispatch}) {
     Auth.logout().then(function () {
       dispatch('gotoLogin')
     }).catch((err) => {
@@ -96,88 +98,102 @@ const actions = {
       return Promise.reject(err)
     })
   },
-  clearAuthError ({ commit }) {
+  clearAuthError({commit}) {
     commit('clear_auth_error')
   },
-  setLoading ({ commit }, payload) {
+  setLoading({commit}, payload) {
     commit('set_loading', payload)
   },
-  setTitle ({ commit }, payload) {
+  setTitle({commit}, payload) {
     commit('set_title', payload)
-    document.title = payload
-    document.querySelector('body').classList.add(payload.toLowerCase().split(' ').join('-'))
   },
-  initializeApp ({ commit, dispatch }, payload) {
+  initializeApp({commit, dispatch}, payload) {
     dispatch('setTitle', payload.TITLE)
     if (payload.DARK != null) {
       commit('set_dark', payload.DARK)
       state.hasOwnTheme = true // do not show theme switch
     }
   },
-  toggleDark ({ commit, getters }) {
+  setWidgetTitle({commit, dispatch}, payload) {
+    commit('set_in_widget', true)
+    commit('set_title', payload)
+  },
+  resetWidgetTitle({commit, dispatch}, payload) {
+    commit('set_in_widget', false)
+    dispatch('setTitle', payload)
+  },
+  toggleDark({commit, getters}) {
     const dark = !getters.dark
     commit('set_dark', dark)
     return axiosInternal
-      .post('/setting/_general', { data: { dark } })
-      .then(result => {
+      .post('/setting/_general', {data: {dark}})
+      .then(() => {
       })
       .catch(error => Promise.reject(error))
   }
 }
 
 const mutations = {
-  set_notification (state, payload) {
-    state.notification = payload
+  /*  set_notification(state, payload) {
+      state.notification = payload
+    },*/
+  set_in_widget(state, payload) {
+    state.inWidget = payload
   },
-  set_dark (state, dark) {
+  set_dark(state, dark) {
     if (dark != null) {
       state.dark = dark
     }
   },
-  clear_auth_error () {
+  clear_auth_error() {
     delete state.profile.error
   },
-  set_profile (state, payload) {
+  set_profile(state, payload) {
     if (payload.authenticated === true) {
       delete state.profile.error
     }
     state.profile = Object.assign({}, state.profile, payload)
   },
-  clear_profile (state, payload) {
+  clear_profile(state, payload) {
     state.profile = {
       // cookie: CookieService.isPriPolCookieSet(),
       authenticated: false,
       name: null
     }
   },
-  set_loading (state, payload) {
+  set_loading(state, payload) {
     state.loading = payload
   },
-  set_title (state, payload) {
+  set_title(state, payload) {
     state.title = payload
+    document.title = payload
+    document.querySelector('body').classList.add(payload.toLowerCase().split(' ').join('-'))
   },
-  initialize_app (state, payload) {
+  initialize_app(state, payload) {
     state.title = payload.title
   }
 }
 
 const getters = {
-  profile (state) {
+  profile(state) {
     return state.profile
   },
-  authenticated (state) {
+  authenticated(state) {
     return state.profile.authenticated
   },
-  loading (state) {
+  loading(state) {
     return state.loading
   },
-  title (state) {
+  inWidget(state) {
+    return state.inWidget
+  },
+  title(state) {
     return state.title
   },
-  dark (state) {
+  dark(state) {
     return state.dark
   },
-  hasOwnTheme (state) {
+  hasOwnTheme(state) {
     return state.hasOwnTheme
   }
 }
