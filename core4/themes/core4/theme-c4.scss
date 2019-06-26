@@ -1,10 +1,14 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800');
+//@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800');
 @import url('https://fonts.googleapis.com/css?family=Baloo+Bhaina');
 body.core4os{
   h2.app-title{
     font-family: 'Baloo Bhaina', cursive !important;
     padding-top: 8px;
     font-size: 32px;
+/*    &.reset-font{
+      font-family: "Open Sans", sans-serif !important;
+      font-size: 24px;
+    }*/
   }
   .bi-headline {
     font-family: 'Baloo Bhaina', cursive !important;
@@ -14,7 +18,7 @@ body.core4os{
   }
 }
 
- body,
+/* body,
 button,
 div,
 html,
@@ -30,13 +34,13 @@ h5,
 h6,
 textarea {
   font-family: "Open Sans", sans-serif !important;
-} 
+}*/
 .v-btn {
   font-weight: 600;
 }
 
-.display-1 {
-  font-family: "Open Sans", sans-serif !important;
+/*.display-1 {
+  //font-family: "Open Sans", sans-serif !important;
   font-size: 34px !important;
   font-weight: 400;
   line-height: 40px !important;
@@ -44,7 +48,7 @@ textarea {
 }
 
 .headline {
-  font-family: "Open Sans", sans-serif !important;
+  //font-family: "Open Sans", sans-serif !important;
   font-size: 26px !important;
   font-weight: 800;
   line-height: 32px !important;
@@ -54,7 +58,7 @@ textarea {
 }
 
 .title {
-  font-family: "Open Sans", sans-serif !important;
+  ///font-family: "Open Sans", sans-serif !important;
   font-size: 20px !important;
   font-weight: 600;
   line-height: 1 !important;
@@ -62,10 +66,10 @@ textarea {
 }
 
 .subheading {
-  font-family: "Open Sans", sans-serif !important;
+  //font-family: "Open Sans", sans-serif !important;
   font-size: 16px !important;
   font-weight: 400;
-}
+}*/
 
 .body-2 {
   font-size: 14px !important;
