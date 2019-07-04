@@ -1,38 +1,45 @@
 {
   "name": "core4ui",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --no-clean",
-    "lint": "vue-cli-service lint"
-
+    "test:e2e": "vue-cli-service test:e2e",
+    "test:unit": "vue-cli-service test:unit",
+    "test:unitwatch": "vue-cli-service test:unit --watch",
+    "test:unitwatchone": "vue-cli-service test:unit --watch --testPathPattern=Overview"
   },
   "dependencies": {
     "core-js": "^2.6.5",
-    "numbro": "^2.1.0", 
-    "axios": "^0.18.0", 
-    "moment": "^2.24.0", 
-    "vee-validate": "^2.0.6", 
-    "vue-router": "^3.0.1", 
-    "vue": "^2.6.10", 
-    "vuetify": "^1.5.9", 
+    "numbro": "^2.1.0",
+    "axios": "^0.18.0",
+    "moment": "^2.24.0",
+    "vee-validate": "^2.0.6",
+    "vue-router": "^3.0.1",
+    "vue": "^2.6.10",
+    "vuetify": "v2.0.0-beta.3",
     "vuex": "^3.0.1",
     "is": "^3.2.1",
     "vue-i18n": "^7.3.2",
     "material-design-icons-iconfont": "^4.0.5"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.5.0",
-    "@vue/cli-plugin-e2e-cypress": "^3.5.0",
-    "@vue/cli-plugin-eslint": "^3.5.0",
-    "@vue/cli-service": "^3.5.0",
+    "@vue/cli-plugin-babel": "^3.9.0",
+    "@vue/cli-plugin-e2e-cypress": "^3.9.0",
+    "@vue/cli-plugin-eslint": "^3.9.0",
+    "@vue/cli-plugin-unit-jest": "^3.9.0",
+    "@vue/cli-service": "^3.9.0",
     "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.8.0",
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "fibers": "^3.1.1",
-    "sass": "^1.17.2",
+    "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.6.10"
   }
 }
