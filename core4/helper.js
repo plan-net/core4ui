@@ -114,7 +114,7 @@ export function getWeek (d) {
  * @return {String}
  */
 export function dateFormatted (value, config = {
-  weekLabel: 'Woche ',
+  weekLabel: 'Week ',
   seperator: ', ',
   fallback: ''
 }) {

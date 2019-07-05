@@ -2,28 +2,24 @@
     <v-menu
             :close-on-content-click="false"
             v-model="dateRangeMenuOpen"
+            full-width
             bottom
     >
 
         <v-layout
                 row
-                wrap
                 slot="activator"
         >
-            <v-flex>
+
+            <v-flex xs12>
                 <v-text-field
                         slot="activator"
-                        v-model="internalStartDate"
-                        :label="labels.start"
-                        prepend-icon="event"
-                        readonly
-                ></v-text-field>
-            </v-flex>
-            <v-flex>
-                <v-text-field
-                        slot="activator"
-                        v-model="internalEndDate"
-                        :label="labels.end"
+                        v-model="dateFormattedComplete"
+                        :label="`${labels.start} - ${labels.end}`"
+                        :name="`${labels.start} - ${labels.end}`"
+                        :error-messages="errorMessages"
+                        :error="errorMessages.length > 0"
+
                         prepend-icon="event"
                         readonly
                 ></v-text-field>
@@ -42,6 +38,7 @@
                                 <v-text-field
                                         v-model="formattedStartDate"
                                         :label="`${labels.start}`"
+
                                         name="startDate"
                                         class="date-range__pickers-input"
                                         :prepend-icon="prependIcon"
@@ -68,6 +65,7 @@
                                 <v-text-field
                                         :label="`${labels.end}`"
                                         v-model="formattedEndDate"
+                                        :prepend-icon="prependIcon"
                                         name="endDate"
                                         class="date-range__pickers-input"
                                         readonly
@@ -86,7 +84,6 @@
                                                :locale="locale"
                                                :first-day-of-week="firstDayOfWeek"
                                                no-title
-
                                                @change="onDateRangeEndChange"
                                 ></v-date-picker>
                             </div>
@@ -100,7 +97,7 @@
                 <v-btn
                         flat
                         color="primary"
-                        @click="$emit('close')"
+                        @click="dateRangeMenuOpen = false"
                 >
                     {{labels.close}}
                 </v-btn>
@@ -117,7 +114,38 @@
 
   export default {
     name: 'c4-daterange',
+    $_veeValidate: {
+      // fetch the current value from the innerValue defined in the component data.
+      // neeeded for vee-validate error passing and display inside c4-numbers
+      value () {
+        return this.dateFormattedComplete
+      },
+      name () {
+        return `${this.labels.start} - ${this.labels.end}`
+      }
+    },
     props: {
+      /**
+       * v-model
+       */
+      value: {
+        type: Object,
+        required: true,
+        default: () => {
+          return {
+            startDate: null,
+            endDate: null,
+          }
+        }
+      },
+      /**
+       * Parent component errorMessages object containing errors for this instance
+       */
+      errorMessages: {
+        type: Array,
+        default: () => [],
+        required: false
+      },
       locale: {
         type: String,
         default: '--' // defaults to YYYY-MM , value can be de-de for example
@@ -125,10 +153,6 @@
       options: {
         type: Object,
         required: true
-      },
-      dark: { // TODO getter on dark
-        type: Boolean,
-        default: false
       },
       prependIcon: {
         type: String,
@@ -185,23 +209,44 @@
       }
     },
     computed: {
+      dark () {
+        return this.$store.getters.dark
+      },
       internalStartDate () {
-        return dateFormatted(this.options.startDate)
+        return dateFormatted(this.value.startDate, {
+          weekLabel: 'Week ',
+          seperator: ', ',
+          fallback: null
+        })
       },
       internalEndDate () {
-        return dateFormatted(this.options.endDate)
+        return dateFormatted(this.value.endDate, {
+          weekLabel: 'Week ',
+          seperator: ', ',
+          fallback: null
+        })
+      },
+      dateFormattedComplete: {
+        get: function () {
+          if (this.internalStartDate != null && this.internalEndDate != null) {
+            return `${this.internalStartDate} - ${this.internalEndDate}`
+          }
+          return null
+        },
+        set: function (newVal) {
+        }
       },
       dates: {
         get: function () {
-          const startDate = (this.options.startDate != null) ? moment(this.options.startDate).format('YYYY-MM-DD') : null
-          const endDate = (this.options.endDate != null) ? moment(this.options.endDate).format('YYYY-MM-DD') : null
+          const startDate = (this.value.startDate != null) ? moment(this.value.startDate).format('YYYY-MM-DD') : null
+          const endDate = (this.value.endDate != null) ? moment(this.value.endDate).format('YYYY-MM-DD') : null
           return {
             startDate,
             endDate
           }
         },
         set: function (newVal) {
-          this.$emit('input', [newVal.startDate, newVal.endDate])
+          this.$emit('input', { startDate: newVal.startDate, endDate: newVal.endDate })
         }
       },
       formattedStartDate () {
@@ -225,9 +270,10 @@
         this.setInRangeData()
       }
     },
+    created () {
+    },
     mounted () {
       this.setInRangeData()
-
       // we need to override original vuetify datepicker functions here
       // because week calculation in vuetify is wrong
       // so we use our own function here for both datepickers
@@ -294,15 +340,15 @@
         // always moment - so when user clicks friday. monday will be calculated
         const seconds4h = 14400 // little offset to avoid timezone problems
         const startOfWeek = moment(val).startOf('week').toDate().getTime() / 1000 + seconds4h
-        const endOfWeek = (this.options.endDate != null) ? (moment(this.options.endDate).endOf('week').toDate().getTime() / 1000) : null
-        this.$emit('input', [startOfWeek, endOfWeek])
+        const endOfWeek = (this.value.endDate != null) ? (moment(this.value.endDate).endOf('week').toDate().getTime() / 1000) : null
+        this.$emit('input', { startDate: startOfWeek, endDate: endOfWeek })
         this.setInRangeData()
       },
       onDateRangeEndChange (val) {
         const seconds4h = 14400 // little offset to avoid timezone problems
-        const startOfWeek = (this.options.startDate != null) ? (moment(this.options.startDate).startOf('week').toDate().getTime() / 1000) : null
+        const startOfWeek = (this.value.startDate != null) ? (moment(this.value.startDate).startOf('week').toDate().getTime() / 1000) : null
         const endOfWeek = moment(val).endOf('week').toDate().getTime() / 1000 - seconds4h
-        this.$emit('input', [startOfWeek, endOfWeek])
+        this.$emit('input', { startDate: startOfWeek, endDate: endOfWeek })
         this.setInRangeData()
       },
       setInRangeData () {
