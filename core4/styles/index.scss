@@ -72,6 +72,16 @@ table.v-table tfoot tr td {
 .v-content__wrap {
   padding-top: 48px;
 }
+.auth-routes .container,
+.embedded .container
+{
+  padding: 0;
+}
+
+.auth-routes .v-content__wrap,
+.embedded .v-content__wrap {
+  padding-top: 0;
+}
 
 // view transtions
 .fade-enter-active,
