@@ -214,6 +214,9 @@ pre {
   top: -3px;
   margin: 0;
 }
+.embedded .v-progress-linear {
+  top: 0;
+}
 
 .c4-toolbar >>> .v-toolbar__content {
   padding-right: 8px;
