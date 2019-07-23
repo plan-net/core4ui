@@ -340,13 +340,13 @@
         // always moment - so when user clicks friday. monday will be calculated
         const seconds4h = 14400 // little offset to avoid timezone problems
         const startOfWeek = moment(val).startOf('week').toDate().getTime() / 1000 + seconds4h
-        const endOfWeek = (this.value.endDate != null) ? (moment(this.value.endDate).endOf('week').toDate().getTime() / 1000) : null
+        const endOfWeek = (this.value.endDate != null) ? (moment(this.value.endDate).endOf('week').toDate().getTime() / 1000 - seconds4h) : null
         this.$emit('input', { startDate: startOfWeek, endDate: endOfWeek })
         this.setInRangeData()
       },
       onDateRangeEndChange (val) {
         const seconds4h = 14400 // little offset to avoid timezone problems
-        const startOfWeek = (this.value.startDate != null) ? (moment(this.value.startDate).startOf('week').toDate().getTime() / 1000) : null
+        const startOfWeek = (this.value.startDate != null) ? (moment(this.value.startDate).startOf('week').toDate().getTime() / 1000 + seconds4h) : null
         const endOfWeek = moment(val).endOf('week').toDate().getTime() / 1000 - seconds4h
         this.$emit('input', { startDate: startOfWeek, endDate: endOfWeek })
         this.setInRangeData()
