@@ -215,7 +215,21 @@ pre {
   margin: 0;
 }
 .embedded .v-progress-linear {
-  top: 0;
+  top: 0px !important;
+
+}
+.embedded .v-progress-linear:after{
+  content: '';
+  position: fixed;
+  cursor: forbidden;
+  top: 6px;
+  left:0;
+  bottom:0;
+  right:0;
+  width: 100vw;
+  height: 100vw;
+  background: rgba(100, 100 , 100, .05);
+  z-index: 100000;
 }
 
 .c4-toolbar >>> .v-toolbar__content {
@@ -223,3 +237,4 @@ pre {
   padding-left: 18px;
 }
 </style>
+
