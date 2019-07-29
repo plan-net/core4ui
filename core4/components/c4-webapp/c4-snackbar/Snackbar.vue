@@ -24,7 +24,7 @@
 export default {
   mounted () {
     this.$bus.$on('SHOW_NOTIFICATION', (dto) => {
-      this.sncck.type = 'success'
+      this.snack.type = 'success'
       this.snack = Object.assign({}, this.snack, dto)
       if(dto.timeout == null){
         delete this.snack.timeout
