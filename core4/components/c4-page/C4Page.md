@@ -8,12 +8,12 @@ Used as Top Level Element for Pages / Routes
 ```jsx
 <div style="min-height: 400px;" class="pa-3">
 
-  <pnbi-page header-type="2" large>
+  <c4-page header-type="2" large>
     <div slot="page-header-content">
       <h3 class="subtitle pt-5 white--text">Pageheader Contains information about content displayed on the page. Important kpis or filter elements.</h3>
     </div>
 
-    <pnbi-card title="Page with pnbi-card">
+    <c4-card title="Page with pnbi-card">
       <div slot="primary-controls">
         <v-btn color="accent" small>Download CSV</v-btn>
       </div>
@@ -23,9 +23,9 @@ Used as Top Level Element for Pages / Routes
       <div slot="card-actions">
         <v-btn flat color="primary">More</v-btn>
       </div>
-    </pnbi-card>
+    </c4-card>
 
-  </pnbi-page>
+  </c4-page>
 
 </div>
 ```
@@ -37,9 +37,9 @@ Used as Top Level Element for Pages / Routes
 ```jsx
 <div style="min-height: 400px;" class="pa-3">
 
-  <pnbi-page header-type="1" medium>
+  <c4-page header-type="1" medium>
 
-    <pnbi-card title="Page with pnbi-card">
+    <c4-card title="Page with pnbi-card">
       <div slot="primary-controls">
         <v-btn color="accent" small>Download CSV</v-btn>
       </div>
@@ -49,9 +49,9 @@ Used as Top Level Element for Pages / Routes
       <div slot="card-actions">
         <v-btn flat color="primary">More</v-btn>
       </div>
-    </pnbi-card>
+    </c4-card>
 
-  </pnbi-page>
+  </c4-page>
 
 </div>
 ```

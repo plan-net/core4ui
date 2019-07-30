@@ -1,0 +1,45 @@
+div[class^="rsg--preview"] {
+  background: rgba(63, 81, 93, 0.2);
+}
+
+div[data-preview="C4Page"] .application--wrap {
+  min-height: 50vh;
+}
+.application--wrap {
+  min-height: auto;
+}
+
+h1 {
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 32px !important;
+  font-weight: 600 !important;
+  letter-spacing: .004em !important;
+}
+h1:hover, 
+h2:hover {
+  color: gray !important
+}
+a:hover,
+h1:hover,
+h2:hover {
+  text-decoration: none !important;
+}
+
+.rsg--code-40 {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+}
+
+article pre {
+  font-family: 'Courier New', Courier, monospace !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+p > code {
+  background: #f28a25 !important;
+  border-radius: 4px !important;
+}

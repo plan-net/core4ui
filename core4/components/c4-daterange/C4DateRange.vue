@@ -466,3 +466,24 @@ div >>> .v-date-picker-table--date__week {
 .theme--light {
 }
 </style>
+<docs>
+### Usage
+
+Component for displaying week range picker
+
+##### Example: Week DateRange Range Picker
+
+```jsx
+<c4-daterange
+    :error-messages="errors.collect('ComponentName123')"
+    data-vv-as="ComponentName123"
+    data-vv-name="ComponentName123"
+    v-validate="'required'"
+    :value="c4DateRange.model"
+    @input="c4DateRange.model = $event"
+    :options="c4DateRange.rangeOptions"
+    :labels="c4DateRange.rangeOptionsLabels"
+></c4-daterange>
+```
+
+</docs>

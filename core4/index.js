@@ -48,6 +48,7 @@ const install = (Vue, options) => {
   /// /////////////////
   Vue.use(Router)
   Vue.use(VeeValidate, {
+    mode: 'eager',
     aria: false,
     locale: 'en'
   })
