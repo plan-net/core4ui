@@ -39,7 +39,7 @@ numbro.registerLanguage(deDE)
 numbro.setLanguage(deDE.languageTag)
 
 const install = (Vue, options) => {
-  moment.locale('de');
+  moment.locale('de')
   Vue.prototype.i18n = i18n
   Vue.prototype.$bus = bus
   Vue.prototype.$helper = helper

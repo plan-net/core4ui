@@ -1,3 +1,4 @@
+import moment from 'moment'
 export function clone (element) {
   try {
     element = JSON.parse(JSON.stringify(element))
@@ -51,7 +52,6 @@ export function deepFreeze (o) {
   })
   return o
 }
-import moment from 'moment'
 // test unit heloer.spec.js
 /**
  * Formats datestring (30.12.2019 08:44)
@@ -64,7 +64,7 @@ export function stringToDate (value) {
   try {
     const tmpTs = value.split('.')
     const yearHour = tmpTs[2].split(' ')
-    const hour = (yearHour[1] != null) ? yearHour[1] : '00:00'
+    const hour = yearHour[1] != null ? yearHour[1] : '00:00'
     const tmp = `${tmpTs[1]}-${tmpTs[0]}-${yearHour[0]} ${hour}`
     const m = moment(new Date(tmp))
     retVal = m.format('MM-DD-YYYY HH:mm')
@@ -95,7 +95,7 @@ export function getWeek (d) {
   // Get first day of year
   var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
   // Calculate full weeks to nearest Thursday
-  var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7)
+  var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7)
   // Return array of year and week number
   // return [d.getUTCFullYear(), weekNo];
 
@@ -113,15 +113,20 @@ export function getWeek (d) {
  * @param {Object} config that holds formatting information
  * @return {String}
  */
-export function dateFormatted (value, config = {
-  weekLabel: 'Week ',
-  seperator: ', ',
-  fallback: ''
-}) {
+export function dateFormatted (
+  value,
+  config = {
+    weekLabel: 'Week ',
+    seperator: ', ',
+    fallback: ''
+  }
+) {
   if (value != null) {
     const weekYear = getWeek(new Date(value))
 
-    return `${config.weekLabel}${pad(weekYear.weekNr, 1)}${config.seperator}${weekYear.year}`
+    return `${config.weekLabel}${pad(weekYear.weekNr, 1)}${config.seperator}${
+      weekYear.year
+    }`
     // return displayWeek
   }
   return config.fallback

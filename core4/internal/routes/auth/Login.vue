@@ -70,98 +70,98 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
-  export default {
-    created() {
-      this.$validator.extend('auth', {
-        validate: () => {
-          const valid = this.profile.error == null
-          return {
-            valid
-          }
-        }
-      })
-    },
-    components: {},
-    data() {
-      return {
-        dialogLogin: true,
-        passwordVisible: false,
-        username: null,
-        password: null
-      }
-    },
-    watch: {
-      username() {
-        if (this.profile.error != null) {
-          this.onFocus()
-        }
-      },
-      password() {
-        if (this.profile.error != null) {
-          this.onFocus()
+export default {
+  created () {
+    this.$validator.extend('auth', {
+      validate: () => {
+        const valid = this.profile.error == null
+        return {
+          valid
         }
       }
+    })
+  },
+  components: {},
+  data () {
+    return {
+      dialogLogin: true,
+      passwordVisible: false,
+      username: null,
+      password: null
+    }
+  },
+  watch: {
+    username () {
+      if (this.profile.error != null) {
+        this.onFocus()
+      }
     },
-    computed: {
-      nextRoute() {
-        return this.$route.query.next
-      },
-      ...mapGetters([
-        'profile',
-        'title'
-      ])
-    },
-    methods: {
-      ...mapActions([
-        'login',
-        'clearAuthError'
-      ]),
-      onFocus() {
-        window.setTimeout(function () {
-          this.clearAuthError()
-          this.$validator.validateAll()
-        }.bind(this), 10)
-      },
-      onLogin() {
-        const {username, password} = this
-        this.login({username, password}).then(val => {
-          if (this.$route.query.next != null) {
-            window.location.assign(this.$route.query.next)
-          }
-          this.$validator.validateAll()
-        }, val => {
-          this.$validator.validateAll()
-        })
+    password () {
+      if (this.profile.error != null) {
+        this.onFocus()
       }
     }
+  },
+  computed: {
+    nextRoute () {
+      return this.$route.query.next
+    },
+    ...mapGetters([
+      'profile',
+      'title'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'login',
+      'clearAuthError'
+    ]),
+    onFocus () {
+      window.setTimeout(function () {
+        this.clearAuthError()
+        this.$validator.validateAll()
+      }.bind(this), 10)
+    },
+    onLogin () {
+      const { username, password } = this
+      this.login({ username, password }).then(val => {
+        if (this.$route.query.next != null) {
+          window.location.assign(this.$route.query.next)
+        }
+        this.$validator.validateAll()
+      }, val => {
+        this.$validator.validateAll()
+      })
+    }
   }
+}
 </script>
 
 <style lang="scss">
 </style>
 <style lang="css" scoped>
-  div >>> .fade-enter-active,
-  div >>> .fade-leave-active {
-    transition: all 0.33s ease-out;
-  }
+div >>> .fade-enter-active,
+div >>> .fade-leave-active {
+  transition: all 0.33s ease-out;
+}
 
-  div >>> .v-btn--block {
-    padding: 6px 16px;
-  }
+div >>> .v-btn--block {
+  padding: 6px 16px;
+}
 
-  div >>> .fade-enter,
-  .fade-leave-to {
-    transition: all 0.33s ease-out;
-    opacity: 0;
-    transform: scale(0.9);
-  }
+div >>> .fade-enter,
+.fade-leave-to {
+  transition: all 0.33s ease-out;
+  opacity: 0;
+  transform: scale(0.9);
+}
 
-  footer {
-    background-color: #fff;
-    position: fixed;
-    bottom: 0;
-    width: 100vw;
-  }
+footer {
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+}
 </style>

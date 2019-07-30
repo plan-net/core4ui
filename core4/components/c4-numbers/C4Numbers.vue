@@ -1,6 +1,14 @@
 <template>
-    <v-text-field :disabled="disabled" :label="label" autocomplete="off" v-model="internalValue" @keydown.native.stop="onKeyDown" :error-messages="errorMessages" :error="errorMessages.length > 0"
-      :suffix="suffix"></v-text-field>
+  <v-text-field
+    :disabled="disabled"
+    :label="label"
+    autocomplete="off"
+    v-model="internalValue"
+    @keydown.native.stop="onKeyDown"
+    :error-messages="errorMessages"
+    :error="errorMessages.length > 0"
+    :suffix="suffix"
+  ></v-text-field>
 </template>
 
 <script>
@@ -115,6 +123,7 @@ export default {
         if (is.number(this.value)) {
           return (this.value / this.unit).toLocaleString('de-DE')
         }
+        return null
       },
       set: function (newValue) {
         if (newValue === '') {

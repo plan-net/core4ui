@@ -1,15 +1,28 @@
 <template>
-  <v-layout row wrap class="c4-page">
+  <v-layout
+    row
+    wrap
+    class="c4-page"
+  >
     <template v-if="headerType">
       <div class="c4-sub-header">
       </div>
-      <v-flex xs12 class="c4-page-header">
+      <v-flex
+        xs12
+        class="c4-page-header"
+      >
         <div class="page-header-content">
-          <slot v-if="!!$slots['page-header-content']" name="page-header-content"></slot>
+          <slot
+            v-if="!!$slots['page-header-content']"
+            name="page-header-content"
+          ></slot>
         </div>
       </v-flex>
     </template>
-    <v-flex xs12 class="c4-content-container">
+    <v-flex
+      xs12
+      class="c4-content-container"
+    >
       <slot></slot>
     </v-flex>
   </v-layout>
@@ -75,7 +88,7 @@ export default {
         header.classList.add('gradient-2')
         // header.classList.add('')
       } else {
-        
+
       }
     }
   }
@@ -112,7 +125,7 @@ $perc: random(20) + 60%;
   );
 }
 .gradient-3 {
-/*   background: linear-gradient(
+  /*   background: linear-gradient(
     130deg,
     darken(#333, 5) 60%,
     darken(#333, 2) 60%

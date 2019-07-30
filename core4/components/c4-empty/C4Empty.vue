@@ -1,7 +1,18 @@
 <template>
-  <v-alert :value="true" color="warning" icon="warning">
-    <span v-if="content.html" class="grey--text" v-html="content.html"></span>
-    <span v-else class="grey--text">{{content.label}}</span>
+  <v-alert
+    :value="true"
+    color="warning"
+    icon="warning"
+  >
+    <span
+      v-if="content.html"
+      class="grey--text"
+      v-html="content.html"
+    ></span>
+    <span
+      v-else
+      class="grey--text"
+    >{{content.label}}</span>
   </v-alert>
 </template>
 
@@ -14,13 +25,13 @@ export default {
      * Just a string
      */
     text: {
-      type: String | null
+      type: [String, null]
     },
     /**
      * Is rendered as html: <strong>No</strong> data
      */
     html: {
-      type: String | null
+      type: [String, null]
     }
   },
   computed: {

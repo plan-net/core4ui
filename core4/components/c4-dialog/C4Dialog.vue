@@ -1,7 +1,17 @@
 <template>
-  <v-dialog :scrollable="scrollable" lazy v-model="isOpen" :max-width="width">
+  <v-dialog
+    :scrollable="scrollable"
+    lazy
+    v-model="isOpen"
+    :max-width="width"
+  >
     <v-card tile>
-      <v-toolbar dense card dark color="accent">
+      <v-toolbar
+        dense
+        card
+        dark
+        color="accent"
+      >
         <v-toolbar-title class="ml-0">
           {{title}}
         </v-toolbar-title>
@@ -11,7 +21,10 @@
         <slot></slot>
         <!--<slot v-else name="dialog-content"></slot>-->
       </v-card-text>
-      <v-card-actions class="pl-3 pr-3 py-3" style="background-color: rgba(100,100,100, .025)">
+      <v-card-actions
+        class="pl-3 pr-3 py-3"
+        style="background-color: rgba(100,100,100, .025)"
+      >
         <v-spacer></v-spacer>
         <!-- @slot default dialog actions -->
         <slot name="dialog-actions"></slot>
@@ -31,7 +44,7 @@ export default {
      * Sets dialog width
      */
     width: {
-      type: String | Number,
+      type: [String, Number],
       default: '640px'
     },
     /**

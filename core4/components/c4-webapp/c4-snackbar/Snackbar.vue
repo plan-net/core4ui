@@ -26,16 +26,15 @@ export default {
     this.$bus.$on('SHOW_NOTIFICATION', (dto) => {
       this.snack.type = 'success'
       this.snack = Object.assign({}, this.snack, dto)
-      if(dto.timeout == null){
+      if (dto.timeout == null) {
         delete this.snack.timeout
       }
       this.show = true
     })
-
   },
   computed: {
-    ti() {
-      return this.snack.timeout || this.timeout 
+    ti () {
+      return this.snack.timeout || this.timeout
     }
   },
   data () {

@@ -34,7 +34,7 @@
           <h2
             v-else
             class="app-title"
-            :class="{'reset-font': !!inWidget}" 
+            :class="{'reset-font': !!inWidget}"
           >{{title}}</h2>
           <v-spacer class="core-dotted"></v-spacer>
           <c4-user></c4-user>
@@ -237,4 +237,3 @@ pre {
   padding-left: 18px;
 }
 </style>
-

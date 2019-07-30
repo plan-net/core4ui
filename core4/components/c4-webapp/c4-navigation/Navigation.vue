@@ -66,7 +66,7 @@
 </template>
 
 <script>
-  export default {
+export default {
   name: 'c4-navigation',
   mounted () {
     this.$bus.$on('toggleSidenav', this.toggleSidenav)
@@ -85,7 +85,7 @@
 </script>
 
 <style scoped>
-  /*.default-routes {
+/*.default-routes {
     position: fixed;
     bottom: 0;
     width: 100%;

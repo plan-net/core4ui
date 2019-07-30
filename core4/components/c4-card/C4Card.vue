@@ -2,7 +2,6 @@
   <v-card class="c4-card pb-2">
     <v-toolbar
       flat
-
       class="c4-card__toolbar pb-0 pt-2"
     >
       <h3 class="card-headline">{{label}}</h3>
@@ -34,21 +33,20 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-  .theme--dark {
-    .card-headline {
-      color: #fff;
-    }
-
-    .v-toolbar, &.v-toolbar {
-      background-color: var(--v-secondary-lighten2) !important;
-    }
+.theme--dark {
+  .card-headline {
+    color: #fff;
   }
 
-  .theme--light {
-    .card-headline {
-      color: var(--v-accent-base);
-    }
-
+  .v-toolbar,
+  &.v-toolbar {
+    background-color: var(--v-secondary-lighten2) !important;
   }
+}
+
+.theme--light {
+  .card-headline {
+    color: var(--v-accent-base);
+  }
+}
 </style>
-
