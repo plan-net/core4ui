@@ -1,10 +1,11 @@
 <template>
   <v-app
     class="c4-webapp"
-    :light="dark"
+    :class="standalone ? 'standalone' : 'embedded'"
     :dark="dark"
   >
     <template v-if="isNavVisible">
+      <template v-if="standalone">
       <c4-navigation>
         <slot name="navigation-slot"></slot>
       </c4-navigation>
@@ -13,12 +14,17 @@
         <v-toolbar
           flat
           clipped-left
-          dense :dark="true"
-          app class="c4-toolbar"
+          dense
+          dark
+          app
+          class="c4-toolbar"
           fixed
         >
-          <v-toolbar-side-icon @click="$bus.$emit('toggleSidenav')">
-            <toolbar-side-icon/>
+          <v-toolbar-side-icon
+            @click="$bus.$emit('toggleSidenav')"
+            v-if="navButtonVisible"
+          >
+            <toolbar-side-icon />
           </v-toolbar-side-icon>
           <!-- @slot Use this slot for a custom title instead of the default app-name -->
           <slot
@@ -28,11 +34,13 @@
           <h2
             v-else
             class="app-title"
+            :class="{'reset-font': !!inWidget}"
           >{{title}}</h2>
           <v-spacer class="core-dotted"></v-spacer>
           <c4-user></c4-user>
         </v-toolbar>
       </transition>
+            </template>
       <v-content class="pt-0 core-background">
         <v-container
           :fluid="isFluid"
@@ -78,20 +86,28 @@ import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
 import Navigation from './c4-navigation/Navigation.vue'
 import ToolbarSideIcon from './c4-navigation/c4-toolbar-side-icon.vue'
 import C4User from './c4-user/C4User.vue'
-import {
-  mapActions,
-  mapGetters
-} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'c4-webapp',
   props: {
     /**
-     * Controls responsive behavior of the app.
-     * If set to true the app content is full-width of the browser, even in large screen reslutions
-    */
+       * Controls responsive behavior of the app.
+       * If set to true the app content is full-width of the browser, even in large screen reslutions
+       */
     fullWidth: {
       type: Boolean,
       default: false,
+      required: false
+    },
+    navButtonVisible: {
+      type: Boolean,
+      default: true,
+      required: false
+    },
+    standalone: {
+      type: Boolean,
+      default: true,
       required: false
     }
   },
@@ -104,7 +120,6 @@ export default {
   },
   mounted () {
     this.fetchProfile()
-    this.setUpEvents()
     this.$nextTick(() => {
       if (!this.fullWidth) {
         this._updateDimensions()
@@ -128,21 +143,7 @@ export default {
       'logout',
       'setTitle'
     ]),
-    setUpEvents () {
-      /*       this.$bus.$on(TRACK, payload => {
-        const dto = Object.assign({
-          customer_id: this.profile._id,
-          customer_email: this.profile.email,
-          realname: this.profile.realname,
-          webapp: this.title.toLowerCase()
-        }, payload)
-        if (payload.tealium_event === 'page_view') {
-          window.utag.view(dto)
-        } else {
-          window.utag.link(dto)
-        }
-      }) */
-    },
+
     _updateDimensions () {
       // TODO mixin
       this.clientWidth = Math.max(document.documentElement.clientWidth,
@@ -152,6 +153,7 @@ export default {
   computed: {
     ...mapGetters([
       'profile',
+      'inWidget',
       'loading',
       'title',
       'dark'
@@ -170,13 +172,6 @@ export default {
 </script>
 
 <style lang="css">
-.impressum {
-  width: 22px;
-  margin-top: -7px;
-  text-align: center;
-  font-weight: 700;
-}
-
 .v-navigation-drawer__border {
   opacity: 0.15;
 }
@@ -193,13 +188,19 @@ export default {
   top: -48px;
 }
 
-.auth-routes >>> .container {
+/* .auth-routes >>> .container {
   padding: 0;
 }
 
-.auth-routes >>> .v-content__wrap {
+.auth-routes >>> .v-content__wrap,
+ {
   padding-top: 0;
 }
+div.embedded >>> .v-content__wrap,
+ {
+  padding-top: 0 !important;
+  bordewr: 1px solid red;
+} */
 
 pre {
   white-space: pre-wrap;
@@ -213,5 +214,26 @@ pre {
   top: -3px;
   margin: 0;
 }
+.embedded .v-progress-linear {
+  top: 0px !important;
 
+}
+.embedded .v-progress-linear:after{
+  content: '';
+  position: fixed;
+  cursor: forbidden;
+  top: 6px;
+  left:0;
+  bottom:0;
+  right:0;
+  width: 100vw;
+  height: 100vw;
+  background: rgba(100, 100 , 100, .05);
+  z-index: 100000;
+}
+
+.c4-toolbar >>> .v-toolbar__content {
+  padding-right: 8px;
+  padding-left: 18px;
+}
 </style>

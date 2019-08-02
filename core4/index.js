@@ -8,7 +8,8 @@ import { setRoutes } from './internal/routes/index.js'
 import { setAjaxConfig } from './internal/axios.config.js'
 import { setCookieConfig } from './internal/cookie.service.js'
 import { setStore } from './store'
-import C4DataTable from './components/pnc4bi-table/C4Table'
+import C4DataTable from './components/c4-table/C4Table'
+import C4DateRange from './components/c4-daterange/C4DateRange'
 // import C4DataTablePlus from './components/c4-table-plus/C4TablePlus'
 import C4Empty from './components/c4-empty/C4Empty'
 import bus from './event-bus'
@@ -17,10 +18,8 @@ import './plugins/vee-validate'
 import VeeValidate, { Validator } from 'vee-validate'
 import en from 'vee-validate/dist/locale/en'
 import Router from 'vue-router'
-// Vee-Validator
-// app wide styles, fonts
-
 import Vuetify from 'vuetify'
+import moment from 'moment'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import 'vuetify/dist/vuetify.min.css'
@@ -33,20 +32,23 @@ import numbro from 'numbro'
 import deDE from 'numbro/languages/de-DE.js'
 
 import { i18n, veeValidateDictionary } from './translations'
+// Vee-Validator
+// app wide styles, fonts
 
 numbro.registerLanguage(deDE)
 numbro.setLanguage(deDE.languageTag)
 
 const install = (Vue, options) => {
+  moment.locale('de')
   Vue.prototype.i18n = i18n
   Vue.prototype.$bus = bus
   Vue.prototype.$helper = helper
   Vue.prototype.$store = options.store
   Vue.prototype.$numbro = numbro
   /// /////////////////
-
   Vue.use(Router)
   Vue.use(VeeValidate, {
+    mode: 'eager',
     aria: false,
     locale: 'en'
   })
@@ -69,6 +71,7 @@ const install = (Vue, options) => {
   Vue.component('c4-datatable', C4DataTable)
   Vue.component('c4-webapp', C4Webapp)
   Vue.component('c4-empty', C4Empty)
+  Vue.component('c4-daterange', C4DateRange)
 
   Vue.use(Vuetify, {
     theme: options.config.THEME,

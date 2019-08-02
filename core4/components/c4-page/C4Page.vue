@@ -1,15 +1,28 @@
 <template>
-  <v-layout row wrap class="c4-page">
+  <v-layout
+    row
+    wrap
+    class="c4-page"
+  >
     <template v-if="headerType">
       <div class="c4-sub-header">
       </div>
-      <v-flex xs12 class="c4-page-header">
+      <v-flex
+        xs12
+        class="c4-page-header"
+      >
         <div class="page-header-content">
-          <slot v-if="!!$slots['page-header-content']" name="page-header-content"></slot>
+          <slot
+            v-if="!!$slots['page-header-content']"
+            name="page-header-content"
+          ></slot>
         </div>
       </v-flex>
     </template>
-    <v-flex xs12 class="c4-content-container">
+    <v-flex
+      xs12
+      class="c4-content-container"
+    >
       <slot></slot>
     </v-flex>
   </v-layout>
@@ -71,8 +84,11 @@ export default {
         header.style.backgroundImage = "url('//bi.plan-net.com/cdn/assets/images/serviceplan-muenchen-blau.jpg')"
       } else if (this.headerType === '3') {
         header.classList.add('gradient-1')
-      } else {
+      } else if (this.headerType === '4') {
         header.classList.add('gradient-2')
+        // header.classList.add('')
+      } else {
+
       }
     }
   }
@@ -108,6 +124,13 @@ $perc: random(20) + 60%;
     lighten(#3f515d, 5) 70%
   );
 }
+.gradient-3 {
+  /*   background: linear-gradient(
+    130deg,
+    darken(#333, 5) 60%,
+    darken(#333, 2) 60%
+  ); */
+}
 .gradient-2 {
   background: linear-gradient(110deg, #3f515d 40%, rgba(0, 0, 0, 0) 30%),
     radial-gradient(
@@ -116,11 +139,11 @@ $perc: random(20) + 60%;
       lighten(#3f515d, 10) 70%
     );
 }
-.gradient-2 {
+/* .gradient-2 {
   background: linear-gradient(
     #{random(50) + 100}deg,
     darken(#d70f14, 10) 70%,
     26 #d70f14 70%
   );
-}
+} */
 </style>

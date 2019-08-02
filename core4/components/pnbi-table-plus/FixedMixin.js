@@ -13,6 +13,7 @@ export default {
   mounted () {
     this.$nextTick(function () {
       const fixedHeader = this.fixedHeader
+      console.log('fixedHeader', fixedHeader)
       const fixedFooter = this.fixedFooter
       if (fixedHeader || fixedFooter) {
         datatable = this.$el.querySelector('.v-datatable')
@@ -68,12 +69,12 @@ export default {
       const rect = tbody.getBoundingClientRect()
       if (rect.top < HEADER_OFFSET && this.headerIsFixed === false) {
         this.headerIsFixed = true
-        scrollHeader.classList.add('pnbi-tablehead-fixed')
+        scrollHeader.classList.add('c4-tablehead-fixed')
 
         this.handleResize(rect)
       } else if (rect.top >= HEADER_OFFSET && this.headerIsFixed === true) {
         this.headerIsFixed = false
-        scrollHeader.classList.remove('pnbi-tablehead-fixed')
+        scrollHeader.classList.remove('c4-tablehead-fixed')
         const bottom = this.$el.querySelector('.v-datatable > thead.bottom')
         if (bottom != null) {
           datatable.removeChild(bottom)

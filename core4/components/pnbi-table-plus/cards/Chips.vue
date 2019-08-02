@@ -62,8 +62,6 @@
 </template>
 
 <script>
-import EventBus from 'pnbi-base/src/event-bus'
-// import ExtendsSearchMixin from './extendsSearchMixin.js'
 import CardNumbro from './CardNumbro'
 import CardMoment from './CardMoment'
 import CardDefault from './CardDefault'
@@ -116,6 +114,7 @@ export default {
         return obj
       },
       set (items) {
+        console.log('changed', items)
         this.$emit('updateItems', items)
       }
     }

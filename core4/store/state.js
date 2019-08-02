@@ -9,15 +9,18 @@ const state = {
   loading: false,
   dark: false,
   title: 'CORE4OS',
-  notification: null,
-
+  inWidget: false,
+  // notification: null,
+  /*  profileError: null,
+    profileAuthenticated: false,
+    profileName: null,
+    profileEmail: 'No email' */
   profile: {
     error: null,
     // cookie: CookieService.isPriPolCookieSet(),
     authenticated: false,
     name: null,
-    email: 'No email',
-    short: 'NA'
+    email: 'No email'
   }
 }
 
@@ -28,8 +31,8 @@ const actions = {
   fetchProfile ({ commit, dispatch, getters }, payload) {
     const promiseProfile = Auth.profile()
     const promiseSetting = Auth.setting()
-    Promise.all([promiseProfile, promiseSetting])
-      .then(data => {
+    Promise.all([promiseProfile, promiseSetting]).then(
+      data => {
         const profile = data[0]
         const setting = data[1]
         const dto = {
@@ -37,7 +40,6 @@ const actions = {
           name: profile.name,
           realname: profile.realname,
           email: profile.email,
-          short: profile.short,
           perm: profile.perm,
           role: profile.role
         }
@@ -49,9 +51,11 @@ const actions = {
         if (router.instance.history.current.name === 'login') {
           dispatch('gotoStart')
         }
-      }, () => {
+      },
+      () => {
         // commit('set_profile', { error: 'auth' })
-      })
+      }
+    )
   },
   gotoStart ({ commit, dispatch }) {
     commit('clear_auth_error')
@@ -67,34 +71,40 @@ const actions = {
   checkLogin ({ commit, dispatch }, payload) {
     const user = JSON.parse(window.localStorage.getItem('user'))
     if (user != null) {
-      Auth.login(user).then(val => {
-        dispatch('gotoStart')
-      }).catch(() => {
-        dispatch('gotoLogin')
-        commit('set_profile', { error: 'auth' })
-      })
+      Auth.login(user)
+        .then(val => {
+          dispatch('gotoStart')
+        })
+        .catch(() => {
+          dispatch('gotoLogin')
+          commit('set_profile', { error: 'auth' })
+        })
     }
   },
   login ({ commit, dispatch }, payload) {
     return new Promise((resolve, reject) => {
-      Auth.login(payload).then(result => {
-        resolve(true)
-        dispatch('gotoStart')
-      }).catch((err) => {
-        console.log(err.response, 'Login.Error')
-        commit('set_profile', { error: 'auth' })
-        reject(new Error('LoginError'))
-        return Promise.reject(err)
-      })
+      Auth.login(payload)
+        .then(result => {
+          resolve(true)
+          dispatch('gotoStart')
+        })
+        .catch(err => {
+          console.log(err.response, 'Login.Error')
+          commit('set_profile', { error: 'auth' })
+          reject(new Error('LoginError'))
+          return Promise.reject(err)
+        })
     })
   },
-  logout ({ commit, dispatch }, payload) {
-    Auth.logout().then(function () {
-      dispatch('gotoLogin')
-    }).catch((err) => {
-      dispatch('gotoLogin')
-      return Promise.reject(err)
-    })
+  logout ({ dispatch }) {
+    Auth.logout()
+      .then(function () {
+        dispatch('gotoLogin')
+      })
+      .catch(err => {
+        dispatch('gotoLogin')
+        return Promise.reject(err)
+      })
   },
   clearAuthError ({ commit }) {
     commit('clear_auth_error')
@@ -104,8 +114,6 @@ const actions = {
   },
   setTitle ({ commit }, payload) {
     commit('set_title', payload)
-    document.title = payload
-    document.querySelector('body').classList.add(payload.toLowerCase().split(' ').join('-'))
   },
   initializeApp ({ commit, dispatch }, payload) {
     dispatch('setTitle', payload.TITLE)
@@ -114,20 +122,30 @@ const actions = {
       state.hasOwnTheme = true // do not show theme switch
     }
   },
+  setWidgetTitle ({ commit, dispatch }, payload) {
+    commit('set_in_widget', true)
+    commit('set_title', payload)
+  },
+  resetWidgetTitle ({ commit, dispatch }, payload) {
+    commit('set_in_widget', false)
+    dispatch('setTitle', payload)
+  },
   toggleDark ({ commit, getters }) {
     const dark = !getters.dark
     commit('set_dark', dark)
     return axiosInternal
       .post('/setting/_general', { data: { dark } })
-      .then(result => {
-      })
+      .then(() => {})
       .catch(error => Promise.reject(error))
   }
 }
 
 const mutations = {
-  set_notification (state, payload) {
-    state.notification = payload
+  /*  set_notification(state, payload) {
+      state.notification = payload
+    }, */
+  set_in_widget (state, payload) {
+    state.inWidget = payload
   },
   set_dark (state, dark) {
     if (dark != null) {
@@ -155,6 +173,13 @@ const mutations = {
   },
   set_title (state, payload) {
     state.title = payload
+    document.title = payload
+    document.querySelector('body').classList.add(
+      payload
+        .toLowerCase()
+        .split(' ')
+        .join('-')
+    )
   },
   initialize_app (state, payload) {
     state.title = payload.title
@@ -170,6 +195,9 @@ const getters = {
   },
   loading (state) {
     return state.loading
+  },
+  inWidget (state) {
+    return state.inWidget
   },
   title (state) {
     return state.title

@@ -52,13 +52,15 @@
                 block
                 :disabled="errors.any()"
                 type="submit"
-              >Login</v-btn>
+              >Login
+              </v-btn>
 
               <v-btn
                 to="/reset"
                 flat
                 block
-              >{{$t('resetPassword')}}</v-btn>
+              >{{$t('resetPassword')}}
+              </v-btn>
             </v-layout>
           </v-card-actions>
         </v-form>
@@ -68,7 +70,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   created () {
@@ -81,8 +83,7 @@ export default {
       }
     })
   },
-  components: {
-  },
+  components: {},
   data () {
     return {
       dialogLogin: true,
@@ -92,6 +93,16 @@ export default {
     }
   },
   watch: {
+    username () {
+      if (this.profile.error != null) {
+        this.onFocus()
+      }
+    },
+    password () {
+      if (this.profile.error != null) {
+        this.onFocus()
+      }
+    }
   },
   computed: {
     nextRoute () {
@@ -134,6 +145,10 @@ export default {
 div >>> .fade-enter-active,
 div >>> .fade-leave-active {
   transition: all 0.33s ease-out;
+}
+
+div >>> .v-btn--block {
+  padding: 6px 16px;
 }
 
 div >>> .fade-enter,

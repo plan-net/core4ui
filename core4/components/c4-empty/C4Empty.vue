@@ -1,7 +1,14 @@
 <template>
-  <v-alert :value="true" color="warning" icon="warning">
-    <span v-if="content.html" class="grey--text" v-html="content.html"></span>
-    <span v-else class="grey--text">{{content.label}}</span>
+  <v-alert
+    :value="true"
+    color="warning"
+    icon="warning"
+  >
+        <!-- @slot optional for custom content -->
+    <slot></slot>
+    <span v-if="text"
+      class="grey--text"
+    >{{text}}</span>
   </v-alert>
 </template>
 
@@ -14,29 +21,14 @@ export default {
      * Just a string
      */
     text: {
-      type: String | null
-    },
-    /**
-     * Is rendered as html: <strong>No</strong> data
-     */
-    html: {
-      type: String | null
+      type: [String, null],
+      default: 'No data available.',
+      required: false
     }
+
   },
   computed: {
-    content () {
-      if (this.text) {
-        return {
-          label: this.text
-        }
-      }
-      if (this.html) {
-        return {
-          html: this.html
-        }
-      }
-      return this.data
-    }
+
   }
 }
 </script>
@@ -46,3 +38,13 @@ export default {
   background-color: rgba(0, 0, 0, 0.1) !important;
 }
 </style>
+
+<docs>
+### Usage
+
+Show this component if no content is available. For example in datatable etc.
+
+```jsx
+<c4-empty text="No data available"></c4-empty>
+```
+</docs>

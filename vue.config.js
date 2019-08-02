@@ -1,7 +1,6 @@
 // vue.config.js
 const path = require('path')
 module.exports = {
-  outputDir: '../../api/v1/request/_static',
   assetsDir: 'assets',
   lintOnSave: true,
   publicPath: './',
@@ -21,7 +20,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        'pnbi-base': path.resolve(__dirname, '.')
+        'core4ui': path.resolve(__dirname, '.')
       }
     },
     output: {

@@ -116,4 +116,5 @@ export function setRoutes (router) {
   })
   $router.instance = router
 }
+
 export default $router
