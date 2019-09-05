@@ -187,8 +187,14 @@ const getters = {
   inWidget (state) {
     return state.inWidget
   },
+  title (state) {
+    return state.title
+  },
   dark (state) {
     return state.dark
+  },
+  hasOwnTheme (state) {
+    return state.hasOwnTheme
   },
   menu (state) {
     const debug = process.env.NODE_ENV !== 'production'

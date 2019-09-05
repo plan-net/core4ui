@@ -71,7 +71,7 @@
   </div>
 </template>
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'c4-user',
@@ -113,9 +113,7 @@ export default {
       'profile',
       'menu',
       'inWidget',
-      'dark'
-    ]),
-    ...mapState([
+      'dark',
       'hasOwnTheme',
       'title'
     ])

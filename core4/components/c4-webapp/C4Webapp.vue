@@ -87,7 +87,7 @@ import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
 import Navigation from './c4-navigation/Navigation.vue'
 import ToolbarSideIcon from './c4-navigation/c4-toolbar-side-icon.vue'
 import C4User from './c4-user/C4User.vue'
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'c4-webapp',
@@ -156,9 +156,7 @@ export default {
       'profile',
       'loading',
       'inWidget',
-      'dark'
-    ]),
-    ...mapState([
+      'dark',
       'title'
     ]),
     isNavVisible () {
