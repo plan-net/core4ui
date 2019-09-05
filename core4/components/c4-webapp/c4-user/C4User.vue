@@ -68,7 +68,6 @@
       </v-btn>
       <span>Close widget</span>
     </v-tooltip>
-    <pre>{{internalInWidget}}</pre>
   </div>
 </template>
 <script>
