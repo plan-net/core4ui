@@ -10,7 +10,7 @@ export default {
       })
       .catch(error => Promise.reject(error))
   },
-  profile () { // Todo: enrich profile with api(/settings)
+  async profile () {
     if (this.$profile != null) {
       return Promise.resolve(this.$profile)
     }
@@ -23,17 +23,20 @@ export default {
         return this.$profile
       })
       .catch(error => {
-        return Promise.reject(error)
+        throw new Error(`ApiService ${error}`)
       })
   },
-  setting () {
+  async setting () {
     return axiosInternal
-      .get(`/setting/_general`)
+      .get(`/setting`)
       .then(result => {
-        return result.data
+        return {
+          general: result.data._general,
+          menu: result.data.menu
+        }
       })
       .catch(error => {
-        return Promise.reject(error)
+        throw new Error(`ApiService ${error}`)
       })
   },
   logout () {

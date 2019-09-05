@@ -4,6 +4,9 @@ module.exports = {
   assetsDir: 'assets',
   lintOnSave: true,
   publicPath: './',
+  devServer: {
+    port: 8081
+  },
   productionSourceMap: false,
   css: {
     extract: false

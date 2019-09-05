@@ -2,7 +2,7 @@ import Login from './auth/Login'
 import Forgot from './auth/Forgot'
 import Reset from './auth/Reset'
 import AuthWrap from './auth/AuthWrap'
-import Imprint from './imprint/Imprint'
+import Iframe from './iframe/Iframe'
 import Privacy from './privacy/Privacy'
 import Profile from './profile/Profile'
 import PageNotFound from './p404/PageNotFound'
@@ -66,14 +66,15 @@ export function setRoutes (router) {
       ]
     },
     {
-      path: '/imprint',
-      name: 'imprint',
-      component: Imprint,
+      path: '/content/:type',
+      name: 'content',
+      component: Iframe,
       meta: {
         auth: false,
         hideNav: false
       }
     },
+
     {
       path: '/privacy-policy',
       name: 'privacy',
