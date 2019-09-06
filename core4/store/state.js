@@ -28,6 +28,7 @@ const actions = {
   async fetchProfile ({ commit, dispatch, state }, payload) {
     const profile = await Auth.profile()
     const setting = await Auth.setting()
+    console.log(setting)
     const dto = {
       authenticated: true,
       name: profile.name,
@@ -38,13 +39,11 @@ const actions = {
     }
     commit('set_profile', dto)
     if (state.hasOwnTheme === false) {
-      commit('set_dark', setting.general.dark)
+      commit('set_dark', setting.dark)
     }
     commit('set_menu', setting.menu)
     if (router.instance.history.current.name === 'login') {
       dispatch('gotoStart')
-      // commit('clear_auth_error')
-      // router.instance.push('/')
     }
     return true
   },

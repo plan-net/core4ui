@@ -28,13 +28,13 @@ export default {
 </script>
 <style lang="scss" scoped>
   div {
+    overflow: hidden;
     position: absolute;
     left: 0;
     right: 0;
-    top: 55px;
+    top: 48px;
     bottom: 0;
     padding: 0 0 0 0;
-
     iframe {
       width: 100%;
       height: 100%;

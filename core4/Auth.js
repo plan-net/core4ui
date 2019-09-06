@@ -28,12 +28,9 @@ export default {
   },
   async setting () {
     return axiosInternal
-      .get(`/setting`)
+      .get(`/setting/_general`)
       .then(result => {
-        return {
-          general: result.data._general,
-          menu: result.data.menu
-        }
+        return result.data
       })
       .catch(error => {
         throw new Error(`ApiService ${error}`)
