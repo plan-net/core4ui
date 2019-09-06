@@ -28,7 +28,6 @@ const actions = {
   async fetchProfile ({ commit, dispatch, state }, payload) {
     const profile = await Auth.profile()
     const setting = await Auth.setting()
-    console.log(setting)
     const dto = {
       authenticated: true,
       name: profile.name,
