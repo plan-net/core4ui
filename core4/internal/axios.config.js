@@ -13,7 +13,7 @@ export function setAjaxConfig (config) {
   const ingnoredErrors = config.IGNORED_ERRORS || []
 
   function isIgnoredEndopoint (responseURL = '') {
-    return ['/login', '/logout', '/profile', '/settings'].find(val => {
+    return ['/login', '/logout', '/profile', '/setting'].find(val => {
       return responseURL.includes(val)
     }) != null
   }

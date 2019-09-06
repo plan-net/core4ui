@@ -21,7 +21,7 @@ export default new Router({
         if (loggedIn) {
           // window.location.assign(window.REDIRECTION)
         }
-        // next()
+        next()
       }
     }
   ]

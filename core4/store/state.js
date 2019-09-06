@@ -43,13 +43,16 @@ const actions = {
     commit('set_menu', setting.menu)
     if (router.instance.history.current.name === 'login') {
       dispatch('gotoStart')
+      // commit('clear_auth_error')
+      // router.instance.push('/')
     }
+    return true
   },
-  gotoStart ({ commit, dispatch }) {
+  async gotoStart ({ commit, dispatch }) {
     commit('clear_auth_error')
-    commit('set_profile', { authenticated: true })
-    dispatch('fetchProfile')
     router.instance.push('/')
+    commit('set_profile', { authenticated: true })
+    await dispatch('fetchProfile')
   },
   gotoLogin ({ commit }) {
     window.localStorage.clear()
@@ -199,7 +202,7 @@ const getters = {
   menu (state) {
     const debug = process.env.NODE_ENV !== 'production'
     const user = JSON.parse(window.localStorage.getItem('user'))
-    return Object.keys(state.menu).map(label => {
+    return Object.keys(state.menu || {}).map(label => {
       const path = debug ? 'http://localhost:5001' : ''
       return {
         path: `${path}${state.menu[label]}?token=${user.token}`,
