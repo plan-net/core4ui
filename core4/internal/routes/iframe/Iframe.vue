@@ -15,13 +15,15 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'menu'
+      'menu', 'dark'
     ]),
     path () {
       const type = this.$route.params.type
-      console.log(this.menu.find(val => val.label === type))
       const path = (this.menu.find(val => val.label === type) || {}).path
-      return path
+      if (path) {
+        return `${path}&dark=${this.dark}`
+      }
+      return null
     }
   }
 }
