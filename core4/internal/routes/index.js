@@ -3,7 +3,6 @@ import Forgot from './auth/Forgot'
 import Reset from './auth/Reset'
 import AuthWrap from './auth/AuthWrap'
 import Iframe from './iframe/Iframe'
-import Privacy from './privacy/Privacy'
 import Profile from './profile/Profile'
 import PageNotFound from './p404/PageNotFound'
 
@@ -69,16 +68,6 @@ export function setRoutes (router) {
       path: '/content/:type',
       name: 'content',
       component: Iframe,
-      meta: {
-        auth: false,
-        hideNav: false
-      }
-    },
-
-    {
-      path: '/privacy-policy',
-      name: 'privacy',
-      component: Privacy,
       meta: {
         auth: false,
         hideNav: false
