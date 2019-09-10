@@ -14,7 +14,10 @@
         {{$t('resetPassword')}}
         </h2>
       </v-card-title>
-      <v-card-text class="pt-2 pb-4">
+      <v-card-text class="pt-2 pb-4" v-if="finished">
+        {{$t('resetPasswordSuccess')}}
+      </v-card-text>
+      <v-card-text class="pt-2 pb-4" v-else>
 
         <v-text-field
           class="mb-3"
@@ -55,7 +58,7 @@
       <v-card-actions>
         <v-layout column>
           <v-flex>
-            <v-btn
+            <v-btn v-if="!finished"
               class="mb-3"
               color="primary"
               block
