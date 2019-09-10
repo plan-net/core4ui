@@ -97,7 +97,7 @@
         <v-btn
           flat
           color="primary"
-          @click="dateRangeMenuOpen = false"
+          @click="$emit('close'); dateRangeMenuOpen = false"
         >
           {{labels.close}}
         </v-btn>
