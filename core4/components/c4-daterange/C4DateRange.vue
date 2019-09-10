@@ -97,7 +97,7 @@
         <v-btn
           flat
           color="primary"
-          @click="$emit('close'); dateRangeMenuOpen = false"
+          @click="dateRangeMenuOpen = false"
         >
           {{labels.close}}
         </v-btn>
@@ -205,6 +205,13 @@ export default {
       dateRange: {
         dates: [],
         colors: {}
+      }
+    }
+  },
+  watch: {
+    dateRangeMenuOpen(newValue, oldValue) {
+      if(newValue === false){
+        this.$emit('close'); 
       }
     }
   },
