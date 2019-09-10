@@ -1,16 +1,15 @@
 <template>
   <v-menu
     :close-on-content-click="false"
+    :close-on-click="false"
     v-model="dateRangeMenuOpen"
     full-width
     bottom
   >
-
     <v-layout
       row
       slot="activator"
     >
-
       <v-flex xs12>
         <v-text-field
           slot="activator"
@@ -97,7 +96,7 @@
         <v-btn
           flat
           color="primary"
-          @click="dateRangeMenuOpen = false"
+          @click="$emit('close'); dateRangeMenuOpen = false"
         >
           {{labels.close}}
         </v-btn>
@@ -205,13 +204,6 @@ export default {
       dateRange: {
         dates: [],
         colors: {}
-      }
-    }
-  },
-  watch: {
-    dateRangeMenuOpen(newValue, oldValue) {
-      if(newValue === false){
-        this.$emit('close'); 
       }
     }
   },
