@@ -3,7 +3,6 @@ import Forgot from './auth/Forgot'
 import Reset from './auth/Reset'
 import AuthWrap from './auth/AuthWrap'
 import Iframe from './iframe/Iframe'
-import Profile from './profile/Profile'
 import PageNotFound from './p404/PageNotFound'
 
 const authPages = ['/login', '/forgot', '/reset']
@@ -68,15 +67,6 @@ export function setRoutes (router) {
       path: '/content/:type',
       name: 'content',
       component: Iframe,
-      meta: {
-        auth: false,
-        hideNav: false
-      }
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: Profile,
       meta: {
         auth: false,
         hideNav: false

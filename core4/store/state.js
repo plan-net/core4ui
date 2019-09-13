@@ -10,8 +10,7 @@ const state = {
   dark: false,
   title: 'CORE4OS',
   inWidget: false,
-  menu: {
-  },
+  menu: [],
   profile: {
     error: null,
     // cookie: CookieService.isPriPolCookieSet(),
@@ -200,10 +199,11 @@ const getters = {
   menu (state) {
     const debug = process.env.NODE_ENV !== 'production'
     const user = JSON.parse(window.localStorage.getItem('user'))
-    return Object.keys(state.menu || {}).map(label => {
+    return (state.menu || []).map(item => {
       const path = debug ? 'http://localhost:5001' : ''
+      const label = Object.keys(item)[0]
       return {
-        path: `${path}${state.menu[label]}?token=${user.token}`,
+        path: `${path}${item[label]}?token=${user.token}`,
         label
       }
     })

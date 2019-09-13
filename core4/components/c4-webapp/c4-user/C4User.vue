@@ -36,16 +36,11 @@
 
       <v-list>
         <v-list-tile
-          v-for="(item,index) in internalMenu"
+          v-for="(item,index) in menu"
           :key="index"
           :to="{name : 'content' , params: { type: item.label } }"
         >
           <v-list-tile-title>{{item.label}}</v-list-tile-title>
-        </v-list-tile>
-        <v-list-tile :to="{name: 'profile'}">
-          <v-list-tile-content>
-            <v-list-tile-title>Profile</v-list-tile-title>
-          </v-list-tile-content>
         </v-list-tile>
         <v-list-tile @click="logout()">
           <v-list-tile-content>
@@ -75,11 +70,6 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'c4-user',
-  props: {},
-  components: {},
-  mounted () {
-
-  },
   data () {
     return {
       alertMessage: null,
@@ -105,9 +95,6 @@ export default {
   computed: {
     isMenuPage () {
       return this.$route.name === 'content'
-    },
-    internalMenu () {
-      return this.menu
     },
     ...mapGetters([
       'profile',
