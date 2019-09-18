@@ -54,10 +54,9 @@
                 type="submit"
               >Login
               </v-btn>
-
               <v-btn
                 to="/reset"
-                flat
+                text
                 block
               >{{$t('resetPassword')}}
               </v-btn>
