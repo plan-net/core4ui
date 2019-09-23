@@ -8,6 +8,7 @@
         <v-btn
           v-on="on"
           class="theme-btn"
+          small
           text
           icon
           @click="toggleDark()"
@@ -28,6 +29,7 @@
     >
       <template v-slot:activator="{ on }">
         <v-btn
+          small
           dark
           icon
           v-on="on"

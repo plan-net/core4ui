@@ -1,80 +1,52 @@
   <template>
-  <v-app
-    id="inspire"
-    :dark="dark"
-  >
-
-    <!-- <v-navigation-drawer
-      v-model="drawer"
-      app
-    >
-      <v-list dense>
-        <v-list-item>
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer> -->
-    <c4-navigation>
-      <slot name="navigation-slot"></slot>
-    </c4-navigation>
-    <!-- TODO refactor to compoinent-->
-    <v-app-bar
-      fixed
-      app
-      dense
-      dark
-      elevate-on-scroll
-      :extended="false"
-      class="c4-toolbar"
-    >
-      <v-btn
-        class=""
-        text
-        icon
-        @click="$bus.$emit('toggleSidenav')"
-        v-if="navButtonVisible"
-      >
-        <toolbar-side-icon class=""></toolbar-side-icon>
-      </v-btn>
-      <!-- @slot Use this slot for a custom title instead of the default app-name -->
-      <slot
-        v-if="!!this.$slots['title-slot']"
-        name="title-slot"
-      ></slot>
-      <h2
-        v-else
-        class="app-title"
-        :class="{'reset-font': !!inWidget}"
-      >{{title}}</h2>
-      <div class="flex-grow-1"></div>
-      <c4-user></c4-user>
-    </v-app-bar>
-
-    <v-content class="px-3">
-      <v-container :fluid="fluid">
-        <v-row
-          style=""
-          align="start"
-          justify="start"
+  <v-app :class="standalone ? 'standalone' : 'embedded'">
+    <template v-if="isNavVisible">
+      <template v-if="standalone">
+        <c4-navigation>
+          <slot name="navigation-slot"></slot>
+        </c4-navigation>
+        <!-- TODO refactor to compoinent-->
+        <v-app-bar
+          fixed
+          app
+          dense
+          elevate-on-scroll
+          :extended="false"
+          class="c4-toolbar"
         >
-          <router-view />
-          <c4-snackbar></c4-snackbar>
-          <error-dialog></error-dialog>
-          <pre>{{dark}}</pre>
-        </v-row>
+          <v-btn
+            class=""
+            text
+            icon
+            @click="$bus.$emit('toggleSidenav')"
+            v-if="navButtonVisible"
+          >
+            <toolbar-side-icon class=""></toolbar-side-icon>
+          </v-btn>
+          <!-- @slot Use this slot for a custom title instead of the default app-name -->
+          <slot
+            v-if="!!this.$slots['title-slot']"
+            name="title-slot"
+          ></slot>
+          <h2
+            v-else
+            class="app-title"
+            :class="{'reset-font': !!inWidget}"
+          >{{title}}</h2>
+          <!-- <div class="flex-grow-1"></div> -->
+          <v-spacer class="c4-dotted"></v-spacer>
+          <c4-user></c4-user>
+        </v-app-bar>
+      </template>
+    </template>
+    <v-content>
+      <v-container
+        :fluid="fluid"
+        cccclass="mx-5"
+      >
+        <router-view />
+        <c4-snackbar></c4-snackbar>
+        <error-dialog></error-dialog>
       </v-container>
     </v-content>
     <v-progress-linear

@@ -2,42 +2,20 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 Vue.use(Vuetify)
-export default new Vuetify({
-  icons: {
-    iconfont: 'md'
-  },
-  theme: {
-    themes: {
-      light: {
-        primary: '#3f51b5',
-        secondary: '#b0bec5',
-        accent: '#8c9eff',
-        error: '#b71c1c'
-      },
-      dark: {
-        primary: '#3f51b5',
-        secondary: '#b0bec5',
-        accent: '#8c9eff',
-        error: '#b71c1c'
-      }
-    }
-  }
-  // theme: options.config.THEME,
-  // iconfont: 'md',
-/*   options: {
-    customProperties: true, // color: var(--v-primary-base)
-    // themeVariations: ['primary', 'accent', 'secondary', 'warning']
-    themeVariations: ['primary', 'accent', 'secondary', 'warning' ]
-  } */
-})
+
+let vuetify
+
 export function getVuetify (theme) {
+  if (vuetify != null) {
+    return vuetify
+  }
   const light = {}
   const dark = {}
   Object.keys(theme).forEach(val => {
     light[val] = theme[val]
     dark[val] = theme[val]
   })
-  return new Vuetify({
+  const v = new Vuetify({
     icons: {
       iconfont: 'md'
     },
@@ -56,4 +34,6 @@ export function getVuetify (theme) {
       }
     }
   })
+  vuetify = v
+  return v
 }
