@@ -4,6 +4,7 @@ import bus from '../event-bus.js'
 import router from '../internal/routes/index.js'
 import { axiosInternal } from '../internal/axios.config.js'
 
+import { getVuetify } from '../plugins/vuetify'
 const state = {
   hasOwnTheme: false,
   loading: false,
@@ -137,6 +138,8 @@ const mutations = {
   },
   set_dark (state, dark) {
     if (dark != null) {
+      getVuetify().framework.theme.dark = dark
+      console.log(getVuetify().framework.theme.dark)
       state.dark = dark
     }
   },

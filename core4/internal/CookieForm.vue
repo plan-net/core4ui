@@ -12,7 +12,7 @@ export default {
         <v-form ref="form" lazy-validation>
           <v-card class="pb-4">
             <v-card-title class="justify-center pb-0">
-              <h1 class="bi-headline">Cookies</h1>
+              <h1 class="c4-headline">Cookies</h1>
             </v-card-title>
             <v-card-text class="">
               <p class="ma-0">Wir verwenden

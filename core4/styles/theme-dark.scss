@@ -1,4 +1,4 @@
-.application.theme--dark {
+.v-application.theme--dark {
   /* Change Autocomplete styles in Chrome*/
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
@@ -10,9 +10,6 @@
     -webkit-text-fill-color: var(--v-secondary-lighten5);
     -webkit-box-shadow: none;
     transition: background-color 5000s ease-in-out 0s;
-  }
-
-  &.v-toolbar {
   }
 
   &.core-navigation-container {
@@ -42,11 +39,15 @@
   &.application {
     background-color: #232323 !important;
   }
-
-  .spacer.core-dotted {
+  &.c4-toolbar {
+    background-color: #212121 !important;
+    border-color: #212121;
+    color: #fff;
+}
+  .spacer.c4-dotted {
     margin-left: 12px;
     margin-right: 12px;
-    margin-top: 5px;
+    margin-top: 3px;
     opacity: .2;
     height: 10px;
     background: radial-gradient(ellipse at center, var(--v-secondary-lighten5) 0%, var(--v-secondary-lighten5) 30%, transparent 30%);

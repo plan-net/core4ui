@@ -15,7 +15,7 @@
           lazy-validation
         >
           <v-card-title class="justify-center py-0">
-            <h2 class="bi-headline">{{title}}</h2>
+            <h2 class="c4-headline">{{title}}</h2>
           </v-card-title>
           <v-card-text class="pt-2">
             <v-text-field
@@ -54,10 +54,9 @@
                 type="submit"
               >Login
               </v-btn>
-
               <v-btn
                 to="/reset"
-                flat
+                text
                 block
               >{{$t('resetPassword')}}
               </v-btn>

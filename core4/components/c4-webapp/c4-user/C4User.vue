@@ -4,15 +4,18 @@
       bottom
       v-if="hasOwnTheme !== true"
     >
-      <v-btn
-        slot="activator"
-        class="theme-btn"
-        flat
-        icon
-        @click="toggleDark()"
-      >
-        <v-icon>invert_colors</v-icon>
-      </v-btn>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          v-on="on"
+          class="theme-btn"
+          small
+          text
+          icon
+          @click="toggleDark()"
+        >
+          <v-icon>invert_colors</v-icon>
+        </v-btn>
+      </template>
       <span>Toggle theme</span>
     </v-tooltip>
 
@@ -26,6 +29,7 @@
     >
       <template v-slot:activator="{ on }">
         <v-btn
+          small
           dark
           icon
           v-on="on"
@@ -34,35 +38,51 @@
         </v-btn>
       </template>
 
-      <v-list>
-        <v-list-tile
-          v-for="(item,index) in menu"
-          :key="index"
-          :to="{name : 'content' , params: { type: item.label } }"
+      <v-list shaped>
+        <!-- <v-subheader>Controls</v-subheader> -->
+        <v-list-item-group
+          v-model="selected"
+          color="primary"
         >
-          <v-list-tile-title>{{item.label}}</v-list-tile-title>
-        </v-list-tile>
-        <v-list-tile @click="logout()">
-          <v-list-tile-content>
-            <v-list-tile-title>Logout</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+          <v-list-item
+            v-for="(item,index) in menu"
+            :key="index"
+            :to="{name : 'content' , params: { type: item.label } }"
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="item.label"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+
+        <v-list-item-group color="primary">
+          <v-list-item @click="logout()">
+
+            <v-list-item-content>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
       </v-list>
+
     </v-menu>
-    <v-tooltip
-      bottom
-      v-if="inWidget || isMenuPage"
-    >
-      <v-btn
-        @click="close"
-        slot="activator"
-        flat
-        icon
+    <template v-if="(inWidget || isMenuPage)">
+      <v-tooltip
+        bottom
       >
-        <v-icon>cancel</v-icon>
-      </v-btn>
-      <span>Close widget</span>
-    </v-tooltip>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            @click="close"
+            v-on="on"
+            text
+            icon
+          >
+            <v-icon>cancel</v-icon>
+          </v-btn>
+        </template>
+        <span>Close widget</span>
+      </v-tooltip>
+    </template>
   </div>
 </template>
 <script>
@@ -72,6 +92,7 @@ export default {
   name: 'c4-user',
   data () {
     return {
+      selected: null,
       alertMessage: null,
       alertOpen: false,
       showNavigation: false,
