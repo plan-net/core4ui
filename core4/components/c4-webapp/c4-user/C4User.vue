@@ -74,6 +74,8 @@
           <v-btn
             @click="close"
             v-on="on"
+            small
+            dark
             text
             icon
           >
