@@ -2,9 +2,7 @@ import Login from './auth/Login'
 import Forgot from './auth/Forgot'
 import Reset from './auth/Reset'
 import AuthWrap from './auth/AuthWrap'
-import Imprint from './imprint/Imprint'
-import Privacy from './privacy/Privacy'
-import Profile from './profile/Profile'
+import Iframe from './iframe/Iframe'
 import PageNotFound from './p404/PageNotFound'
 
 const authPages = ['/login', '/forgot', '/reset']
@@ -66,27 +64,9 @@ export function setRoutes (router) {
       ]
     },
     {
-      path: '/imprint',
-      name: 'imprint',
-      component: Imprint,
-      meta: {
-        auth: false,
-        hideNav: false
-      }
-    },
-    {
-      path: '/privacy-policy',
-      name: 'privacy',
-      component: Privacy,
-      meta: {
-        auth: false,
-        hideNav: false
-      }
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: Profile,
+      path: '/content/:type',
+      name: 'content',
+      component: Iframe,
       meta: {
         auth: false,
         hideNav: false

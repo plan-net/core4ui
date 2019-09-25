@@ -6,41 +6,41 @@
   >
     <template v-if="isNavVisible">
       <template v-if="standalone">
-      <c4-navigation>
-        <slot name="navigation-slot"></slot>
-      </c4-navigation>
+        <c4-navigation>
+          <slot name="navigation-slot"></slot>
+        </c4-navigation>
 
-      <transition name="slide">
-        <v-toolbar
-          flat
-          clipped-left
-          dense
-          dark
-          app
-          class="c4-toolbar"
-          fixed
-        >
-          <v-toolbar-side-icon
-            @click="$bus.$emit('toggleSidenav')"
-            v-if="navButtonVisible"
+        <transition name="slide">
+          <v-toolbar
+            flat
+            clipped-left
+            dense
+            dark
+            app
+            class="c4-toolbar"
+            fixed
           >
-            <toolbar-side-icon />
-          </v-toolbar-side-icon>
-          <!-- @slot Use this slot for a custom title instead of the default app-name -->
-          <slot
-            v-if="!!this.$slots['title-slot']"
-            name="title-slot"
-          ></slot>
-          <h2
-            v-else
-            class="app-title"
-            :class="{'reset-font': !!inWidget}"
-          >{{title}}</h2>
-          <v-spacer class="core-dotted"></v-spacer>
-          <c4-user></c4-user>
-        </v-toolbar>
-      </transition>
-            </template>
+            <v-toolbar-side-icon
+              @click="$bus.$emit('toggleSidenav')"
+              v-if="navButtonVisible"
+            >
+              <toolbar-side-icon />
+            </v-toolbar-side-icon>
+            <!-- @slot Use this slot for a custom title instead of the default app-name -->
+            <slot
+              v-if="!!this.$slots['title-slot']"
+              name="title-slot"
+            ></slot>
+            <h2
+              v-else
+              class="app-title"
+              :class="{'reset-font': !!inWidget}"
+            >{{title}}</h2>
+            <v-spacer class="core-dotted"></v-spacer>
+            <c4-user></c4-user>
+          </v-toolbar>
+        </transition>
+      </template>
       <v-content class="pt-0 core-background">
         <v-container
           :fluid="isFluid"
@@ -74,6 +74,7 @@
       v-if="loading"
     ></v-progress-linear>
     <error-dialog></error-dialog>
+
   </v-app>
 </template>
 <script>
@@ -153,10 +154,10 @@ export default {
   computed: {
     ...mapGetters([
       'profile',
-      'inWidget',
       'loading',
-      'title',
-      'dark'
+      'inWidget',
+      'dark',
+      'title'
     ]),
     isNavVisible () {
       const meta = this.$route.meta || {
@@ -216,19 +217,18 @@ pre {
 }
 .embedded .v-progress-linear {
   top: 0px !important;
-
 }
-.embedded .v-progress-linear:after{
-  content: '';
+.embedded .v-progress-linear:after {
+  content: "";
   position: fixed;
   cursor: forbidden;
   top: 6px;
-  left:0;
-  bottom:0;
-  right:0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   width: 100vw;
   height: 100vw;
-  background: rgba(100, 100 , 100, .05);
+  background: rgba(100, 100, 100, 0.05);
   z-index: 100000;
 }
 

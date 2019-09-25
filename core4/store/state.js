@@ -10,11 +10,7 @@ const state = {
   dark: false,
   title: 'CORE4OS',
   inWidget: false,
-  // notification: null,
-  /*  profileError: null,
-    profileAuthenticated: false,
-    profileName: null,
-    profileEmail: 'No email' */
+  menu: [],
   profile: {
     error: null,
     // cookie: CookieService.isPriPolCookieSet(),
@@ -28,40 +24,32 @@ const actions = {
   showNotification ({ commit }, payload) {
     bus.$emit('SHOW_NOTIFICATION', payload)
   },
-  fetchProfile ({ commit, dispatch, getters }, payload) {
-    const promiseProfile = Auth.profile()
-    const promiseSetting = Auth.setting()
-    Promise.all([promiseProfile, promiseSetting]).then(
-      data => {
-        const profile = data[0]
-        const setting = data[1]
-        const dto = {
-          authenticated: true,
-          name: profile.name,
-          realname: profile.realname,
-          email: profile.email,
-          perm: profile.perm,
-          role: profile.role
-        }
-        commit('set_profile', dto)
-        if (getters.hasOwnTheme === false) {
-          commit('set_dark', setting.dark)
-        }
-
-        if (router.instance.history.current.name === 'login') {
-          dispatch('gotoStart')
-        }
-      },
-      () => {
-        // commit('set_profile', { error: 'auth' })
-      }
-    )
+  async fetchProfile ({ commit, dispatch, state }, payload) {
+    const profile = await Auth.profile()
+    const setting = await Auth.setting()
+    const dto = {
+      authenticated: true,
+      name: profile.name,
+      realname: profile.realname,
+      email: profile.email,
+      perm: profile.perm,
+      role: profile.role
+    }
+    commit('set_profile', dto)
+    if (state.hasOwnTheme === false) {
+      commit('set_dark', setting.dark)
+    }
+    commit('set_menu', setting.menu)
+    if (router.instance.history.current.name === 'login') {
+      dispatch('gotoStart')
+    }
+    return true
   },
-  gotoStart ({ commit, dispatch }) {
+  async gotoStart ({ commit, dispatch }) {
     commit('clear_auth_error')
-    commit('set_profile', { authenticated: true })
-    dispatch('fetchProfile')
     router.instance.push('/')
+    commit('set_profile', { authenticated: true })
+    await dispatch('fetchProfile')
   },
   gotoLogin ({ commit }) {
     window.localStorage.clear()
@@ -141,9 +129,9 @@ const actions = {
 }
 
 const mutations = {
-  /*  set_notification(state, payload) {
-      state.notification = payload
-    }, */
+  set_menu (state, payload) {
+    state.menu = payload
+  },
   set_in_widget (state, payload) {
     state.inWidget = payload
   },
@@ -207,6 +195,18 @@ const getters = {
   },
   hasOwnTheme (state) {
     return state.hasOwnTheme
+  },
+  menu (state) {
+    const debug = process.env.NODE_ENV !== 'production'
+    const user = JSON.parse(window.localStorage.getItem('user'))
+    return (state.menu || []).map(item => {
+      const path = debug ? 'http://localhost:5001' : ''
+      const label = Object.keys(item)[0]
+      return {
+        path: `${path}${item[label]}?token=${user.token}`,
+        label
+      }
+    })
   }
 }
 

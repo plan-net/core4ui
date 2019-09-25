@@ -11,7 +11,6 @@ import { i18n } from 'core4ui/core4/translations'
 Vue.use(Core4ui, {
   router,
   config: {
-    DARK: true,
     THEME,
     TITLE: 'Welcome to CORE4OS',
     APP_IDENTIFIER: 'welcome-to-core4os'

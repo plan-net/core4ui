@@ -35,24 +35,13 @@
       </template>
 
       <v-list>
-        <v-list-tile :to="{name: 'profile'}">
-          <v-list-tile-content>
-            <v-list-tile-title>Profile</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
         <v-list-tile
-          disabled
-          :to="{name: 'privacy'}"
+          v-for="(item,index) in menu"
+          :key="index"
+          :to="{name : 'content' , params: { type: item.label } }"
         >
-          <v-list-tile-title>Privacy Policy</v-list-tile-title>
+          <v-list-tile-title>{{item.label}}</v-list-tile-title>
         </v-list-tile>
-        <v-list-tile
-          disabled
-          :to="{name: 'imprint'}"
-        >
-          <v-list-tile-title>Imprint</v-list-tile-title>
-        </v-list-tile>
-
         <v-list-tile @click="logout()">
           <v-list-tile-content>
             <v-list-tile-title>Logout</v-list-tile-title>
@@ -62,12 +51,11 @@
     </v-menu>
     <v-tooltip
       bottom
-      v-if="inWidget"
+      v-if="inWidget || isMenuPage"
     >
       <v-btn
-        @click="$bus.$emit('c4-application-close')"
+        @click="close"
         slot="activator"
-        class=""
         flat
         icon
       >
@@ -82,10 +70,6 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'c4-user',
-  props: {},
-  components: {},
-  mounted () {
-  },
   data () {
     return {
       alertMessage: null,
@@ -96,18 +80,29 @@ export default {
     }
   },
   methods: {
+    close () {
+      if (this.isMenuPage) {
+        this.$router.go(-1)
+      } else {
+        this.$bus.$emit('c4-application-close')
+      }
+    },
     ...mapActions([
       'logout',
       'toggleDark'
     ])
   },
   computed: {
+    isMenuPage () {
+      return this.$route.name === 'content'
+    },
     ...mapGetters([
       'profile',
-      'title',
-      'dark',
+      'menu',
       'inWidget',
-      'hasOwnTheme'
+      'dark',
+      'hasOwnTheme',
+      'title'
     ])
   }
 }

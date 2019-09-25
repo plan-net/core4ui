@@ -54,7 +54,7 @@
                 type="submit"
               >Login
               </v-btn>
-
+              <div></div>
               <v-btn
                 to="/reset"
                 flat

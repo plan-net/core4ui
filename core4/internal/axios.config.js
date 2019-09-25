@@ -13,12 +13,15 @@ export function setAjaxConfig (config) {
   const ingnoredErrors = config.IGNORED_ERRORS || []
 
   function isIgnoredEndopoint (responseURL = '') {
-    return ['/login', '/logout', '/profile', '/settings'].find(val => {
+    return ['/login', '/logout', '/profile', '/setting'].find(val => {
       return responseURL.includes(val)
     }) != null
   }
   function isErrorIgnoreRoute () {
-    return router.publicPages.includes(router.instance.history.current.path)
+    // remove additions to path from route name eg: /reset/dfbskjhdfgkjsd
+    let path = router.instance.history.current.path.substring(1)
+    path = '/' + path.substring(0, path.lastIndexOf('/'))
+    return router.publicPages.includes(path)
   }
   function isIgnoredError (error) {
     // app can defined errors which willl be handled by app
