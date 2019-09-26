@@ -5,7 +5,7 @@
 ## Installation
 
 ```
-Add this toy your dependencies:
+Add this to your dependencies:
   "dependencies": {
     "core4ui": "https://github.com/plan-net/core4ui.git#develop",
 ```
