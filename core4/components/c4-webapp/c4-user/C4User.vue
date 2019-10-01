@@ -89,7 +89,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-
+import { inIframe } from '../../../store/state'
 export default {
   name: 'c4-user',
   data () {
@@ -104,6 +104,9 @@ export default {
   },
   methods: {
     close () {
+      if (inIframe() && this.isMenuPage === false) {
+
+      }
       if (this.isMenuPage) {
         this.$router.go(-1)
       } else {

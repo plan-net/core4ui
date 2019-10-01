@@ -1,20 +1,25 @@
 import Auth from '../Auth'
 import bus from '../event-bus.js'
-// import CookieService from '../internal/cookie.service.js'
 import router from '../internal/routes/index.js'
 import { axiosInternal } from '../internal/axios.config.js'
-
 import { getVuetify } from '../plugins/vuetify'
+export function inIframe () {
+  try {
+    return window.self !== window.top
+  } catch (e) {
+    return true
+  }
+}
 const state = {
   hasOwnTheme: false,
   loading: false,
-  dark: false,
   title: 'CORE4OS',
+  dark: false,
   inWidget: false,
+  appBarVisible: true,
   menu: [],
   profile: {
     error: null,
-    // cookie: CookieService.isPriPolCookieSet(),
     authenticated: false,
     name: null,
     email: 'No email'
@@ -110,13 +115,20 @@ const actions = {
       commit('set_dark', payload.DARK)
       state.hasOwnTheme = true // do not show theme switch
     }
+    commit('set_in_widget', inIframe())
   },
   setWidgetTitle ({ commit, dispatch }, payload) {
-    commit('set_in_widget', true)
+    // commit('set_in_widget', true)
     commit('set_title', payload)
   },
+  showAppbar ({ commit, dispatch }) {
+    commit('show_appbar')
+  },
+  hideAppbar ({ commit, dispatch }) {
+    commit('hide_appbar')
+  },
   resetWidgetTitle ({ commit, dispatch }, payload) {
-    commit('set_in_widget', false)
+    // commit('set_in_widget', false)
     dispatch('setTitle', payload)
   },
   toggleDark ({ commit, getters }) {
@@ -139,7 +151,6 @@ const mutations = {
   set_dark (state, dark) {
     if (dark != null) {
       getVuetify().framework.theme.dark = dark
-      console.log(getVuetify().framework.theme.dark)
       state.dark = dark
     }
   },
@@ -161,6 +172,12 @@ const mutations = {
   },
   set_loading (state, payload) {
     state.loading = payload
+  },
+  show_appbar (state) {
+    state.appBarVisible = true
+  },
+  hide_appbar (state) {
+    state.appBarVisible = false
   },
   set_title (state, payload) {
     state.title = payload
@@ -189,6 +206,9 @@ const getters = {
   },
   inWidget (state) {
     return state.inWidget
+  },
+  appBarVisible (state) {
+    return state.appBarVisible
   },
   title (state) {
     return state.title

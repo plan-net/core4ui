@@ -1,7 +1,6 @@
   <template>
-  <v-app :class="standalone ? 'standalone' : 'embedded'">
+  <v-app>
     <template v-if="isNavVisible">
-      <template v-if="standalone">
         <c4-navigation>
           <slot name="navigation-slot"></slot>
         </c4-navigation>
@@ -37,12 +36,11 @@
           <v-spacer class="c4-dotted"></v-spacer>
           <c4-user></c4-user>
         </v-app-bar>
-      </template>
     </template>
+
     <v-content>
       <v-container
         :fluid="fluid"
-        cccclass="mx-5"
       >
         <router-view />
         <c4-snackbar></c4-snackbar>
@@ -80,11 +78,6 @@ export default {
       type: Boolean,
       default: true,
       required: false
-    },
-    standalone: {
-      type: Boolean,
-      default: true,
-      required: false
     }
   },
   components: {
@@ -115,6 +108,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'appBarVisible',
       'profile',
       'loading',
       'inWidget',
@@ -122,6 +116,9 @@ export default {
       'title'
     ]),
     isNavVisible () {
+      if (this.appBarVisible === false) {
+        return false
+      }
       const meta = this.$route.meta || {
         hideNav: false
       }
