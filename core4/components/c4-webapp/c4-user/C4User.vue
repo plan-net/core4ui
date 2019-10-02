@@ -66,6 +66,7 @@
       </v-list>
 
     </v-menu>
+    <!-- <template v-if="(inWidget || isMenuPage)"> -->
     <template v-if="(inWidget || isMenuPage)">
       <v-tooltip
         bottom
@@ -90,6 +91,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { inIframe } from '../../../store/state'
+
 export default {
   name: 'c4-user',
   data () {
@@ -103,21 +105,6 @@ export default {
     }
   },
   mounted () {
-    function bindEvent (element, eventName, eventHandler) {
-      if (element.addEventListener) {
-        element.addEventListener(eventName, eventHandler, false)
-      } else if (element.attachEvent) {
-        element.attachEvent('on' + eventName, eventHandler)
-      }
-    }
-    if (inIframe() === false) {
-      // this is coming from the iframe application!!!
-      bindEvent(window, 'message', function (e) {
-        if (e.data === 'c4-application-close') {
-          this.$router.push('/')
-        }
-      }.bind(this))
-    }
   },
   methods: {
     close () {

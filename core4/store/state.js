@@ -115,21 +115,27 @@ const actions = {
       commit('set_dark', payload.DARK)
       state.hasOwnTheme = true // do not show theme switch
     }
-    commit('set_in_widget', inIframe())
+    // commit('set_in_widget', inIframe())
   },
   setWidgetTitle ({ commit, dispatch }, payload) {
     // commit('set_in_widget', true)
     commit('set_title', payload)
+  },
+  resetWidgetTitle ({ commit, dispatch }, payload) {
+    // commit('set_in_widget', false)
+    commit('set_title', payload)
+  },
+  setInWidget ({ commit, dispatch }, payload) {
+    commit('set_in_widget', payload)
+  },
+  resetInWidget ({ commit, dispatch }) {
+    commit('set_in_widget', false)
   },
   showAppbar ({ commit, dispatch }) {
     commit('show_appbar')
   },
   hideAppbar ({ commit, dispatch }) {
     commit('hide_appbar')
-  },
-  resetWidgetTitle ({ commit, dispatch }, payload) {
-    // commit('set_in_widget', false)
-    dispatch('setTitle', payload)
   },
   toggleDark ({ commit, getters }) {
     const dark = !getters.dark
