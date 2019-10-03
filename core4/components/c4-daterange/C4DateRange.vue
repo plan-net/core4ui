@@ -3,16 +3,16 @@
     :close-on-content-click="false"
     :close-on-click="false"
     v-model="dateRangeMenuOpen"
-    full-width
     bottom
+    eager
   >
-    <v-layout
-      row
-      slot="activator"
-    >
-      <v-flex xs12>
-        <v-text-field
-          slot="activator"
+
+    <template v-slot:activator="{ on }">
+      <v-row no-gutters
+        row
+        v-on="on"
+      >
+        <v-text-field class="ml-2"
           v-model="dateFormattedComplete"
           :label="`${labels.start} - ${labels.end}`"
           :name="`${labels.start} - ${labels.end}`"
@@ -21,8 +21,8 @@
           prepend-icon="event"
           readonly
         ></v-text-field>
-      </v-flex>
-    </v-layout>
+      </v-row>
+    </template>
     <v-card>
       <v-card-text>
         <v-layout
@@ -94,8 +94,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          flat
-          color="primary"
+          color="primary" small
           @click="$emit('close'); dateRangeMenuOpen = false"
         >
           {{labels.close}}
@@ -448,6 +447,10 @@ export default {
 
 div >>> .v-date-picker-table--date__week {
   color: #d70f16 !important;
+}
+
+.theme--light .date-range >>> .v-btn--active.v-btn--disabled {
+  color: #fff !important;
 }
 </style>
 <style lang="scss" scoped>

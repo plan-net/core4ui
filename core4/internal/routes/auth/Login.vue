@@ -2,7 +2,7 @@
   <div class="core-background auth-page">
     <v-dialog
       v-model="dialogLogin"
-      width="480px"
+      max-width="520px"
       persistent
     >
       <v-card
@@ -86,11 +86,14 @@ export default {
   components: {},
   data () {
     return {
-      dialogLogin: true,
+      dialogLogin: false,
       passwordVisible: false,
       username: null,
       password: null
     }
+  },
+  mounted () {
+    this.dialogLogin = true
   },
   watch: {
     username () {

@@ -38,7 +38,7 @@
         </v-app-bar>
     </template>
 
-    <v-content>
+    <v-content class="core-background">
       <v-container
         :fluid="fluid"
       >
