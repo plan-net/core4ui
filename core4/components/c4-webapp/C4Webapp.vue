@@ -40,7 +40,7 @@
 
     <v-content class="core-background">
       <v-container
-        :fluid="fluid"
+        :fluid="fluid" class="pa-0"
       >
         <router-view />
         <c4-snackbar></c4-snackbar>

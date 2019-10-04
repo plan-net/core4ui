@@ -8,7 +8,6 @@
     <slot></slot>
     <span
       v-if="text"
-      class="white--text"
     >{{text}}</span>
   </v-alert>
 </template>
@@ -32,6 +31,14 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.theme--light .v-alert{
+    background-color: rgba(0,0,0,0.1) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+}
+.theme--dark .v-alert{
+    background-color: var(--v-secondary-lighten4) !important;
+    border-color: var(--v-secondary-lighten4) !important;
+}
 </style>
 
 <docs>

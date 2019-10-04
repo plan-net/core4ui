@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="core-background auth-page">
     <v-dialog
       v-model="dialogLogin"

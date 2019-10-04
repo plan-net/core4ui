@@ -2,11 +2,12 @@
   <v-layout
     row
     wrap
-    class="c4-page"
+    class="c4-page pt-7 mx-0"
   >
     <template v-if="headerType">
       <div class="c4-sub-header">
       </div>
+
       <v-flex
         xs12
         class="c4-page-header"
