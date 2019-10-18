@@ -157,7 +157,7 @@ pre {
 .v-progress-linear {
   position: absolute;
   z-index: 10;
-  top: -3px;
+  top: 0;
   margin: 0;
 }
 .embedded .v-progress-linear {
