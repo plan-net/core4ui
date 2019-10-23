@@ -126,7 +126,7 @@ const actions = {
     commit('set_title', payload)
   },
   setInWidget ({ commit, dispatch }, payload) {
-    commit('set_in_widget', payload)
+    commit('set_in_widget', true)
   },
   resetInWidget ({ commit, dispatch }) {
     commit('set_in_widget', false)
@@ -153,6 +153,7 @@ const mutations = {
   },
   set_in_widget (state, payload) {
     state.inWidget = payload
+    console.log(state.inWidget)
   },
   set_dark (state, dark) {
     if (dark != null) {
