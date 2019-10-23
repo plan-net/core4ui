@@ -73,7 +73,7 @@
 
     </v-menu>
     <!-- <template v-if="(inWidget || isMenuPage)"> -->
-    <template v-if="(inWidget || isMenuPage)">
+    <template v-if="showCloseButton">
       <v-tooltip
         bottom
       >
@@ -115,7 +115,7 @@ export default {
   methods: {
     close () {
       // this is beeing send from the iframe
-      if (inIframe() && this.isMenuPage === false) {
+      if (inIframe && this.isMenuPage === false) {
         window.parent.postMessage('c4-application-close', '*')
         return
       }
@@ -130,9 +130,16 @@ export default {
       'toggleDark'
     ])
   },
+
   computed: {
+    showCloseButton () {
+      return this.inIframe || this.inWidget || this.isMenuPage
+    },
     isMenuPage () {
       return this.$route.name === 'content'
+    },
+    isInIframe () {
+      return inIframe()
     },
     ...mapGetters([
       'profile',
