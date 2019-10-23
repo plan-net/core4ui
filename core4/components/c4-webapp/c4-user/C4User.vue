@@ -65,7 +65,11 @@
           <v-list-item @click="logout()">
 
             <v-list-item-content>
-              <v-list-item-title>test {{test}}</v-list-item-title>
+              <v-list-item-title>
+                <pre>{{wself}}</pre>
+                <pre>{{wtop}}</pre>
+                <pre>{{wselftop}}</pre>
+                </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -130,13 +134,14 @@ export default {
   },
 
   computed: {
-    test () {
-      return {
-        self: window.self,
-        top: window.top,
-        selftop: window.self !== window.top
-
-      }
+    wself () {
+      return window.self
+    },
+    wtop () {
+      return window.top
+    },
+    wselftop () {
+      return window.self !== window.top
     },
     showCloseButton () {
       console.log(window.self, window.top, window.self !== window.top)
