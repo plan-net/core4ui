@@ -133,6 +133,7 @@ export default {
 
   computed: {
     showCloseButton () {
+      console.log(window.self, window.top, window.self !== window.top)
       return this.inIframe || this.inWidget || this.isMenuPage
     },
     isMenuPage () {
