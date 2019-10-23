@@ -65,7 +65,7 @@
           <v-list-item @click="logout()">
 
             <v-list-item-content>
-              <v-list-item-title>inWidget {{inWidget}}, isMenuPage {{isMenuPage}} , showCloseButton {{showCloseButton}}</v-list-item-title>
+              <v-list-item-title>test {{test}}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -74,9 +74,7 @@
     </v-menu>
     <!-- <template v-if="(inWidget || isMenuPage)"> -->
     <template v-if="showCloseButton">
-      <v-tooltip
-        bottom
-      >
+      <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
             @click="close"
@@ -132,6 +130,14 @@ export default {
   },
 
   computed: {
+    test () {
+      return {
+        self: window.self,
+        top: window.top,
+        selftop: window.self !== window.top
+
+      }
+    },
     showCloseButton () {
       console.log(window.self, window.top, window.self !== window.top)
       return this.inIframe || this.inWidget || this.isMenuPage
