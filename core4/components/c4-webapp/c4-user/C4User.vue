@@ -62,6 +62,12 @@
               <v-list-item-title>Logout</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item @click="logout()">
+
+            <v-list-item-content>
+              <v-list-item-title>inWidget {{inWidget}}, isMenuPage {{isMenuPage}}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
 
