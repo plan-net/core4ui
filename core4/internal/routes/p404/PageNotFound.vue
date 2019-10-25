@@ -12,7 +12,7 @@
             <v-btn
               to="/"
               color="primary"
-              flat
+              text
             >Entry page</v-btn>
           </v-card-actions>
         </v-card>
