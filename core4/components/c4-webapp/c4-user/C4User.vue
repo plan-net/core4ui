@@ -68,7 +68,7 @@
               <v-list-item-title>
                 <pre>{{wself}}</pre>
                 <pre>{{wtop}}</pre>
-                <pre>{{wselftop}}</pre>
+                <pre>{{wselftop}}</pre2
                 </v-list-item-title>
             </v-list-item-content>
           </v-list-item> -->

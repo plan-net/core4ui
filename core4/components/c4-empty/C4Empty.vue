@@ -7,7 +7,6 @@
     <!-- @slot optional for custom content -->
     <slot></slot>
     <span
-      v-if="text"
     >{{text}}</span>
   </v-alert>
 </template>
@@ -24,6 +23,11 @@ export default {
       type: String,
       default: 'No data available.',
       required: false
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: 'warning'
     }
 
   }
