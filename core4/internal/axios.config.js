@@ -2,11 +2,15 @@ import axios from 'axios'
 import router from './routes/index.js'
 import Vue from 'vue'
 
+if (process.env.VUE_APP_APIBASE_CORE == null) {
+  alert('VUE_APP_APIBASE_CORE is not set in .env')
+}
+
 export const axiosInternal = axios.create({
-  baseURL: window.APIBASE_CORE
+  baseURL: process.env.VUE_APP_APIBASE_CORE
 })
 
-axios.defaults.baseURL = window.APIBASE_APP
+axios.defaults.baseURL = process.env.VUE_APP_APIBASE_APP
 
 export function setAjaxConfig (config) {
   // helpers
