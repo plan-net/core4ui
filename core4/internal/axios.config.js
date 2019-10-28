@@ -1,7 +1,7 @@
 import axios from 'axios'
 import router from './routes/index.js'
 import Vue from 'vue'
-console.warn(process.env.VUE_APP_APIBASE_CORE)
+console.warn(process.env)
 if (process.env.VUE_APP_APIBASE_CORE == null) {
   alert('VUE_APP_APIBASE_CORE is not set in .env')
 }
