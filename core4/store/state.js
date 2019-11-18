@@ -18,11 +18,10 @@ const state = {
   inWidget: false,
   appBarVisible: true,
   menu: [],
+  version: '',
   profile: {
     error: null,
-    authenticated: false,
-    name: null,
-    email: 'No email'
+    authenticated: false
   }
 }
 
@@ -30,7 +29,7 @@ const actions = {
   showNotification ({ commit }, payload) {
     bus.$emit('SHOW_NOTIFICATION', payload)
   },
-  async fetchProfile ({ commit, dispatch, state }, payload) {
+  /*   async fetchProfile ({ commit, dispatch, state }) {
     const profile = await Auth.profile()
     const setting = await Auth.setting()
     const dto = {
@@ -50,12 +49,38 @@ const actions = {
       dispatch('gotoStart')
     }
     return true
+  }, */
+  async fetchProfile ({ commit, dispatch, state }) {
+    const profile = await Auth.profile()
+    const dto = {
+      authenticated: true,
+      name: profile.name,
+      realname: profile.realname,
+      email: profile.email,
+      perm: profile.perm,
+      role: profile.role
+    }
+    commit('set_profile', dto)
+  },
+  async fetchSettings ({ commit, dispatch, state }) {
+    const setting = await Auth.setting()
+    console.log(setting)
+    commit('set_profile', { authenticated: true })
+    if (state.hasOwnTheme === false) {
+      commit('set_dark', setting.data.dark)
+    }
+    commit('set_version', setting.version)
+    commit('set_menu', setting.data.menu)
+    if (router.instance.history.current.name === 'login') {
+      dispatch('gotoStart')
+    }
+    return true
   },
   async gotoStart ({ commit, dispatch }) {
     commit('clear_auth_error')
     router.instance.push('/')
     commit('set_profile', { authenticated: true })
-    await dispatch('fetchProfile')
+    await dispatch('fetchSettings')
   },
   gotoLogin ({ commit }) {
     window.localStorage.clear()
@@ -151,6 +176,9 @@ const mutations = {
   set_menu (state, payload) {
     state.menu = payload
   },
+  set_version (state, payload) {
+    state.version = payload
+  },
   set_in_widget (state, payload) {
     state.inWidget = payload
     console.log(state.inWidget)
@@ -222,6 +250,9 @@ const getters = {
   },
   dark (state) {
     return state.dark
+  },
+  version (state) {
+    return state.version
   },
   hasOwnTheme (state) {
     return state.hasOwnTheme

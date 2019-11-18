@@ -58,9 +58,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'profile'
-    ]),
     disabled () {
       const pristine = Object.values(this.fields).filter(val => {
         return val.pristine

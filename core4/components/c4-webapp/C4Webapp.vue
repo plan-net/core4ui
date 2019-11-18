@@ -32,8 +32,7 @@
             class="app-title"
             :class="{'reset-font': !!inWidget}"
           >{{title}}</h2>
-          <!-- <div class="flex-grow-1"></div> -->
-          <v-spacer class="c4-dotted"></v-spacer>
+          <c4-spacer></c4-spacer>
           <c4-user></c4-user>
         </v-app-bar>
     </template>
@@ -60,6 +59,7 @@ import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
 import Navigation from './c4-navigation/Navigation.vue'
 import ToolbarSideIcon from './c4-navigation/c4-toolbar-side-icon.vue'
 import C4User from './c4-user/C4User.vue'
+import C4Spacer from './c4-user/C4Spacer.vue'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -84,11 +84,12 @@ export default {
     C4Snackbar,
     ErrorDialog,
     C4User,
+    C4Spacer,
     ToolbarSideIcon,
     'c4-navigation': Navigation
   },
   mounted () {
-    this.fetchProfile()
+    this.fetchSettings()
   },
   destroyed () {
   },
@@ -101,7 +102,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'fetchProfile',
+      'fetchSettings',
       'logout',
       'setTitle'
     ])
@@ -109,7 +110,6 @@ export default {
   computed: {
     ...mapGetters([
       'appBarVisible',
-      'profile',
       'loading',
       'inWidget',
       'dark',

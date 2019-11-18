@@ -1,97 +1,93 @@
 <template>
-  <div class="c4-user">
-    <v-tooltip
-      bottom
-      v-if="hasOwnTheme !== true"
-    >
-      <template v-slot:activator="{ on }">
-        <v-btn
-          v-on="on"
-          class="theme-btn"
-          small
-          text
-          icon
-          @click="toggleDark()"
+  <span class="c4-user">
+    <v-row no-gutters>
+      <v-col>
+        <v-tooltip
+          bottom
+          v-if="hasOwnTheme !== true"
         >
-          <v-icon>invert_colors</v-icon>
-        </v-btn>
-      </template>
-      <span>Toggle theme</span>
-    </v-tooltip>
-
-    <v-menu
-      left
-      class="c4-more-menu"
-      absolute
-      offset-y
-      close-on-click
-      close-on-content-click
-    >
-      <template v-slot:activator="{ on }">
-        <v-btn
-          small
-          dark
-          icon
-          v-on="on"
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-on="on"
+              class="theme-btn"
+              small
+              text
+              icon
+              @click="toggleDark()"
+            >
+              <v-icon>invert_colors</v-icon>
+            </v-btn>
+          </template>
+          <span>Toggle theme</span>
+        </v-tooltip>
+      </v-col>
+      <v-col>
+        <v-menu
+          left
+          class="c4-more-menu"
+          absolute
+          offset-y
+          close-on-click
+          close-on-content-click
         >
-          <v-icon>more_vert</v-icon>
-        </v-btn>
-      </template>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              small
+              dark
+              icon
+              v-on="on"
+            >
+              <v-icon>more_vert</v-icon>
+            </v-btn>
+          </template>
 
-      <v-list shaped>
-        <!-- <v-subheader>Controls</v-subheader> -->
-        <v-list-item-group
-          v-model="selected"
-          color="primary"
-        >
-          <v-list-item
-            v-for="(item,index) in menu"
-            :key="index"
-            :to="{name : 'content' , params: { type: item.label } }"
-          >
-            <v-list-item-content>
-              <v-list-item-title v-text="item.label"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
+          <v-list shaped>
+            <!-- <v-subheader>Controls</v-subheader> -->
+            <v-list-item-group
+              v-model="selected"
+              color="primary"
+            >
+              <v-list-item
+                v-for="(item,index) in menu"
+                :key="index"
+                :to="{name : 'content' , params: { type: item.label } }"
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.label"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
 
-        <v-list-item-group color="primary">
-          <v-list-item @click="logout()">
+            <v-list-item-group color="primary">
+              <v-list-item @click="logout()">
 
-            <v-list-item-content>
-              <v-list-item-title>Logout</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-         <!--  <v-list-item @click="logout()">
-
-            <v-list-item-content>
-              <v-list-item-title>
-                <pre>{{wself}}</pre>
-                <pre>{{wtop}}</pre>
-                <pre>{{wselftop}}</pre2
-                </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item> -->
-        </v-list-item-group>
-      </v-list>
-
-    </v-menu>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn v-if="showCloseButton"
-            @click="close"
-            v-on="on"
-            small
-            dark
-            text
-            icon
-          >
-            <v-icon>cancel</v-icon>
-          </v-btn>
-        </template>
-        <span>Close widget</span>
-      </v-tooltip>
-  </div>
+                <v-list-item-content>
+                  <v-list-item-title>Logout</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-menu>
+      </v-col>
+      <v-col v-if="showCloseButton">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              @click="close"
+              v-on="on"
+              small
+              dark
+              text
+              icon
+            >
+              <v-icon>cancel</v-icon>
+            </v-btn>
+          </template>
+          <span>Close widget</span>
+        </v-tooltip>
+      </v-col>
+    </v-row>
+  </span>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
@@ -146,7 +142,6 @@ export default {
     },
 
     ...mapGetters([
-      'profile',
       'menu',
       'inWidget',
       'dark',
@@ -161,7 +156,10 @@ export default {
 .c4-user > * {
   display: inline-flex;
 }
-
+.col{
+  padding-left: 0;
+  padding-right: 0;
+}
 .c4-user .v-btn {
   margin-left: 0;
   margin-right: 0;
