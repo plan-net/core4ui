@@ -5,9 +5,7 @@
     @mouseout="visible = false"
   >
     <v-spacer class="c4-dotted"></v-spacer>
-    <strong
-      v-if="visible"
-    >
+    <strong v-if="visible">
       v. {{version}}
     </strong>
   </v-row>
@@ -33,10 +31,6 @@ export default {
 
 <style lang="scss" scoped>
 .row {
-  /*   transition: padding-right 0.75s ease-out;
-  &:hover {
-    padding-right: 200px;
-  } */
   position: relative;
 }
 strong {
@@ -47,11 +41,8 @@ strong {
   top: -6px;
 }
 
-.theme--dark {
-  strong {
-    color: var(--v-secondary-lighten5);
-    background-color: #212121;
-  }
+.theme--dark,
+.theme--light {
   .spacer.c4-dotted {
     margin-left: 12px;
     margin-right: 12px;
@@ -67,6 +58,23 @@ strong {
     background-size: 20px 20px;
     background-repeat: repeat-x;
     background-position: 5px center;
+  }
+}
+.theme--dark {
+  strong {
+    color: var(--v-secondary-lighten5);
+    background-color: #212121;
+  }
+}
+.theme--light {
+  strong {
+    color: rgba(255,255,255, 0.5);
+  }
+}
+.theme--light {
+  .spacer.c4-dotted {
+    opacity: .2;
+
   }
 }
 </style>
