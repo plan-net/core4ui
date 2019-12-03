@@ -1,6 +1,7 @@
 import axios from 'axios'
 import router from './routes/index.js'
 import Vue from 'vue'
+import store from './store'
 
 export const axiosInternal = axios.create({
   baseURL: process.env.VUE_APP_APIBASE_CORE || window.APIBASE_CORE
@@ -43,9 +44,10 @@ export function setAjaxConfig (config) {
       // no error dialog, just do nothing
       return false
     }
+    const mail = `<a href="mailto:${store.getters.contact}">${store.getters.contact}</a>`
     const errors = {
-      '403': `${Vue.prototype.i18n.t('errors.isPermissionsError')} <a href="mailto:mail@mailer.com">mail@mailer.com</a>`,
-      '500': `${Vue.prototype.i18n.t('errors.is500Error')} <a href="mailto:mail@mailer.com">mail@mailer.com</a>`
+      '403': `${Vue.prototype.i18n.t('errors.isPermissionsError')} ${mail}`,
+      '500': `${Vue.prototype.i18n.t('errors.is500Error')} ${mail}`
     }
     const dto = {
       status_code: data.error.response.status
