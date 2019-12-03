@@ -260,6 +260,12 @@ const getters = {
   menu (state) {
     const debug = process.env.NODE_ENV !== 'production'
     const user = JSON.parse(window.localStorage.getItem('user'))
+    if (user == null) {
+      return [{
+        path: '',
+        label: ''
+      }]
+    }
     return (state.menu || []).map(item => {
       const path = debug ? 'http://localhost:5001' : ''
       const label = Object.keys(item)[0]
