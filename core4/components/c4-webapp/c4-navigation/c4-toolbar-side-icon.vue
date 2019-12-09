@@ -16,6 +16,7 @@
   }
   div >>> .v-icon{
     width: 9px !important;
+    min-width: 9px !important;
     font-size: 34px !important;
     font-weight: bold;
   }
