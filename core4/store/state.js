@@ -19,6 +19,7 @@ const state = {
   appBarVisible: true,
   menu: [],
   version: '',
+  contact: '@',
   profile: {
     error: null,
     authenticated: false
@@ -29,27 +30,6 @@ const actions = {
   showNotification ({ commit }, payload) {
     bus.$emit('SHOW_NOTIFICATION', payload)
   },
-  /*   async fetchProfile ({ commit, dispatch, state }) {
-    const profile = await Auth.profile()
-    const setting = await Auth.setting()
-    const dto = {
-      authenticated: true,
-      name: profile.name,
-      realname: profile.realname,
-      email: profile.email,
-      perm: profile.perm,
-      role: profile.role
-    }
-    commit('set_profile', dto)
-    if (state.hasOwnTheme === false) {
-      commit('set_dark', setting.dark)
-    }
-    commit('set_menu', setting.menu)
-    if (router.instance.history.current.name === 'login') {
-      dispatch('gotoStart')
-    }
-    return true
-  }, */
   async fetchProfile ({ commit, dispatch, state }) {
     const profile = await Auth.profile()
     const dto = {
@@ -64,13 +44,13 @@ const actions = {
   },
   async fetchSettings ({ commit, dispatch, state }) {
     const setting = await Auth.setting()
-    console.log(setting)
     commit('set_profile', { authenticated: true })
     if (state.hasOwnTheme === false) {
       commit('set_dark', setting.data.dark)
     }
     commit('set_version', setting.version)
     commit('set_menu', setting.data.menu)
+    commit('set_contact', setting.data.contact)
     if (router.instance.history.current.name === 'login') {
       dispatch('gotoStart')
     }
@@ -173,6 +153,9 @@ const actions = {
 }
 
 const mutations = {
+  set_contact (state, payload) {
+    state.contact = payload
+  },
   set_menu (state, payload) {
     state.menu = payload
   },
@@ -230,6 +213,9 @@ const mutations = {
 }
 
 const getters = {
+  contact (state) {
+    return state.contact
+  },
   profile (state) {
     return state.profile
   },
