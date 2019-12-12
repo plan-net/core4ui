@@ -10,17 +10,16 @@
       class="pa-0"
     >
       <template v-if="alertMessage">
-        <v-toolbar
+        <v-app-bar
           class="px-0"
           dense
-          card
+          flat
           color="error"
         >
           <v-toolbar-title>
             ERROR
           </v-toolbar-title>
-          <v-spacer></v-spacer>
-        </v-toolbar>
+        </v-app-bar>
         <v-card-text class="px-4 py-3">
 
           <p

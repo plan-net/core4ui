@@ -12,7 +12,7 @@
     <v-btn
       dark
       icon
-      flat
+      text
       @click="show = false"
     >
       <v-icon>close</v-icon>

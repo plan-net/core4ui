@@ -30,7 +30,7 @@ export default {
     return axiosInternal
       .get(`/setting/_general`)
       .then(result => {
-        return result.data
+        return result
       })
       .catch(error => {
         throw new Error(`ApiService ${error}`)

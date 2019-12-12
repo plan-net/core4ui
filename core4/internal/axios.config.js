@@ -3,10 +3,10 @@ import router from './routes/index.js'
 import Vue from 'vue'
 
 export const axiosInternal = axios.create({
-  baseURL: window.APIBASE_CORE
+  baseURL: process.env.VUE_APP_APIBASE_CORE || window.APIBASE_CORE
 })
 
-axios.defaults.baseURL = window.APIBASE_APP
+axios.defaults.baseURL = process.env.VUE_APP_APIBASE_APP || window.APIBASE_APP
 
 export function setAjaxConfig (config) {
   // helpers
@@ -43,9 +43,10 @@ export function setAjaxConfig (config) {
       // no error dialog, just do nothing
       return false
     }
+    const mail = `<a href="mailto:${Vue.prototype.$store.getters.contact}">${Vue.prototype.$store.getters.contact}</a>`
     const errors = {
-      '403': `${Vue.prototype.i18n.t('errors.isPermissionsError')} <a href="mailto:mail@mailer.com">mail@mailer.com</a>`,
-      '500': `${Vue.prototype.i18n.t('errors.is500Error')} <a href="mailto:mail@mailer.com">mail@mailer.com</a>`
+      '403': `${Vue.prototype.i18n.t('errors.isPermissionsError')} ${mail}`,
+      '500': `${Vue.prototype.i18n.t('errors.is500Error')} ${mail}`
     }
     const dto = {
       status_code: data.error.response.status

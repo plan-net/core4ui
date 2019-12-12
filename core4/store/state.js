@@ -1,22 +1,28 @@
 import Auth from '../Auth'
 import bus from '../event-bus.js'
-// import CookieService from '../internal/cookie.service.js'
 import router from '../internal/routes/index.js'
 import { axiosInternal } from '../internal/axios.config.js'
-
+import { getVuetify } from '../plugins/vuetify'
+export function inIframe () {
+  try {
+    return window.self !== window.top
+  } catch (e) {
+    return true
+  }
+}
 const state = {
   hasOwnTheme: false,
   loading: false,
-  dark: false,
   title: 'CORE4OS',
+  dark: false,
   inWidget: false,
+  appBarVisible: true,
   menu: [],
+  version: '',
+  contact: '@',
   profile: {
     error: null,
-    // cookie: CookieService.isPriPolCookieSet(),
-    authenticated: false,
-    name: null,
-    email: 'No email'
+    authenticated: false
   }
 }
 
@@ -24,9 +30,8 @@ const actions = {
   showNotification ({ commit }, payload) {
     bus.$emit('SHOW_NOTIFICATION', payload)
   },
-  async fetchProfile ({ commit, dispatch, state }, payload) {
+  async fetchProfile ({ commit, dispatch, state }) {
     const profile = await Auth.profile()
-    const setting = await Auth.setting()
     const dto = {
       authenticated: true,
       name: profile.name,
@@ -36,10 +41,16 @@ const actions = {
       role: profile.role
     }
     commit('set_profile', dto)
+  },
+  async fetchSettings ({ commit, dispatch, state }) {
+    const setting = await Auth.setting()
+    commit('set_profile', { authenticated: true })
     if (state.hasOwnTheme === false) {
-      commit('set_dark', setting.dark)
+      commit('set_dark', setting.data.dark)
     }
-    commit('set_menu', setting.menu)
+    commit('set_version', setting.version)
+    commit('set_menu', setting.data.menu)
+    commit('set_contact', setting.data.contact)
     if (router.instance.history.current.name === 'login') {
       dispatch('gotoStart')
     }
@@ -49,7 +60,7 @@ const actions = {
     commit('clear_auth_error')
     router.instance.push('/')
     commit('set_profile', { authenticated: true })
-    await dispatch('fetchProfile')
+    await dispatch('fetchSettings')
   },
   gotoLogin ({ commit }) {
     window.localStorage.clear()
@@ -109,14 +120,27 @@ const actions = {
       commit('set_dark', payload.DARK)
       state.hasOwnTheme = true // do not show theme switch
     }
+    // commit('set_in_widget', inIframe())
   },
   setWidgetTitle ({ commit, dispatch }, payload) {
-    commit('set_in_widget', true)
+    // commit('set_in_widget', true)
     commit('set_title', payload)
   },
   resetWidgetTitle ({ commit, dispatch }, payload) {
+    // commit('set_in_widget', false)
+    commit('set_title', payload)
+  },
+  setInWidget ({ commit, dispatch }, payload) {
+    commit('set_in_widget', true)
+  },
+  resetInWidget ({ commit, dispatch }) {
     commit('set_in_widget', false)
-    dispatch('setTitle', payload)
+  },
+  showAppbar ({ commit, dispatch }) {
+    commit('show_appbar')
+  },
+  hideAppbar ({ commit, dispatch }) {
+    commit('hide_appbar')
   },
   toggleDark ({ commit, getters }) {
     const dark = !getters.dark
@@ -129,14 +153,22 @@ const actions = {
 }
 
 const mutations = {
+  set_contact (state, payload) {
+    state.contact = payload
+  },
   set_menu (state, payload) {
     state.menu = payload
   },
+  set_version (state, payload) {
+    state.version = payload
+  },
   set_in_widget (state, payload) {
     state.inWidget = payload
+    console.log(state.inWidget)
   },
   set_dark (state, dark) {
     if (dark != null) {
+      getVuetify().framework.theme.dark = dark
       state.dark = dark
     }
   },
@@ -159,6 +191,12 @@ const mutations = {
   set_loading (state, payload) {
     state.loading = payload
   },
+  show_appbar (state) {
+    state.appBarVisible = true
+  },
+  hide_appbar (state) {
+    state.appBarVisible = false
+  },
   set_title (state, payload) {
     state.title = payload
     document.title = payload
@@ -175,6 +213,9 @@ const mutations = {
 }
 
 const getters = {
+  contact (state) {
+    return state.contact
+  },
   profile (state) {
     return state.profile
   },
@@ -187,11 +228,17 @@ const getters = {
   inWidget (state) {
     return state.inWidget
   },
+  appBarVisible (state) {
+    return state.appBarVisible
+  },
   title (state) {
     return state.title
   },
   dark (state) {
     return state.dark
+  },
+  version (state) {
+    return state.version
   },
   hasOwnTheme (state) {
     return state.hasOwnTheme
@@ -199,6 +246,12 @@ const getters = {
   menu (state) {
     const debug = process.env.NODE_ENV !== 'production'
     const user = JSON.parse(window.localStorage.getItem('user'))
+    if (user == null) {
+      return [{
+        path: '',
+        label: ''
+      }]
+    }
     return (state.menu || []).map(item => {
       const path = debug ? 'http://localhost:5001' : ''
       const label = Object.keys(item)[0]

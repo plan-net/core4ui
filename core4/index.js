@@ -18,11 +18,9 @@ import './plugins/vee-validate'
 import VeeValidate, { Validator } from 'vee-validate'
 import en from 'vee-validate/dist/locale/en'
 import Router from 'vue-router'
-import Vuetify from 'vuetify'
 import moment from 'moment'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
-import 'vuetify/dist/vuetify.min.css'
 import './styles/typography.scss'
 import './styles/index.scss'
 import './styles/theme-dark.scss'
@@ -30,6 +28,10 @@ import './styles/theme-light.scss'
 
 import numbro from 'numbro'
 import deDE from 'numbro/languages/de-DE.js'
+
+import { getVuetify } from './plugins/vuetify'
+// import Vuetify from 'vuetify/lib'
+// import 'vuetify/dist/vuetify.min.css'
 
 import { i18n, veeValidateDictionary } from './translations'
 // Vee-Validator
@@ -39,12 +41,15 @@ numbro.registerLanguage(deDE)
 numbro.setLanguage(deDE.languageTag)
 
 const install = (Vue, options) => {
+  Vue.config.productionTip = false
+
   moment.locale('de')
   Vue.prototype.i18n = i18n
   Vue.prototype.$bus = bus
   Vue.prototype.$helper = helper
   Vue.prototype.$store = options.store
   Vue.prototype.$numbro = numbro
+
   /// /////////////////
   Vue.use(Router)
   Vue.use(VeeValidate, {
@@ -72,15 +77,20 @@ const install = (Vue, options) => {
   Vue.component('c4-webapp', C4Webapp)
   Vue.component('c4-empty', C4Empty)
   Vue.component('c4-daterange', C4DateRange)
-
-  Vue.use(Vuetify, {
-    theme: options.config.THEME,
-    iconfont: 'md',
-    options: {
-      customProperties: true, // color: var(--v-primary-base)
-      themeVariations: ['primary', 'accent', 'secondary', 'warning']
-    }
-  })
+  /*   console.log(vuetify)
+  Object.keys(options.config.THEME).forEach(val => {
+    vuetify.theme.themes.light[val] = options.config.THEME[val]
+    vuetify.theme.themes.dark[val] = options.config.THEME[val]
+    return val
+  }) */
+  const vuetify = getVuetify(options.config.THEME)
+  new Vue({
+    i18n,
+    vuetify,
+    router: options.router,
+    store: options.store,
+    render: h => h(options.App)
+  }).$mount('#app')
 }
 
 export default {

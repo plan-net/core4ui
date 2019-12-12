@@ -14,15 +14,17 @@ export default new Router({
         title: 'Entry'
       },
       name: 'entry',
-      component: Home,
-      beforeEnter: (to, from, next) => {
-        const loggedIn = window.localStorage.getItem('user')
-        // TODO: fixme - we should also call profile to see if user is logged in
-        if (loggedIn) {
-          // window.location.assign(window.REDIRECTION)
-        }
-        next()
-      }
+      component: Home
+    },
+    {
+      path: '/test',
+      meta: {
+        auth: true,
+        hideNav: false,
+        title: 'Entry'
+      },
+      name: 'entry2',
+      component: Home
     }
   ]
 })

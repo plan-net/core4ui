@@ -1,28 +1,18 @@
 <template>
   <v-navigation-drawer
     v-model="sidenavOpen"
+    app
     fixed
-    clipped
     stateless
     class="core-navigation-container"
-    app
   >
-    <div class="pt-3">
-      <!-- @slot Use this slot for SideNavigation v-list -->
-      <v-layout
-        class="sidenav"
-        row
-      >
-        <v-flex>
-          <v-list
-            dense
-            class="pb-0"
-          >
-            <slot></slot>
-          </v-list>
-        </v-flex>
-      </v-layout>
-    </div>
+    <!-- @slot Use this slot for SideNavigation v-list -->
+    <v-list
+      dense
+      class="py-0"
+    >
+      <slot></slot>
+    </v-list>
   </v-navigation-drawer>
 </template>
 

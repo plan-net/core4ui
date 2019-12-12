@@ -1,69 +1,93 @@
 <template>
-  <div class="c4-user">
-    <v-tooltip
-      bottom
-      v-if="hasOwnTheme !== true"
-    >
-      <v-btn
-        slot="activator"
-        class="theme-btn"
-        flat
-        icon
-        @click="toggleDark()"
-      >
-        <v-icon>invert_colors</v-icon>
-      </v-btn>
-      <span>Toggle theme</span>
-    </v-tooltip>
-
-    <v-menu
-      left
-      class="c4-more-menu"
-      absolute
-      offset-y
-      close-on-click
-      close-on-content-click
-    >
-      <template v-slot:activator="{ on }">
-        <v-btn
-          dark
-          icon
-          v-on="on"
+  <span class="c4-user">
+    <v-row no-gutters>
+      <v-col>
+        <v-tooltip
+          bottom
+          v-if="hasOwnTheme !== true"
         >
-          <v-icon>more_vert</v-icon>
-        </v-btn>
-      </template>
-
-      <v-list>
-        <v-list-tile
-          v-for="(item,index) in menu"
-          :key="index"
-          :to="{name : 'content' , params: { type: item.label } }"
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-on="on"
+              class="theme-btn"
+              small
+              text
+              icon
+              @click="toggleDark()"
+            >
+              <v-icon>invert_colors</v-icon>
+            </v-btn>
+          </template>
+          <span>Toggle theme</span>
+        </v-tooltip>
+      </v-col>
+      <v-col>
+        <v-menu
+          left
+          class="c4-more-menu"
+          absolute
+          offset-y
+          close-on-click
+          close-on-content-click
         >
-          <v-list-tile-title>{{item.label}}</v-list-tile-title>
-        </v-list-tile>
-        <v-list-tile @click="logout()">
-          <v-list-tile-content>
-            <v-list-tile-title>Logout</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-menu>
-    <v-tooltip
-      bottom
-      v-if="inWidget || isMenuPage"
-    >
-      <v-btn
-        @click="close"
-        slot="activator"
-        flat
-        icon
-      >
-        <v-icon>cancel</v-icon>
-      </v-btn>
-      <span>Close widget</span>
-    </v-tooltip>
-  </div>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              small
+              dark
+              icon
+              v-on="on"
+            >
+              <v-icon>more_vert</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list shaped>
+            <!-- <v-subheader>Controls</v-subheader> -->
+            <v-list-item-group
+              v-model="selected"
+              color="primary"
+            >
+              <v-list-item
+                v-for="(item,index) in menu"
+                :key="index"
+                :to="{name : 'content' , params: { type: item.label } }"
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.label"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+
+            <v-list-item-group color="primary">
+              <v-list-item @click="logout()">
+
+                <v-list-item-content>
+                  <v-list-item-title>Logout</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-menu>
+      </v-col>
+      <v-col v-if="showCloseButton">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              @click="close"
+              v-on="on"
+              small
+              dark
+              text
+              icon
+            >
+              <v-icon>cancel</v-icon>
+            </v-btn>
+          </template>
+          <span>Close widget</span>
+        </v-tooltip>
+      </v-col>
+    </v-row>
+  </span>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
@@ -72,6 +96,7 @@ export default {
   name: 'c4-user',
   data () {
     return {
+      selected: null,
       alertMessage: null,
       alertOpen: false,
       showNavigation: false,
@@ -79,8 +104,15 @@ export default {
       sidenavOpen: null
     }
   },
+  mounted () {
+  },
   methods: {
     close () {
+      // this is beeing send from the iframe
+      if (this.inIframe && this.isMenuPage === false) {
+        window.parent.postMessage('c4-application-close', '*')
+        return
+      }
       if (this.isMenuPage) {
         this.$router.go(-1)
       } else {
@@ -92,12 +124,24 @@ export default {
       'toggleDark'
     ])
   },
+
   computed: {
+    inIframe () {
+      try {
+        return window.self !== window.top
+      } catch (err) {
+
+      }
+      return false
+    },
+    showCloseButton () {
+      return this.inIframe || this.inWidget || this.isMenuPage
+    },
     isMenuPage () {
       return this.$route.name === 'content'
     },
+
     ...mapGetters([
-      'profile',
       'menu',
       'inWidget',
       'dark',
@@ -112,7 +156,10 @@ export default {
 .c4-user > * {
   display: inline-flex;
 }
-
+.col{
+  padding-left: 0;
+  padding-right: 0;
+}
 .c4-user .v-btn {
   margin-left: 0;
   margin-right: 0;

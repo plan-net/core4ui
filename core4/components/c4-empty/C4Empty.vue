@@ -1,13 +1,12 @@
 <template>
   <v-alert
     :value="true"
-    color="warning"
+    class="secondary lighten-4"
     icon="warning"
   >
-        <!-- @slot optional for custom content -->
+    <!-- @slot optional for custom content -->
     <slot></slot>
-    <span v-if="text"
-      class="grey--text"
+    <span
     >{{text}}</span>
   </v-alert>
 </template>
@@ -21,21 +20,28 @@ export default {
      * Just a string
      */
     text: {
-      type: [String, null],
+      type: String,
       default: 'No data available.',
       required: false
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: 'warning'
     }
-
-  },
-  computed: {
 
   }
 }
 </script>
 
 <style lang="css" scoped>
-.warning {
-  background-color: rgba(0, 0, 0, 0.1) !important;
+.theme--light .v-alert{
+    background-color: rgba(0,0,0,0.1) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+}
+.theme--dark .v-alert{
+    background-color: var(--v-secondary-lighten4) !important;
+    border-color: var(--v-secondary-lighten4) !important;
 }
 </style>
 
