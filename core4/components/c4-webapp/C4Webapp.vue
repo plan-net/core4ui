@@ -1,92 +1,65 @@
-<template>
-  <v-app
-    class="c4-webapp"
-    :class="standalone ? 'standalone' : 'embedded'"
-    :dark="dark"
-  >
+  <template>
+  <v-app>
     <template v-if="isNavVisible">
-      <template v-if="standalone">
         <c4-navigation>
           <slot name="navigation-slot"></slot>
         </c4-navigation>
-
-        <transition name="slide">
-          <v-toolbar
-            flat
-            clipped-left
-            dense
-            dark
-            app
-            class="c4-toolbar"
-            fixed
-          >
-            <v-toolbar-side-icon
-              @click="$bus.$emit('toggleSidenav')"
-              v-if="navButtonVisible"
-            >
-              <toolbar-side-icon />
-            </v-toolbar-side-icon>
-            <!-- @slot Use this slot for a custom title instead of the default app-name -->
-            <slot
-              v-if="!!this.$slots['title-slot']"
-              name="title-slot"
-            ></slot>
-            <h2
-              v-else
-              class="app-title"
-              :class="{'reset-font': !!inWidget}"
-            >{{title}}</h2>
-            <v-spacer class="core-dotted"></v-spacer>
-            <c4-user></c4-user>
-          </v-toolbar>
-        </transition>
-      </template>
-      <v-content class="pt-0 core-background">
-        <v-container
-          :fluid="isFluid"
-          class="core-container"
+        <!-- TODO refactor to compoinent-->
+        <v-app-bar
+          fixed
+          app
+          dense
+          elevate-on-scroll
+          :extended="false"
+          class="c4-toolbar"
         >
-          <!-- @slot Use this slot for router instance -->
-          <slot name="router"></slot>
-          <c4-snackbar></c4-snackbar>
-        </v-container>
-      </v-content>
+          <v-btn
+            class=""
+            text
+            icon
+            @click="$bus.$emit('toggleSidenav')"
+            v-if="navButtonVisible"
+          >
+            <toolbar-side-icon class=""></toolbar-side-icon>
+          </v-btn>
+          <!-- @slot Use this slot for a custom title instead of the default app-name -->
+          <slot
+            v-if="!!this.$slots['title-slot']"
+            name="title-slot"
+          ></slot>
+          <h2
+            v-else
+            class="app-title"
+            :class="{'reset-font': !!inWidget}"
+          >{{title}}</h2>
+          <c4-spacer></c4-spacer>
+          <c4-user></c4-user>
+        </v-app-bar>
     </template>
-    <v-content
-      v-else
-      class="pa-0 ma-0 auth-routes"
-    >
+
+    <v-content class="core-background">
       <v-container
-        fluid
-        fill-height
-        class="core-container"
+        :fluid="fluid" class="pa-0"
       >
-        <v-layout class="pa-0 ma-0">
-          <v-flex class="pa-0 ma-0">
-            <router-view />
-          </v-flex>
-        </v-layout>
+        <router-view />
+        <c4-snackbar></c4-snackbar>
+        <error-dialog></error-dialog>
       </v-container>
     </v-content>
-
     <v-progress-linear
       indeterminate
       v-if="loading"
     ></v-progress-linear>
-    <error-dialog></error-dialog>
-
   </v-app>
 </template>
 <script>
-/* import {
-  TRACK,
-  ERROR
-} from '../../event-bus' */
+
 import C4Snackbar from './c4-snackbar/Snackbar.vue'
 import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
 import Navigation from './c4-navigation/Navigation.vue'
 import ToolbarSideIcon from './c4-navigation/c4-toolbar-side-icon.vue'
 import C4User from './c4-user/C4User.vue'
+import C4Spacer from './c4-user/C4Spacer.vue'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -105,68 +78,54 @@ export default {
       type: Boolean,
       default: true,
       required: false
-    },
-    standalone: {
-      type: Boolean,
-      default: true,
-      required: false
     }
   },
   components: {
     C4Snackbar,
     ErrorDialog,
     C4User,
+    C4Spacer,
     ToolbarSideIcon,
     'c4-navigation': Navigation
   },
   mounted () {
-    this.fetchProfile()
-    this.$nextTick(() => {
-      if (!this.fullWidth) {
-        this._updateDimensions()
-        window.addEventListener('resize', this._updateDimensions, { 'passive': true })
-      }
-    })
+    this.fetchSettings()
   },
   destroyed () {
-    window.removeEventListener('resize', this._updateDimensions)
   },
   data () {
     return {
+      drawer: null,
       alertMessage: null,
-      alertOpen: false,
-      clientWidth: 0
+      alertOpen: false
     }
   },
   methods: {
     ...mapActions([
-      'fetchProfile',
+      'fetchSettings',
       'logout',
       'setTitle'
-    ]),
-
-    _updateDimensions () {
-      // TODO mixin
-      this.clientWidth = Math.max(document.documentElement.clientWidth,
-        window.innerWidth || 0)
-    }
+    ])
   },
   computed: {
     ...mapGetters([
-      'profile',
+      'appBarVisible',
       'loading',
       'inWidget',
       'dark',
       'title'
     ]),
     isNavVisible () {
+      if (this.appBarVisible === false) {
+        return false
+      }
       const meta = this.$route.meta || {
         hideNav: false
       }
       return !meta.hideNav
     },
-    isFluid () {
-      return (this.clientWidth < 1260) || (this.fullWidth)
+    fluid () {
+      return ('xs_sm_md').includes(this.$vuetify.breakpoint.name) || (this.fullWidth)
     }
   }
 }
@@ -189,20 +148,6 @@ export default {
   top: -48px;
 }
 
-/* .auth-routes >>> .container {
-  padding: 0;
-}
-
-.auth-routes >>> .v-content__wrap,
- {
-  padding-top: 0;
-}
-div.embedded >>> .v-content__wrap,
- {
-  padding-top: 0 !important;
-  bordewr: 1px solid red;
-} */
-
 pre {
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -210,9 +155,9 @@ pre {
 }
 
 .v-progress-linear {
-  position: absolute;
-  z-index: 10;
-  top: -3px;
+  position: fixed;
+  z-index: 100;
+  top: 0px;
   margin: 0;
 }
 .embedded .v-progress-linear {

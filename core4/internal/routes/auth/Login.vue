@@ -1,8 +1,8 @@
-<template>
+  <template>
   <div class="core-background auth-page">
     <v-dialog
       v-model="dialogLogin"
-      width="480px"
+      max-width="520px"
       persistent
     >
       <v-card
@@ -15,7 +15,7 @@
           lazy-validation
         >
           <v-card-title class="justify-center py-0">
-            <h2 class="bi-headline">{{title}}</h2>
+            <h2 class="c4-headline">{{title}}</h2>
           </v-card-title>
           <v-card-text class="pt-2">
             <v-text-field
@@ -57,7 +57,7 @@
               <div></div>
               <v-btn
                 to="/reset"
-                flat
+                text
                 block
               >{{$t('resetPassword')}}
               </v-btn>
@@ -86,11 +86,14 @@ export default {
   components: {},
   data () {
     return {
-      dialogLogin: true,
+      dialogLogin: false,
       passwordVisible: false,
       username: null,
       password: null
     }
+  },
+  mounted () {
+    this.dialogLogin = true
   },
   watch: {
     username () {

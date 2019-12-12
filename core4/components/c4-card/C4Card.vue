@@ -2,7 +2,7 @@
   <v-card class="c4-card pb-2">
     <v-toolbar
       flat
-      class="c4-card__toolbar pb-0 pt-2"
+      class="c4-card__toolbar pb-0 pr-3"
     >
       <h3 class="card-headline">{{label}}</h3>
       <v-spacer></v-spacer>

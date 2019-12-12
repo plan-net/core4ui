@@ -1,8 +1,8 @@
 <template>
   <c4-webapp>
-    <div slot="router">
+<!--     <div slot="router">
       <router-view />
-    </div>
+    </div> -->
   </c4-webapp>
 </template>
 <script>

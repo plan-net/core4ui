@@ -2,11 +2,12 @@
   <v-layout
     row
     wrap
-    class="c4-page"
+    class="c4-page pt-7 mx-0"
   >
     <template v-if="headerType">
       <div class="c4-sub-header">
       </div>
+
       <v-flex
         xs12
         class="c4-page-header"
@@ -106,8 +107,8 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
+  top:0;
   /* top: 0; */
-  top: 48px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;

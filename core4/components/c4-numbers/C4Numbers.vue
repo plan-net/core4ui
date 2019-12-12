@@ -121,7 +121,10 @@ export default {
     internalValue: {
       get: function () {
         if (is.number(this.value)) {
-          return (this.value / this.unit).toLocaleString('de-DE')
+          const number = (this.value / this.unit) // .toLocaleString('de-DE')
+          const splitted = number.toString().split('.')
+          splitted[0] = parseInt(splitted[0]).toLocaleString('de-DE')
+          return splitted.join(',')
         }
         return null
       },
