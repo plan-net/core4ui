@@ -93,7 +93,6 @@ export default {
     onKeyDown (event) {
       if (event.keyCode === 38) { // up
         this.internalValue = (this.value / this.unit) + this.incrementor
-
         return false
       }
       if (event.keyCode === 40) { //  down
