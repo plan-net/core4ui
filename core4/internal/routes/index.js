@@ -88,7 +88,7 @@ export function setRoutes (router) {
     }
     /* !$router.publicPages.includes(to.path) */
     const loggedIn = window.localStorage.getItem('user')
-
+    console.log(to)
     if (meta.auth && !loggedIn) {
       return next('/login')
     }

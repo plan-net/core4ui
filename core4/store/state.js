@@ -44,12 +44,13 @@ const actions = {
   },
   async fetchSettings ({ commit, dispatch, state }) {
     const setting = await Auth.setting()
+    console.log(setting, '-----Setting-----')
+    commit('set_menu', setting.data.menu)
     commit('set_profile', { authenticated: true })
     if (state.hasOwnTheme === false) {
       commit('set_dark', setting.data.dark)
     }
     commit('set_version', setting.version)
-    commit('set_menu', setting.data.menu)
     commit('set_contact', setting.data.contact)
     if (router.instance.history.current.name === 'login') {
       dispatch('gotoStart')
