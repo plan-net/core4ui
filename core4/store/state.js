@@ -44,7 +44,6 @@ const actions = {
   },
   async fetchSettings ({ commit, dispatch, state }) {
     const setting = await Auth.setting()
-    console.log(setting, '-----Setting-----')
     commit('set_menu', setting.data.menu)
     commit('set_profile', { authenticated: true })
     if (state.hasOwnTheme === false) {
@@ -89,7 +88,6 @@ const actions = {
           dispatch('gotoStart')
         })
         .catch(err => {
-          console.log(err.response, 'Login.Error')
           commit('set_profile', { error: 'auth' })
           reject(new Error('LoginError'))
           return Promise.reject(err)
@@ -165,7 +163,6 @@ const mutations = {
   },
   set_in_widget (state, payload) {
     state.inWidget = payload
-    console.log(state.inWidget)
   },
   set_dark (state, dark) {
     if (dark != null) {
