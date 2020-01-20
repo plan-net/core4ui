@@ -34,7 +34,7 @@ export default {
     position: absolute;
     left: 0;
     right: 0;
-    top: 48px;
+    top: 0;
     bottom: 0;
     padding: 0 0 0 0;
     iframe {
