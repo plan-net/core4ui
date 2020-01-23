@@ -1,31 +1,65 @@
 <template>
-  <v-dialog v-model="dialogOpen" width="480px" persistent>
+  <v-dialog
+    v-model="dialogOpen"
+    width="480px"
+    persistent
+  >
     <!-- after password reset started -->
-    <v-card tile class="pa-3 auth-form-card">
+    <v-card
+      tile
+      class="pa-3 auth-form-card"
+    >
       <v-card-title class="py-0 pb-2 pt-2">
-        <h2 class="title"><!-- Passwort zurücksetzen -->
+        <h2 class="title">
+          <!-- Passwort zurücksetzen -->
           {{$t('resetPassword')}}
         </h2>
       </v-card-title>
 
-      <v-card-text class="pt-2" v-if="finished">
+      <v-card-text
+        class="pt-2"
+        v-if="finished"
+      >
         <!-- Bitte überprüfen sie ihren Email-Posteingang. -->
         {{$t('checkEmail')}}
       </v-card-text>
 
-      <v-card-text class="pt-2" v-else>
-        <v-text-field @focus="onFocus" autofocus clearable :label="$t('yourEmailAdress')" v-model.lazy="email"
-          required :error-messages="errors.collect($t('yourEmailAdress'))" :data-vv-as="$t('yourEmailAdress')" :data-vv-name="$t('yourEmailAdress')"
-          v-validate="'required|email'"></v-text-field>
+      <v-card-text
+        class="pt-2"
+        v-else
+      >
+        <v-text-field
+          @focus="onFocus"
+          autofocus
+          clearable
+          :label="$t('yourEmailAdress')"
+          v-model.lazy="email"
+          required
+          :error-messages="errors.collect($t('yourEmailAdress'))"
+          :data-vv-as="$t('yourEmailAdress')"
+          :data-vv-name="$t('yourEmailAdress')"
+          v-validate="'required|email'"
+        ></v-text-field>
       </v-card-text>
       <v-card-actions>
         <v-layout column>
           <v-flex v-if="!finished">
-            <v-btn class="mb-3" color="primary" block @click="onClick" :disabled="disabled" type="button"
-              @keyup.enter="onClick">{{$t('requestNewPassword')}}</v-btn>
+            <v-btn
+              class="mb-3"
+              color="primary"
+              block
+              @click="onClick"
+              :disabled="disabled"
+              type="button"
+              @keyup.enter="onClick"
+            >{{$t('requestNewPassword')}}</v-btn>
           </v-flex>
           <v-flex>
-            <v-btn to="/login" flat block>{{$t('backToLogin')}}</v-btn>
+            <v-btn
+              to="/login"
+              text
+              block
+            >{{$t('backToLogin')}}</v-btn>
           </v-flex>
         </v-layout>
       </v-card-actions>
@@ -86,7 +120,6 @@ export default {
 <style lang="scss">
 </style>
 <style lang="css" scoped>
-
 </style>
 
 <!--           <v-text-field @focus="onFocus" autofocus clearable label="Nutzername" v-model="user.username" :error-messages="errors.collect('Nutzername')"

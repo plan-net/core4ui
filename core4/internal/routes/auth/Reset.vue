@@ -10,14 +10,21 @@
       class="pa-3 auth-form-card"
     >
       <v-card-title class="py-0 pb-2 pt-2">
-        <h2 class="title"><!-- Passwort zurücksetzen -->
-        {{$t('resetPassword')}}
+        <h2 class="title">
+          <!-- Passwort zurücksetzen -->
+          {{$t('resetPassword')}}
         </h2>
       </v-card-title>
-      <v-card-text class="pt-2 pb-4" v-if="finished">
+      <v-card-text
+        class="pt-2 pb-4"
+        v-if="finished"
+      >
         {{$t('resetPasswordSuccess')}}
       </v-card-text>
-      <v-card-text class="pt-2 pb-4" v-else>
+      <v-card-text
+        class="pt-2 pb-4"
+        v-else
+      >
 
         <v-text-field
           class="mb-3"
@@ -58,7 +65,8 @@
       <v-card-actions>
         <v-layout column>
           <v-flex>
-            <v-btn v-if="!finished"
+            <v-btn
+              v-if="!finished"
               class="mb-3"
               color="primary"
               block
@@ -71,7 +79,7 @@
           <v-flex>
             <v-btn
               to="/login"
-              flat
+              text
               block
             >{{$t('backToLogin')}}</v-btn>
           </v-flex>
