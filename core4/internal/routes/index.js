@@ -106,7 +106,6 @@ export function setRoutes (router) {
       auth: true
     } */
     /* !$router.publicPages.includes(to.path) */
-
     let loggedIn = window.localStorage.getItem('user')
     if (!loggedIn) {
       const token = new URLSearchParams(window.location.search).get('token')
@@ -120,8 +119,8 @@ export function setRoutes (router) {
       /*     if (meta.auth && !loggedIn) {
         return next('/login')
       } */
+      next()
     }
-    next()
   })
   $router.instance = router
 }
