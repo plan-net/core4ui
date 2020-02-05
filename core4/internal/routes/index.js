@@ -82,30 +82,45 @@ export function setRoutes (router) {
       }
     }
   ])
+  function removeURLParameter (url, parameter) {
+    // prefer to use l.search if you have a location/link object
+    var urlparts = url.split('?')
+    if (urlparts.length >= 2) {
+      var prefix = encodeURIComponent(parameter) + '='
+      var pars = urlparts[1].split(/[&;]/g)
+
+      // reverse iteration as may be destructive
+      for (var i = pars.length; i-- > 0;) {
+        // idiom for string.startsWith
+        if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+          pars.splice(i, 1)
+        }
+      }
+
+      return urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : '')
+    }
+    return url
+  }
   router.beforeEach((to, from, next) => {
     /*     const meta = to.meta || {
       auth: true
     } */
     /* !$router.publicPages.includes(to.path) */
+
     let loggedIn = window.localStorage.getItem('user')
     if (!loggedIn) {
       const token = new URLSearchParams(window.location.search).get('token')
-      history.replaceState &&
-        history.replaceState(
-          null,
-          '',
-          location.pathname +
-            location.search.replace(/[\?&]token=[^&]+/, '').replace(/^&/, '?') +
-            location.hash
-        )
       if (token != null) {
         window.localStorage.setItem('user', JSON.stringify({ token: token }))
         loggedIn = true
+        const url = removeURLParameter(window.location.href, 'token')
+        window.location.href = url
       }
+    } else {
+      /*     if (meta.auth && !loggedIn) {
+        return next('/login')
+      } */
     }
-    /*     if (meta.auth && !loggedIn) {
-      return next('/login')
-    } */
     next()
   })
   $router.instance = router
