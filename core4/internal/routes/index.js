@@ -83,14 +83,23 @@ export function setRoutes (router) {
     }
   ])
   router.beforeEach((to, from, next) => {
-    const meta = to.meta || {
+    /*     const meta = to.meta || {
       auth: true
-    }
+    } */
     /* !$router.publicPages.includes(to.path) */
-    const loggedIn = window.localStorage.getItem('user')
-    if (meta.auth && !loggedIn) {
-      return next('/login')
+    let loggedIn = window.localStorage.getItem('user')
+    if (!loggedIn) {
+      const token = new URLSearchParams(window.location.search).get('token')
+      if (token != null) {
+        window.localStorage.setItem('user', JSON.stringify(
+          { 'token': token }
+        ))
+        loggedIn = true
+      }
     }
+    /*     if (meta.auth && !loggedIn) {
+      return next('/login')
+    } */
     next()
   })
   $router.instance = router
