@@ -90,10 +90,16 @@ export function setRoutes (router) {
     let loggedIn = window.localStorage.getItem('user')
     if (!loggedIn) {
       const token = new URLSearchParams(window.location.search).get('token')
+      history.replaceState &&
+        history.replaceState(
+          null,
+          '',
+          location.pathname +
+            location.search.replace(/[\?&]token=[^&]+/, '').replace(/^&/, '?') +
+            location.hash
+        )
       if (token != null) {
-        window.localStorage.setItem('user', JSON.stringify(
-          { 'token': token }
-        ))
+        window.localStorage.setItem('user', JSON.stringify({ token: token }))
         loggedIn = true
       }
     }
