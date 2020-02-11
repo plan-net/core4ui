@@ -64,8 +64,19 @@ export function setAjaxConfig (config) {
   const instances = [axios, axiosInternal]
   instances.forEach(axiosInstance => {
     axiosInstance.defaults.headers.common['Accept'] = 'application/json'
+
+    /*     axios.interceptors.request.use(
+      request => {
+          request.headers['Accept'] = 'application/json'
+          request.withCredentials = true
+          return request
+      },
+      error => {
+          return Promise.reject(error)
+  }) */
     axiosInstance.interceptors.response.use(
       response => {
+        request.withCredentials = true
         return response.data
       },
       error => {
@@ -101,6 +112,7 @@ export function setAjaxConfig (config) {
             request.headers.Authorization = `Bearer ${user.token}`
           }
         }
+        request.withCredentials = true
         return request
       },
       error => {
