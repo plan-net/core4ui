@@ -76,7 +76,6 @@ export function setAjaxConfig (config) {
   }) */
     axiosInstance.interceptors.response.use(
       response => {
-        request.withCredentials = true
         return response.data
       },
       error => {
