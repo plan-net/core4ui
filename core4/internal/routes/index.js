@@ -109,7 +109,7 @@ export function setRoutes (router) {
     if (token != null) {
       window.localStorage.setItem('user', JSON.stringify({ token: token }))
       url = removeURLParameter(window.location.href, 'token')
-      url = removeURLParameter(window.location.href, 'h')
+      url = removeURLParameter(url, 'h')
       console.log(url)
       window.location.href = url
     } else {
