@@ -65,7 +65,8 @@ const actions = {
   gotoLogin ({ commit }) {
     window.localStorage.clear()
     commit('clear_profile')
-    router.instance.push('/login')
+    window.location.assign('/core4/api/v1/login')
+    // router.instance.push('/login')
   },
   checkLogin ({ commit, dispatch }, payload) {
     const user = JSON.parse(window.localStorage.getItem('user'))
