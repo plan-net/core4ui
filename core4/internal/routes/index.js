@@ -105,13 +105,11 @@ export function setRoutes (router) {
     // Wenn token in der url update localstorage user und remove token + h
     let url
     const token = new URLSearchParams(window.location.search).get('token')
-    console.log(token)
     if (token != null) {
       window.localStorage.setItem('user', JSON.stringify({ token: token }))
       url = removeURLParameter(window.location.href, 'token')
       url = removeURLParameter(url, 'h')
-      console.log(url)
-      /// window.location.href = url
+      window.location.href = url
     } else {
       next()
     }
