@@ -102,24 +102,15 @@ export function setRoutes (router) {
     return url
   }
   router.beforeEach((to, from, next) => {
-    /*     const meta = to.meta || {
-      auth: true
-    } */
-    /* !$router.publicPages.includes(to.path) */
-    let loggedIn = window.localStorage.getItem('user')
-    if (!loggedIn) {
-      const token = new URLSearchParams(window.location.search).get('token')
-      if (token != null) {
-        let url = removeURLParameter(window.location.href, 'token')
-        url = removeURLParameter(window.location.href, 'h')
-        window.localStorage.setItem('user', JSON.stringify({ token: token }))
-        loggedIn = true
-        window.location.href = url
-      }
+    // Wenn token in der url update localstorage user und remove token + h
+    let url
+    const token = new URLSearchParams(window.location.search).get('token')
+    if (token != null) {
+      window.localStorage.setItem('user', JSON.stringify({ token: token }))
+      url = removeURLParameter(window.location.href, 'token')
+      url = removeURLParameter(window.location.href, 'h')
+      window.location.href = url
     } else {
-      /*     if (meta.auth && !loggedIn) {
-        return next('/login')
-      } */
       next()
     }
   })
