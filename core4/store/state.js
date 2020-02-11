@@ -65,7 +65,9 @@ const actions = {
   gotoLogin ({ commit }) {
     window.localStorage.clear()
     commit('clear_profile')
-    window.location.assign('/core4/api/v1/login')
+    window.setTimeout(() => {
+      window.location.assign('/core4/api/v1/login')
+    }, 200)
     // router.instance.push('/login')
   },
   checkLogin ({ commit, dispatch }, payload) {
