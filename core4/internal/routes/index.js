@@ -110,9 +110,10 @@ export function setRoutes (router) {
     if (!loggedIn) {
       const token = new URLSearchParams(window.location.search).get('token')
       if (token != null) {
+        let url = removeURLParameter(window.location.href, 'token')
+        url = removeURLParameter(window.location.href, 'h')
         window.localStorage.setItem('user', JSON.stringify({ token: token }))
         loggedIn = true
-        const url = removeURLParameter(window.location.href, 'token')
         window.location.href = url
       }
     } else {
