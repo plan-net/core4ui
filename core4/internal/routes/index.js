@@ -111,7 +111,7 @@ export function setRoutes (router) {
       url = removeURLParameter(window.location.href, 'token')
       url = removeURLParameter(url, 'h')
       console.log(url)
-      window.location.href = url
+      /// window.location.href = url
     } else {
       next()
     }
