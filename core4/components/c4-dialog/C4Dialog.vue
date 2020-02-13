@@ -1,7 +1,6 @@
 <template>
   <v-dialog
     :scrollable="scrollable"
-    lazy
     v-model="isOpen"
     :max-width="width"
   >
