@@ -7,7 +7,7 @@
     <v-card tile>
       <v-toolbar
         dense
-        card
+        flat
         dark
         color="accent"
       >
