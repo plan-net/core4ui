@@ -86,11 +86,16 @@ export function setRoutes (router) {
     const meta = to.meta || {
       auth: true
     }
+    const token = new URLSearchParams(window.location.search).get('token')
+    if (token != null) {
+      window.localStorage.setItem('user', JSON.stringify({ token: token }))
+    }
     /* !$router.publicPages.includes(to.path) */
     const loggedIn = window.localStorage.getItem('user')
     if (meta.auth && !loggedIn) {
       return next('/login')
     }
+
     next()
   })
   $router.instance = router
