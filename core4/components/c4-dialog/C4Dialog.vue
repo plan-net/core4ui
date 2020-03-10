@@ -1,14 +1,13 @@
 <template>
   <v-dialog
     :scrollable="scrollable"
-    lazy
     v-model="isOpen"
     :max-width="width"
   >
     <v-card tile>
       <v-toolbar
         dense
-        card
+        flat
         dark
         color="accent"
       >
