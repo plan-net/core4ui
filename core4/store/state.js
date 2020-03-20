@@ -49,11 +49,12 @@ const actions = {
     if (state.hasOwnTheme === false) {
       commit('set_dark', setting.data.dark)
     }
-    commit('set_version', setting.version)
     commit('set_contact', setting.data.contact)
     if (router.instance.history.current.name === 'login') {
       dispatch('gotoStart')
     }
+    const info = await Auth.version()
+    commit('set_version', info.version)
     return true
   },
   async gotoStart ({ commit, dispatch }) {
@@ -248,10 +249,12 @@ const getters = {
     const debug = process.env.NODE_ENV !== 'production'
     const user = JSON.parse(window.localStorage.getItem('user'))
     if (user == null) {
-      return [{
-        path: '',
-        label: ''
-      }]
+      return [
+        {
+          path: '',
+          label: ''
+        }
+      ]
     }
     return (state.menu || []).map(item => {
       const path = debug ? 'http://localhost:5001' : ''

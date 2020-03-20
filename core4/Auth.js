@@ -1,5 +1,6 @@
 import iHelper from './internal/$internal'
 import { axiosInternal } from './internal/axios.config.js'
+import axios from 'axios'
 export default {
   login (user) {
     return axiosInternal
@@ -15,7 +16,7 @@ export default {
       return Promise.resolve(this.$profile)
     }
     return axiosInternal
-      .get(`/profile`)
+      .get('/profile')
       .then(result => {
         this.$profile = Object.assign(result.data, {
           short: iHelper.shortName(result.data.realname)
@@ -26,9 +27,19 @@ export default {
         throw new Error(`ApiService ${error}`)
       })
   },
+  async version () {
+    return axios
+      .get('/_info?version')
+      .then(result => {
+        return result
+      })
+      .catch(error => {
+        throw new Error(`ApiService ${error}`)
+      })
+  },
   async setting () {
     return axiosInternal
-      .get(`/setting/_general`)
+      .get('/setting/_general')
       .then(result => {
         return result
       })
@@ -39,7 +50,7 @@ export default {
   logout () {
     this.$profile = null
     return axiosInternal
-      .get(`/logout`)
+      .get('/logout')
       .then(result => {
         return result.data
       })
@@ -49,7 +60,7 @@ export default {
     // resetten mit token und neuem passwort und token
     // anfordern mit email
     return axiosInternal
-      .put(`/login`, data)
+      .put('/login', data)
       .then(result => result)
       .catch(error => {
         return Promise.reject(error)
