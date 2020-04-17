@@ -28,6 +28,9 @@ export default {
       })
   },
   async version () {
+    if(window.__VERSION__ != null){
+      return window.__VERSION__
+    }
     return axios
       .get('/_info?version')
       .then(result => {
