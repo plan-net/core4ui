@@ -58,7 +58,6 @@ const actions = {
     return true
   },
   async gotoStart ({ commit, dispatch }) {
-    commit('clear_auth_error')
     router.instance.push('/')
     commit('set_profile', { authenticated: true })
     await dispatch('fetchSettings')
@@ -69,34 +68,6 @@ const actions = {
     window.setTimeout(() => {
       window.location.assign('/core4/api/v1/login')
     }, 200)
-    // router.instance.push('/login')
-  },
-  checkLogin ({ commit, dispatch }, payload) {
-    const user = JSON.parse(window.localStorage.getItem('user'))
-    if (user != null) {
-      Auth.login(user)
-        .then(val => {
-          dispatch('gotoStart')
-        })
-        .catch(() => {
-          dispatch('gotoLogin')
-          commit('set_profile', { error: 'auth' })
-        })
-    }
-  },
-  login ({ commit, dispatch }, payload) {
-    return new Promise((resolve, reject) => {
-      Auth.login(payload)
-        .then(result => {
-          resolve(true)
-          dispatch('gotoStart')
-        })
-        .catch(err => {
-          commit('set_profile', { error: 'auth' })
-          reject(new Error('LoginError'))
-          return Promise.reject(err)
-        })
-    })
   },
   logout ({ dispatch }) {
     Auth.logout()
@@ -107,9 +78,6 @@ const actions = {
         dispatch('gotoLogin')
         return Promise.reject(err)
       })
-  },
-  clearAuthError ({ commit }) {
-    commit('clear_auth_error')
   },
   setLoading ({ commit }, payload) {
     commit('set_loading', payload)
@@ -123,14 +91,11 @@ const actions = {
       commit('set_dark', payload.DARK)
       state.hasOwnTheme = true // do not show theme switch
     }
-    // commit('set_in_widget', inIframe())
   },
   setWidgetTitle ({ commit, dispatch }, payload) {
-    // commit('set_in_widget', true)
     commit('set_title', payload)
   },
   resetWidgetTitle ({ commit, dispatch }, payload) {
-    // commit('set_in_widget', false)
     commit('set_title', payload)
   },
   setInWidget ({ commit, dispatch }, payload) {
@@ -174,18 +139,11 @@ const mutations = {
       state.dark = dark
     }
   },
-  clear_auth_error () {
-    delete state.profile.error
-  },
   set_profile (state, payload) {
-    if (payload.authenticated === true) {
-      delete state.profile.error
-    }
     state.profile = Object.assign({}, state.profile, payload)
   },
   clear_profile (state, payload) {
     state.profile = {
-      // cookie: CookieService.isPriPolCookieSet(),
       authenticated: false,
       name: null
     }

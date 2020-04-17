@@ -103,7 +103,6 @@ export default {
   methods: {
     ...mapActions([
       'fetchSettings',
-      'logout',
       'setTitle'
     ])
   },

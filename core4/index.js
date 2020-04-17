@@ -6,7 +6,7 @@ import C4Numbers from './components/c4-numbers/C4Numbers'
 import C4Notification from './components/c4-notification/C4Notification'
 import { setRoutes } from './internal/routes/index.js'
 import { setAjaxConfig } from './internal/axios.config.js'
-import { setCookieConfig } from './internal/cookie.service.js'
+// import { setCookieConfig } from './internal/cookie.service.js'
 import { setStore } from './store'
 import C4DataTable from './components/c4-table/C4Table'
 import C4DateRange from './components/c4-daterange/C4DateRange'
@@ -14,7 +14,7 @@ import C4DateRange from './components/c4-daterange/C4DateRange'
 import C4Empty from './components/c4-empty/C4Empty'
 import bus from './event-bus'
 import helper from './helper'
-import './plugins/vee-validate'
+// import './plugins/vee-validate'
 import VeeValidate, { Validator } from 'vee-validate'
 import en from 'vee-validate/dist/locale/en'
 import Router from 'vue-router'
@@ -66,7 +66,7 @@ const install = (Vue, options) => {
   setRoutes(options.router)
   // 3
   setAjaxConfig(options.config)
-  setCookieConfig(options.config.API)
+  // setCookieConfig(options.config.API)
 
   Vue.component('c4-dialog', C4Dialog)
   Vue.component('c4-notification', C4Notification)
