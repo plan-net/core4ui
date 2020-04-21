@@ -65,15 +65,6 @@ export function setAjaxConfig (config) {
   instances.forEach(axiosInstance => {
     axiosInstance.defaults.headers.common['Accept'] = 'application/json'
 
-    /*     axios.interceptors.request.use(
-      request => {
-          request.headers['Accept'] = 'application/json'
-          request.withCredentials = true
-          return request
-      },
-      error => {
-          return Promise.reject(error)
-  }) */
     axiosInstance.interceptors.response.use(
       response => {
         return response.data
@@ -85,9 +76,7 @@ export function setAjaxConfig (config) {
             if (shouldRedirectToLogin) {
               Vue.prototype.$store.dispatch('gotoLogin')
             }
-          } else if (isErrorCode(error, 403)) {
-            showError({ error })
-          } else if (isErrorCode(error, 500)) {
+          } else if (isErrorCode(error, 403) || isErrorCode(error, 500)) {
             showError({ error })
           } else {
             showError({
