@@ -1,28 +1,29 @@
   <template>
   <v-app>
     <template v-if="isNavVisible">
-        <c4-navigation>
-          <slot name="navigation-slot"></slot>
-        </c4-navigation>
-        <!-- TODO refactor to compoinent-->
-        <v-app-bar
-          fixed
-          app
-          dense
-          elevate-on-scroll
-          :extended="false"
-          class="c4-toolbar"
+      <c4-navigation>
+        <slot name="navigation-slot"></slot>
+      </c4-navigation>
+      <!-- TODO refactor to compoinent-->
+      <v-app-bar
+        fixed
+        app
+        dense
+        elevate-on-scroll
+        :extended="false"
+        class="c4-toolbar"
+      >
+        <v-btn
+          class=""
+          text
+          icon
+          @click="$bus.$emit('toggleSidenav')"
+          v-if="navButtonVisible"
         >
-          <v-btn
-            class=""
-            text
-            icon
-            @click="$bus.$emit('toggleSidenav')"
-            v-if="navButtonVisible"
-          >
-            <toolbar-side-icon class=""></toolbar-side-icon>
-          </v-btn>
-          <!-- @slot Use this slot for a custom title instead of the default app-name -->
+          <toolbar-side-icon class=""></toolbar-side-icon>
+        </v-btn>
+        <!-- @slot Use this slot for a custom title instead of the default app-name -->
+        <router-link to="/" class="home-link">
           <slot
             v-if="!!this.$slots['title-slot']"
             name="title-slot"
@@ -32,14 +33,16 @@
             class="app-title"
             :class="{'reset-font': !!inWidget}"
           >{{title}}</h2>
-          <c4-spacer></c4-spacer>
-          <c4-user></c4-user>
-        </v-app-bar>
+        </router-link>
+        <c4-spacer></c4-spacer>
+        <c4-user></c4-user>
+      </v-app-bar>
     </template>
 
     <v-content class="core-background">
       <v-container
-        :fluid="fluid" class="pa-0"
+        :fluid="fluid"
+        class="pa-0"
       >
         <router-view />
         <c4-snackbar></c4-snackbar>
@@ -88,10 +91,8 @@ export default {
     ToolbarSideIcon,
     'c4-navigation': Navigation
   },
-  mounted () {
+  created () {
     this.fetchSettings()
-  },
-  destroyed () {
   },
   data () {
     return {
@@ -131,6 +132,9 @@ export default {
 </script>
 
 <style lang="css">
+.home-link{
+  text-decoration: none;
+}
 .v-navigation-drawer__border {
   opacity: 0.15;
 }
