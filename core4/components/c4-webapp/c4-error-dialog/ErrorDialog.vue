@@ -38,7 +38,7 @@
           <v-btn
             type="button"
             alertMessage.status_code
-            v-if="alertMessage.status_code === 401 || alertMessage.status_code === 403"
+            v-if="alertMessage.status_code === 401"
             @click="logout(); open = false"
             color="primary"
           >
