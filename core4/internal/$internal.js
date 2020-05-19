@@ -1,5 +1,7 @@
 export function shortName (rn) {
   let short = null
+  rn = rn || ''
+
   if (rn.includes(' ')) {
     short = rn.split(' ').map(val => val.charAt(0).toUpperCase()).join('')
   } else {
