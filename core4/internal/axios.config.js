@@ -100,7 +100,6 @@ export function setAjaxConfig (config) {
             request.headers.Authorization = `Bearer ${user.token}`
           }
         }
-        // request.withCredentials = true
         return request
       },
       error => {
