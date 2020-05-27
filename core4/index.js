@@ -51,6 +51,7 @@ const install = (Vue, options) => {
   Vue.prototype.$helper = helper
   Vue.prototype.$store = options.store
   Vue.prototype.$numbro = numbro
+  Vue.prototype.$raiseError = error.show
 
   /// /////////////////
   Vue.use(Router)
@@ -92,12 +93,6 @@ const install = (Vue, options) => {
   window.onerror = function (message, source, line, column, error) {
     console.log('window.onerror catch')
   }
-
-  Vue.mixin({
-    methods: {
-      $raiseError: error.show
-    }
-  })
 
   const vuetify = getVuetify(options.config.THEME)
   new Vue({
