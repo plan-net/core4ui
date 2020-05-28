@@ -51,7 +51,7 @@ const install = (Vue, options) => {
   Vue.prototype.$helper = helper
   Vue.prototype.$store = options.store
   Vue.prototype.$numbro = numbro
-  Vue.prototype.$raiseError = error.show
+  Vue.prototype.reiseError = error.show
 
   /// /////////////////
   Vue.use(Router)

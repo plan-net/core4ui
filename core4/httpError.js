@@ -1,5 +1,16 @@
 import Vue from 'vue'
 
+function i18n (code, name='default') {
+  const defaultError = Vue.prototype.i18n.t('errors.default')
+
+  try {
+    const translate = Vue.prototype.i18n.t(`errors.${code}.${name}`)
+    return translate.includes('undefined') ? defaultError : translate
+  } catch (e) {
+    return defaultError
+  }
+}
+
 export default {
   show (err, vm, info) {
     // err: error trace
@@ -35,13 +46,12 @@ export default {
         default:
           // cases: 4xx, 5xx, 500, 405, 406
           const mail = `<a href="mailto:${Vue.prototype.$store.getters.contact}">${Vue.prototype.$store.getters.contact}</a>`
-
           const dto = { status_code: err.response.status }
 
           if (err.json != null) {
             dto.json = err.json
           } else {
-            dto.html = `${Vue.prototype.i18n.t('httpErrors.500.default')} ${mail}`
+            dto.html = `${i18n()} ${mail}`
           }
 
           Vue.prototype.$store.dispatch('showError', dto)

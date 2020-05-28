@@ -43,6 +43,7 @@ export const i18n = new VueI18n({
         '4': 'Great'
       },
       errors: {
+        'default': "Something is wrong in an unexpected place. Get in touch with us as this isn't likely to get better on its own.",
         'is500Error': 'A server error has occurred.<br>Please contact us at:',
         'isAuthError': 'Please log in.',
         'isPermissionsError': 'You are not authorized to access this resource. <br>Please contact us at:'
