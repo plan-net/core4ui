@@ -11,6 +11,24 @@ function i18n (code, name='default') {
   }
 }
 
+function payload (err, actions, close=false, html=`${i18n()}`) {
+  let payload = {
+    status_code: err.response.status,
+    actions: actions,
+    close: close
+  }
+
+  if (err.json != null) {
+    payload.json = err.json
+  } else {
+    payload.html = html
+  }
+
+  return payload
+}
+
+
+
 export default {
   show (err, vm, info) {
     // err: error trace
@@ -22,11 +40,34 @@ export default {
         Vue.prototype.$store.dispatch('setLoading', false)
       }
 
+      let mail, actions
+
       switch (err.response.status){
         case '503':
         // error will be handled by 502 case, because missed break instruction
         case '502':
+          actions = [
+            {
+              main: false,
+              name: Vue.prototype.i18n.t('reloadPage'),
+              action () {
+                Vue.$router.go().catch(() => {
+                  location.reload()
+                })
+              }
+            },
+            {
+              main: true,
+              name: Vue.prototype.i18n.t('toTheMainPage'),
+              action () {
+                Vue.$router.push({path: '/'}).catch(() => {
+                  window.location.assign('/')
+                })
+              }
+            }
+          ]
 
+          Vue.prototype.$store.dispatch('showError', payload(err, actions, false, `${i18n('502')}`))
           break
         case '400':
 
@@ -35,26 +76,79 @@ export default {
           Vue.prototype.$store.dispatch('gotoLogin')
           break
         case '403':
+          actions = [
+            {
+              main: false,
+              name: Vue.prototype.i18n.t('contact'),
+              action () {
+                window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
+              }
+            },
+            {
+              main: true,
+              name: Vue.prototype.i18n.t('toTheMainPage'),
+              action () {
+                Vue.$router.push({path: '/'}).catch(() => {
+                  window.location.assign('/')
+                })
+              }
+            }
+          ]
 
+          Vue.prototype.$store.dispatch('showError', payload(err, actions, true, `${i18n('403')}`))
           break
         case '404':
 
           break
         case '409':
+          actions = [
+            {
+              main: false,
+              name: Vue.prototype.i18n.t('reloadPage'),
+              action () {
+                Vue.$router.go().catch(() => {
+                  location.reload()
+                })
+              }
+            },
+            {
+              main: true,
+              name: Vue.prototype.i18n.t('toTheMainPage'),
+              action () {
+                Vue.$router.push({path: '/'}).catch(() => {
+                  window.location.assign('/')
+                })
+              }
+            }
+          ]
+
+          Vue.prototype.$store.dispatch('showError', payload(err, actions, false, `${i18n('409')}`))
 
           break
         default:
           // cases: 4xx, 5xx, 500, 405, 406
-          const mail = `<a href="mailto:${Vue.prototype.$store.getters.contact}">${Vue.prototype.$store.getters.contact}</a>`
-          const dto = { status_code: err.response.status }
+          // mail = `<a href="mailto:${Vue.prototype.$store.getters.contact}">${Vue.prototype.$store.getters.contact}</a>`
+          actions = [
+            {
+              main: false,
+              name: Vue.prototype.i18n.t('contact'),
+              action () {
+                window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
+              }
+            },
+            {
+              main: true,
+              name: Vue.prototype.i18n.t('toTheMainPage'),
+              action () {
+                Vue.$router.push({path: '/'}).catch(() => {
+                  window.location.assign('/')
+                })
+              }
+            }
+          ]
 
-          if (err.json != null) {
-            dto.json = err.json
-          } else {
-            dto.html = `${i18n()} ${mail}`
-          }
+          Vue.prototype.$store.dispatch('showError', payload(err, actions, false))
 
-          Vue.prototype.$store.dispatch('showError', dto)
       }
     }
   }
