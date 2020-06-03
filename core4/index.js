@@ -105,7 +105,6 @@ const install = (Vue, options) => {
   }).$mount('#app')
 }
 
-
 export default {
   install
 }

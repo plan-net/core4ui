@@ -13,6 +13,7 @@ function i18n (code, name='default') {
 
 function payload (err, actions, close=false, html=`${i18n()}`) {
   let payload = {
+    error: err,
     status_code: err.response.status,
     actions: actions,
     close: close
@@ -40,7 +41,7 @@ export default {
         Vue.prototype.$store.dispatch('setLoading', false)
       }
 
-      let mail, actions
+      let mail, actions, message
 
       switch (err.response.status){
         case '503':
@@ -98,7 +99,8 @@ export default {
           Vue.prototype.$store.dispatch('showError', payload(err, actions, true, `${i18n('403')}`))
           break
         case '404':
-
+          debugger
+          Vue.$router.push('notfound')
           break
         case '409':
           actions = [
@@ -147,8 +149,30 @@ export default {
             }
           ]
 
-          Vue.prototype.$store.dispatch('showError', payload(err, actions, false))
+          if (!navigator.onLine) {
+            // No internet connection
+            actions = [
+              {
+                main: true,
+                name: Vue.prototype.i18n.t('checkConnectivity'),
+                action () {
+                  Vue.prototype.$store.dispatch('setLoading', true)
 
+                  setTimeout(() => {
+                    if (navigator.onLine) {
+                      Vue.prototype.$store.dispatch('hideError')
+                    }
+
+                    Vue.prototype.$store.dispatch('setLoading', false)
+                  }, 2000)
+                }
+              }
+            ]
+
+            message = `${i18n('networkError')}`
+          }
+
+          Vue.prototype.$store.dispatch('showError', payload(err, actions, false, message))
       }
     }
   }
