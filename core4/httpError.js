@@ -71,7 +71,7 @@ export default {
           Vue.prototype.$store.dispatch('showError', payload(err, actions, false, `${i18n('502')}`))
           break
         case '400':
-
+          Vue.prototype.$store.dispatch('showError', payload(err, actions=[], true, `${i18n('400')}`))
           break
         case '401':
           Vue.prototype.$store.dispatch('gotoLogin')
