@@ -28,100 +28,88 @@ function payload (err, actions, isClosableDialog=false, html=`${i18n()}`) {
 }
 
 const actions = {
-  '502' () {
-    return [
-      {
-        main: false,
-        name: Vue.prototype.i18n.t('reloadPage'),
-        action () {
-          Vue.prototype.$store.dispatch('reloadCurrentPage')
-        }
-      },
-      {
-        main: true,
-        name: Vue.prototype.i18n.t('toTheMainPage'),
-        action () {
-          Vue.prototype.$store.dispatch('gotoMainPage')
-        }
+  '502': [
+    {
+      main: false,
+      name: Vue.prototype.i18n.t('reloadPage'),
+      action() {
+        Vue.prototype.$store.dispatch('reloadCurrentPage')
       }
-    ]
-  },
-  '400' () {
-    return []
-  },
-  '403' () {
-    return [
-      {
-        main: false,
-        name: Vue.prototype.i18n.t('contact'),
-        action () {
-          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
-        }
-      },
-      {
-        main: true,
-        name: Vue.prototype.i18n.t('toTheMainPage'),
-        action () {
-          Vue.prototype.$store.dispatch('gotoMainPage')
-        }
+    },
+    {
+      main: true,
+      name: Vue.prototype.i18n.t('toTheMainPage'),
+      action() {
+        Vue.prototype.$store.dispatch('gotoMainPage')
       }
-    ]
-  },
-  '409' () {
-    return [
-      {
-        main: false,
-        name: Vue.prototype.i18n.t('reloadPage'),
-        action () {
-          Vue.prototype.$store.dispatch('reloadCurrentPage')
-        }
-      },
-      {
-        main: true,
-        name: Vue.prototype.i18n.t('toTheMainPage'),
-        action () {
-          Vue.prototype.$store.dispatch('gotoMainPage')
-        }
+    }
+  ],
+  '400': [],
+  '403': [
+    {
+      main: false,
+      name: Vue.prototype.i18n.t('contact'),
+      action() {
+        window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
       }
-    ]
-  },
-  'noInternet' () {
-    return [
-      {
-        main: true,
-        name: Vue.prototype.i18n.t('checkConnectivity'),
-        action () {
-          Vue.prototype.$store.dispatch('setLoading', true)
+    },
+    {
+      main: true,
+      name: Vue.prototype.i18n.t('toTheMainPage'),
+      action() {
+        Vue.prototype.$store.dispatch('gotoMainPage')
+      }
+    }
+  ],
+  '409': [
+    {
+      main: false,
+      name: Vue.prototype.i18n.t('reloadPage'),
+      action() {
+        Vue.prototype.$store.dispatch('reloadCurrentPage')
+      }
+    },
+    {
+      main: true,
+      name: Vue.prototype.i18n.t('toTheMainPage'),
+      action() {
+        Vue.prototype.$store.dispatch('gotoMainPage')
+      }
+    }
+  ],
+  'noInternet': [
+    {
+      main: true,
+      name: Vue.prototype.i18n.t('checkConnectivity'),
+      action() {
+        Vue.prototype.$store.dispatch('setLoading', true)
 
-          setTimeout(() => {
-            if (navigator.onLine) {
-              Vue.prototype.$store.dispatch('hideError')
-            }
+        setTimeout(() => {
+          if (navigator.onLine) {
+            Vue.prototype.$store.dispatch('hideError')
+          }
 
-            Vue.prototype.$store.dispatch('setLoading', false)
-          }, 2000)
-        }
+          Vue.prototype.$store.dispatch('setLoading', false)
+        }, 2000)
       }
-    ]
-  },
-  'default' () {
-    return [
-      {
-        main: false,
-        name: Vue.prototype.i18n.t('contact'),
-        action () {
-          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
-        }
-      },
-      {
-        main: true,
-        name: Vue.prototype.i18n.t('toTheMainPage'),
-        action () {
-          Vue.prototype.$store.dispatch('gotoMainPage')
-        }
+    }
+  ],
+  'default': [
+    {
+      main: false,
+      name: Vue.prototype.i18n.t('contact'),
+      action() {
+        window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
       }
-    ]
-  }
+    },
+    {
+      main: true,
+      name: Vue.prototype.i18n.t('toTheMainPage'),
+      action() {
+        Vue.prototype.$store.dispatch('gotoMainPage')
+      }
+    }
+  ]
 }
 
 export default {
