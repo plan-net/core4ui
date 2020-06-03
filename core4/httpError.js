@@ -44,9 +44,9 @@ export default {
       let mail, actions, message
 
       switch (err.response.status){
-        case '503':
+        case 503:
         // error will be handled by 502 case, because missed break instruction
-        case '502':
+        case 502:
           actions = [
             {
               main: false,
@@ -70,13 +70,13 @@ export default {
 
           Vue.prototype.$store.dispatch('showError', payload(err, actions, false, `${i18n('502')}`))
           break
-        case '400':
+        case 400:
           Vue.prototype.$store.dispatch('showError', payload(err, actions=[], true, `${i18n('400')}`))
           break
-        case '401':
+        case 401:
           Vue.prototype.$store.dispatch('gotoLogin')
           break
-        case '403':
+        case 403:
           actions = [
             {
               main: false,
@@ -98,11 +98,11 @@ export default {
 
           Vue.prototype.$store.dispatch('showError', payload(err, actions, true, `${i18n('403')}`))
           break
-        case '404':
+        case 404:
           debugger
           Vue.$router.push('notfound')
           break
-        case '409':
+        case 409:
           actions = [
             {
               main: false,
