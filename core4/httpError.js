@@ -11,11 +11,11 @@ function i18n (code, name='default') {
   }
 }
 
-function payload (err, actions, close=false, html=`${i18n()}`) {
+function payload (err, actions, isClosableDialog=false, html=`${i18n()}`) {
   let payload = {
     error: err,
     actions: actions,
-    close: close
+    close: isClosableDialog
   }
 
   if (err.json != null) {
@@ -27,7 +27,102 @@ function payload (err, actions, close=false, html=`${i18n()}`) {
   return payload
 }
 
+const actions = {
+  '502' () {
+    return [
+      {
+        main: false,
+        name: Vue.prototype.i18n.t('reloadPage'),
+        action () {
+          Vue.prototype.$store.dispatch('reloadCurrentPage')
+        }
+      },
+      {
+        main: true,
+        name: Vue.prototype.i18n.t('toTheMainPage'),
+        action () {
+          Vue.prototype.$store.dispatch('gotoMainPage')
+        }
+      }
+    ]
+  },
+  '400' () {
+    return []
+  },
+  '403' () {
+    return [
+      {
+        main: false,
+        name: Vue.prototype.i18n.t('contact'),
+        action () {
+          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
+        }
+      },
+      {
+        main: true,
+        name: Vue.prototype.i18n.t('toTheMainPage'),
+        action () {
+          Vue.prototype.$store.dispatch('gotoMainPage')
+        }
+      }
+    ]
+  },
+  '409' () {
+    return [
+      {
+        main: false,
+        name: Vue.prototype.i18n.t('reloadPage'),
+        action () {
+          Vue.prototype.$store.dispatch('reloadCurrentPage')
+        }
+      },
+      {
+        main: true,
+        name: Vue.prototype.i18n.t('toTheMainPage'),
+        action () {
+          Vue.prototype.$store.dispatch('gotoMainPage')
+        }
+      }
+    ]
+  },
+  'noInternet' () {
+    return [
+      {
+        main: true,
+        name: Vue.prototype.i18n.t('checkConnectivity'),
+        action () {
+          Vue.prototype.$store.dispatch('setLoading', true)
 
+          setTimeout(() => {
+            if (navigator.onLine) {
+              Vue.prototype.$store.dispatch('hideError')
+            }
+
+            Vue.prototype.$store.dispatch('setLoading', false)
+          }, 2000)
+        }
+      }
+    ]
+  },
+  'default' () {
+    return [
+      {
+        main: false,
+        name: Vue.prototype.i18n.t('contact'),
+        action () {
+          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
+        }
+      },
+      {
+        main: true,
+        name: Vue.prototype.i18n.t('toTheMainPage'),
+        action () {
+          Vue.prototype.$store.dispatch('gotoMainPage')
+        }
+      }
+    ]
+  }
+}
 
 export default {
   show (err, vm, info) {
@@ -40,159 +135,42 @@ export default {
         Vue.prototype.$store.dispatch('setLoading', false)
       }
 
-      let actions = []
+      let status = err.response ? err.response.status.toString() : false
 
-      if (err.response && err.response.status) {
-        switch (err.response.status){
-          case 503:
-          // error will be handled by 502 case, because missed break instruction
-          case 502:
-            actions.push(
-              {
-                main: false,
-                name: Vue.prototype.i18n.t('reloadPage'),
-                action () {
-                  Vue.$router.go().catch(() => {
-                    location.reload()
-                  })
-                }
-              },
-              {
-                main: true,
-                name: Vue.prototype.i18n.t('toTheMainPage'),
-                action () {
-                  Vue.$router.push({path: '/'}).catch(() => {
-                    window.location.assign('/')
-                  })
-                }
-              }
-            )
-
-            Vue.prototype.$store.dispatch('showError', payload(err, actions, false, `${i18n('502')}`))
+      if (status) {
+        switch (status){
+          case "503":
+          // error will be handled by 502 case, because missed "break" instruction
+          case "502":
+            Vue.prototype.$store.dispatch('showError', payload(err, actions[status], false, `${i18n(status)}`))
             break
-          case 400:
-            Vue.prototype.$store.dispatch('showError', payload(err, actions, true, `${i18n('400')}`))
+          case "400":
+            Vue.prototype.$store.dispatch('showError', payload(err, actions[status], true, `${i18n(status)}`))
             break
-          case 401:
+          case "401":
             Vue.prototype.$store.dispatch('gotoLogin')
             break
-          case 403:
-            actions.push(
-              {
-                main: false,
-                name: Vue.prototype.i18n.t('contact'),
-                action () {
-                  window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
-                }
-              },
-              {
-                main: true,
-                name: Vue.prototype.i18n.t('toTheMainPage'),
-                action () {
-                  Vue.$router.push({path: '/'}).catch(() => {
-                    window.location.assign('/')
-                  })
-                }
-              }
-            )
-
-            Vue.prototype.$store.dispatch('showError', payload(err, actions, true, `${i18n('403')}`))
+          case "403":
+            Vue.prototype.$store.dispatch('showError', payload(err, actions[status], true, `${i18n(status)}`))
             break
-          case 404:
-            Vue.$router.push('notfound')
+          case "404":
+            Vue.prototype.$store.dispatch('gotoNotFoundPage')
             break
-          case 409:
-            actions.push(
-              {
-                main: false,
-                name: Vue.prototype.i18n.t('reloadPage'),
-                action () {
-                  Vue.$router.go().catch(() => {
-                    location.reload()
-                  })
-                }
-              },
-              {
-                main: true,
-                name: Vue.prototype.i18n.t('toTheMainPage'),
-                action () {
-                  Vue.$router.push({path: '/'}).catch(() => {
-                    window.location.assign('/')
-                  })
-                }
-              }
-            )
-
-            Vue.prototype.$store.dispatch('showError', payload(err, actions, false, `${i18n('409')}`))
-
+          case "409":
+            Vue.prototype.$store.dispatch('showError', payload(err, actions[status], false, `${i18n(status)}`))
             break
           default:
             // cases: 4xx, 5xx, 500, 405, 406
             // mail = `<a href="mailto:${Vue.prototype.$store.getters.contact}">${Vue.prototype.$store.getters.contact}</a>`
-            actions.push(
-              {
-                main: false,
-                name: Vue.prototype.i18n.t('contact'),
-                action () {
-                  window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
-                }
-              },
-              {
-                main: true,
-                name: Vue.prototype.i18n.t('toTheMainPage'),
-                action () {
-                  Vue.$router.push({path: '/'}).catch(() => {
-                    window.location.assign('/')
-                  })
-                }
-              }
-            )
-
-            Vue.prototype.$store.dispatch('showError', payload(err, actions))
+            Vue.prototype.$store.dispatch('showError', payload(err, actions['default']))
         }
       } else {
         if (!navigator.onLine) {
-          // No internet connection
-          actions.push(
-            {
-              main: true,
-              name: Vue.prototype.i18n.t('checkConnectivity'),
-              action () {
-                Vue.prototype.$store.dispatch('setLoading', true)
-
-                setTimeout(() => {
-                  if (navigator.onLine) {
-                    Vue.prototype.$store.dispatch('hideError')
-                  }
-
-                  Vue.prototype.$store.dispatch('setLoading', false)
-                }, 2000)
-              }
-            }
-          )
-
-          Vue.prototype.$store.dispatch('showError', payload(err, actions, false, `${i18n('networkError', 'noInternet')}`))
+          // no internet connection
+          Vue.prototype.$store.dispatch('showError', payload(err, actions['noInternet'], false, `${i18n('networkError', 'noInternet')}`))
         } else {
-          actions.push(
-            {
-              main: false,
-              name: Vue.prototype.i18n.t('contact'),
-              action () {
-                window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
-              }
-            },
-            {
-              main: true,
-              name: Vue.prototype.i18n.t('toTheMainPage'),
-              action () {
-                Vue.$router.push({path: '/'}).catch(() => {
-                  window.location.assign('/')
-                })
-              }
-            }
-          )
-
-          Vue.prototype.$store.dispatch('showError', payload(err, actions, true, `${i18n('networkError')}`))
+          // all of possible not xhr errors
+          Vue.prototype.$store.dispatch('showError', payload(err, actions['default'], true, `${i18n('networkError')}`))
         }
       }
     }

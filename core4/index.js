@@ -52,7 +52,7 @@ const install = (Vue, options) => {
   Vue.prototype.$store = options.store
   Vue.prototype.$numbro = numbro
   Vue.$router = options.router
-  Vue.prototype.reiseError = error.show
+  Vue.prototype.raiseError = error.show
 
   /// /////////////////
   Vue.use(Router)
