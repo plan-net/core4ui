@@ -62,7 +62,8 @@ export const i18n = new VueI18n({
           'default': 'Bad request. <br>Please take a look technical details.'
         },
         'networkError': {
-          'default': 'No internet connection. <br>Please check your connectivity and retry.',
+          'noInternet': 'No internet connection. <br>Please check your connectivity and retry.',
+          'default': 'Network error. <br>Please try again later or contact us.',
         },
         'is500Error': 'A server error has occurred.<br>Please contact us at:',
         'isAuthError': 'Please log in.',
@@ -107,7 +108,8 @@ export const i18n = new VueI18n({
           'default': 'Ungültige Anforderung. <br>Bitte schauen Sie sich die technischen Details an.'
         },
         'networkError': {
-          'default': 'Keine Internetverbindung. <br>Bitte überprüfen Sie Ihre Konnektivität und versuchen Sie es erneut.',
+          'noInternet': 'Keine Internetverbindung. <br>Bitte überprüfen Sie Ihre Konnektivität und versuchen Sie es erneut.',
+          'default': 'Netzwerkfehler. <br>Bitte versuchen Sie es später noch einmal oder kontaktieren Sie uns.',
         },
         'is500Error': 'Ein Server Fehler ist aufgetreten.<br>Bitte kontaktieren sie uns unter:',
         'isAuthError': 'Bitte loggen sie sich ein.',
