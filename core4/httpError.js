@@ -14,7 +14,6 @@ function i18n (code, name='default') {
 function payload (err, actions, close=false, html=`${i18n()}`) {
   let payload = {
     error: err,
-    status_code: err.response.status,
     actions: actions,
     close: close
   }
