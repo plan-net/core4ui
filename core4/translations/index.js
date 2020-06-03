@@ -38,6 +38,7 @@ export const i18n = new VueI18n({
       'requestNewPassword': 'Request',
       'reloadPage': 'Reload page',
       'toTheMainPage': 'To the main page',
+      'checkConnectivity': 'Check connectivity',
       'contact': 'Contact',
       'error': 'Error',
       'pw': {
@@ -84,6 +85,7 @@ export const i18n = new VueI18n({
       'requestNewPassword': 'Anfordern',
       'reloadPage': 'Seite neuladen',
       'toTheMainPage': 'Zur Hauptseite',
+      'checkConnectivity': 'Überprüfen Sie die Konnektivität',
       'contact': 'Kontakt',
       'error': 'Error',
       'pw': {

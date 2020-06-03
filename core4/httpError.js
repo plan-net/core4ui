@@ -172,7 +172,7 @@ export default {
             }
           )
 
-          Vue.prototype.$store.dispatch('showError', payload(err, actions, false, `${i18n('networkError.noInternet')}`))
+          Vue.prototype.$store.dispatch('showError', payload(err, actions, false, `${i18n('networkError', 'noInternet')}`))
         } else {
           actions.push(
             {
