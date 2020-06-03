@@ -40,7 +40,7 @@
 
           <transition name="slide-fade">
             <div v-if="showTechInfo" class="response">
-              <pre>{{errorData.error.response}}</pre>
+              <pre>{{errorData.error.response || errorData.error}}</pre>
             </div>
           </transition>
         </v-card-text>
