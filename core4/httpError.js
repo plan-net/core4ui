@@ -11,7 +11,7 @@ function i18n (code, name='default') {
   }
 }
 
-function payload (err, actions, isClosableDialog=false, html=`${i18n()}`) {
+function payload (err, actions, isClosableDialog=false, html) {
   let payload = {
     error: err,
     actions: actions,
@@ -21,7 +21,7 @@ function payload (err, actions, isClosableDialog=false, html=`${i18n()}`) {
   if (err.json != null) {
     payload.json = err.json
   } else {
-    payload.html = html
+    payload.html = html || `${i18n()}`
   }
 
   return payload
@@ -86,23 +86,25 @@ const actions = {
     ]
   },
   'noInternet' () {
-    return [
-      {
-        main: true,
-        name: Vue.prototype.i18n.t('checkConnectivity'),
-        action () {
-          Vue.prototype.$store.dispatch('setLoading', true)
+    const action =  {
+      main: true,
+      name: Vue.prototype.i18n.t('checkConnectivity'),
+      timer: 0,
+      action () {
+        if (action.timer) clearTimeout(action.timer)
 
-          setTimeout(() => {
-            if (navigator.onLine) {
-              Vue.prototype.$store.dispatch('hideError')
-            }
+        Vue.prototype.$store.dispatch('setLoading', true)
 
-            Vue.prototype.$store.dispatch('setLoading', false)
-          }, 2000)
-        }
+        action.timer = setTimeout(() => {
+          if (navigator.onLine) {
+            Vue.prototype.$store.dispatch('hideError')
+          }
+
+          Vue.prototype.$store.dispatch('setLoading', false)
+        }, 2000)
       }
-    ]
+    };
+    return [action]
   },
   'default' () {
     return [
@@ -135,29 +137,29 @@ export default {
         Vue.prototype.$store.dispatch('setLoading', false)
       }
 
-      let status = err.response ? err.response.status.toString() : false
+      if (err.response) {
+        const errorCode = err.response.status.toString()
 
-      if (status) {
-        switch (status){
+        switch (errorCode){
           case "503":
           // error will be handled by 502 case, because missed "break" instruction
           case "502":
-            Vue.prototype.$store.dispatch('showError', payload(err, actions[status](), false, `${i18n(status)}`))
+            Vue.prototype.$store.dispatch('showError', payload(err, actions[errorCode](), false, `${i18n(errorCode)}`))
             break
           case "400":
-            Vue.prototype.$store.dispatch('showError', payload(err, actions[status](), true, `${i18n(status)}`))
+            Vue.prototype.$store.dispatch('showError', payload(err, actions[errorCode](), true, `${i18n(errorCode)}`))
             break
           case "401":
             Vue.prototype.$store.dispatch('gotoLogin')
             break
           case "403":
-            Vue.prototype.$store.dispatch('showError', payload(err, actions[status](), true, `${i18n(status)}`))
+            Vue.prototype.$store.dispatch('showError', payload(err, actions[errorCode](), true, `${i18n(errorCode)}`))
             break
           case "404":
             Vue.prototype.$store.dispatch('gotoNotFoundPage')
             break
           case "409":
-            Vue.prototype.$store.dispatch('showError', payload(err, actions[status](), false, `${i18n(status)}`))
+            Vue.prototype.$store.dispatch('showError', payload(err, actions[errorCode](), false, `${i18n(errorCode)}`))
             break
           default:
             // cases: 4xx, 5xx, 500, 405, 406
