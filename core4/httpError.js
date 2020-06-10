@@ -71,18 +71,19 @@ const actions = {
     return [
       {
         main: false,
-        name: Vue.prototype.i18n.t('reloadPage'),
-        action () {
-          Vue.prototype.$store.dispatch('reloadCurrentPage')
-        }
-      },
-      {
-        main: true,
         name: Vue.prototype.i18n.t('toTheMainPage'),
         action () {
           Vue.prototype.$store.dispatch('gotoMainPage')
         }
+      },
+      {
+        main: true,
+        name: Vue.prototype.i18n.t('reloadPage'),
+        action () {
+          Vue.prototype.$store.dispatch('reloadCurrentPage')
+        }
       }
+  
     ]
   },
   'noInternet' () {
