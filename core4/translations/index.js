@@ -25,7 +25,7 @@ export const i18n = new VueI18n({
   fallbackLocale: 'en',
   messages: {
     en: {
-      'username': 'Username',
+/*       'username': 'Username',
       'password': 'Password',
       'backToLogin': 'Back to Login',
       'yourEmailAdress': 'Email Address',
@@ -35,19 +35,19 @@ export const i18n = new VueI18n({
       'newPassword': 'New password',
       'repeatPassword': 'Repeat password',
       'passwordSecurity': 'Password security',
-      'requestNewPassword': 'Request',
+      'requestNewPassword': 'Request', */
       'reloadPage': 'Reload page',
       'toTheMainPage': 'To the main page',
       'checkConnectivity': 'Check connectivity',
       'contact': 'Contact',
       'error': 'Error',
-      'pw': {
+ /*      'pw': {
         '0': 'Very weak',
         '1': 'Weak',
         '2': 'Ok',
         '3': 'Good',
         '4': 'Great'
-      },
+      }, */
       errors: {
         'default': 'Contact us. Something is wrong in an unexpected place.<br>Get in touch with us as this isn\'t likely to get better on its own.',
         '502': {
@@ -72,7 +72,7 @@ export const i18n = new VueI18n({
       }
     },
     de: {
-      'username': 'Name',
+/*       'username': 'Name',
       'password': 'Passwort',
       'backToLogin': 'Zurück zum Login',
       'yourEmailAdress': 'E-Mail Adresse',
@@ -82,19 +82,19 @@ export const i18n = new VueI18n({
       'newPassword': 'Neues Passwort',
       'repeatPassword': 'Passwort wiederholen',
       'passwordSecurity': 'Passwortsicherheit',
-      'requestNewPassword': 'Anfordern',
+      'requestNewPassword': 'Anfordern', */
       'reloadPage': 'Seite neuladen',
       'toTheMainPage': 'Zur Hauptseite',
       'checkConnectivity': 'Überprüfen Sie die Konnektivität',
       'contact': 'Kontakt',
       'error': 'Error',
-      'pw': {
+ /*      'pw': {
         '0': 'Sehr schwach',
         '1': 'Schwach',
         '2': 'Ok',
         '3': 'Gut',
         '4': 'Großartig'
-      },
+      }, */
       errors: {
         'default': 'Kontaktiere uns. An einem unerwarteten Ort stimmt etwas nicht. <br>Nehmen Sie Kontakt mit uns auf, da dies allein wahrscheinlich nicht besser wird.',
         '502': {

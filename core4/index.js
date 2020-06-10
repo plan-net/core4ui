@@ -15,8 +15,8 @@ import C4Empty from './components/c4-empty/C4Empty'
 import bus from './event-bus'
 import helper from './helper'
 // import './plugins/vee-validate'
-import VeeValidate, { Validator } from 'vee-validate'
-import en from 'vee-validate/dist/locale/en'
+/* import VeeValidate, { Validator } from 'vee-validate'
+import en from 'vee-validate/dist/locale/en' */
 import Router from 'vue-router'
 import moment from 'moment'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
@@ -36,7 +36,7 @@ import { getVuetify } from './plugins/vuetify'
 
 import error from './httpError'
 
-import { i18n, veeValidateDictionary } from './translations'
+import { i18n/* , veeValidateDictionary */ } from './translations'
 // Vee-Validator
 // app wide styles, fonts
 
@@ -57,13 +57,13 @@ const install = (Vue, options) => {
 
   /// /////////////////
   Vue.use(Router)
-  Vue.use(VeeValidate, {
+/*   Vue.use(VeeValidate, {
     mode: 'eager',
     aria: false,
     locale: 'en'
-  })
-  Validator.localize('en', en)
-  Validator.localize(veeValidateDictionary)
+  }) */
+/*   Validator.localize('en', en)
+  Validator.localize(veeValidateDictionary) */
   // 1. setup store (holds all informations)
   setStore(options.store)
   options.store.dispatch('initializeApp', options.config)
@@ -93,7 +93,7 @@ const install = (Vue, options) => {
   }
 
   window.onerror = function (message, source, line, column, error) {
-    console.log('window.onerror catch')
+    console.error('window.onerror catch')
   }
 
   const vuetify = getVuetify(options.config.THEME)

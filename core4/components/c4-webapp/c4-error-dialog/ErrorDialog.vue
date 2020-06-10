@@ -9,6 +9,7 @@
         <v-app-bar class="px-0"
                    dense
                    flat
+                   dark
                    color="error">
           <v-toolbar-title class="title">{{i18n.t('error')}}</v-toolbar-title>
           <v-progress-linear

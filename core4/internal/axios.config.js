@@ -43,19 +43,14 @@ export function setAjaxConfig (config) {
     axiosInstance.interceptors.response.use(
       response => {
         return response.data
+      },
+      error => {
+        const errorCode = error.response.status
+        if (errorCode === 401) {
+          Vue.prototype.$store.dispatch('gotoLogin')
+        }
+        return Promise.reject(error)
       }
-      // error => {
-      //   // 401 - unauthorized
-      //   if (isErrorCode(error, 401)) {
-      //     const shouldRedirectToLogin = isErrorIgnoreRoute() === false
-      //
-      //     if (shouldRedirectToLogin) {
-      //       Vue.prototype.$store.dispatch('gotoLogin')
-      //     }
-      //   }
-      //
-      //   return Promise.reject(error)
-      // }
     )
 
     axiosInstance.interceptors.request.use(
