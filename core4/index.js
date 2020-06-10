@@ -22,6 +22,7 @@ import moment from 'moment'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import './styles/typography.scss'
+
 import './styles/index.scss'
 import './styles/theme-dark.scss'
 import './styles/theme-light.scss'
