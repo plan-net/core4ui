@@ -2,6 +2,11 @@
   "translation": {
     "username": "Username",
     "slogan": "Refurbished Retro Products",
-    "featured": "Featured"
+    "featured": "Featured",
+    "httpErrors": {
+      "500": {
+        "default": " Something is wrong in an unexpected place. Get in touch with us as this isn't likely to get better on its own."
+      }
+    }
   }
 }

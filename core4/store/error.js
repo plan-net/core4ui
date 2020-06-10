@@ -4,7 +4,6 @@ const state = {
 
 const actions = {
   showError ({ commit }, payload) {
-    console.warn(payload)
     commit('show_error', payload)
   },
   hideError ({ commit, dispatch }) {

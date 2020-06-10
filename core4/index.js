@@ -34,6 +34,8 @@ import { getVuetify } from './plugins/vuetify'
 // import Vuetify from 'vuetify/lib'
 // import 'vuetify/dist/vuetify.min.css'
 
+import error from './httpError'
+
 import { i18n, veeValidateDictionary } from './translations'
 // Vee-Validator
 // app wide styles, fonts
@@ -50,6 +52,8 @@ const install = (Vue, options) => {
   Vue.prototype.$helper = helper
   Vue.prototype.$store = options.store
   Vue.prototype.$numbro = numbro
+  Vue.$router = options.router
+  Vue.prototype.raiseError = error.show
 
   /// /////////////////
   Vue.use(Router)
@@ -84,6 +88,14 @@ const install = (Vue, options) => {
     vuetify.theme.themes.dark[val] = options.config.THEME[val]
     return val
   }) */
+  Vue.config.errorHandler = function (err, vm, info) {
+    error.show(err, vm, info)
+  }
+
+  window.onerror = function (message, source, line, column, error) {
+    console.log('window.onerror catch')
+  }
+
   const vuetify = getVuetify(options.config.THEME)
   new Vue({
     i18n,

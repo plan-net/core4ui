@@ -62,6 +62,19 @@ const actions = {
     commit("set_profile", { authenticated: true });
     await dispatch("fetchSettings");
   },
+  gotoMainPage() {
+    router.instance.push("/").catch(() => {
+      window.location.assign('/')
+    })
+  },
+  reloadCurrentPage () {
+    router.instance.go().catch(() => {
+      location.reload()
+    })
+  },
+  gotoNotFoundPage () {
+    router.instance.push("notfound")
+  },
   gotoLogin({ commit }) {
     window.localStorage.clear();
     commit("clear_profile");
