@@ -39,7 +39,7 @@
       </v-app-bar>
     </template>
 
-    <v-content class="core-background">
+    <v-main class="core-background">
       <v-container
         :fluid="fluid"
         class="pa-0"
@@ -48,7 +48,7 @@
         <c4-snackbar></c4-snackbar>
         <error-dialog></error-dialog>
       </v-container>
-    </v-content>
+    </v-main>
     <v-progress-linear
       indeterminate
       v-if="loading"
