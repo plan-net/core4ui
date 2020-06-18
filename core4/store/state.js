@@ -73,7 +73,7 @@ const actions = {
     })
   },
   gotoNotFoundPage () {
-    router.instance.push("notfound")
+    router.instance.push({name: 'notfound'})
   },
   gotoLogin({ commit }) {
     window.localStorage.clear();
