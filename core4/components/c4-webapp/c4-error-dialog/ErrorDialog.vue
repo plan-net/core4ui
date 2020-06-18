@@ -54,7 +54,7 @@
           </v-btn>
           <v-spacer></v-spacer>
           <template v-for="(btn, index) in errorData.actions">
-            <v-btn :color="btn.main ? 'primary' : 'grey lighten-1'" :key="index"
+            <v-btn :color="btn.main ? 'primary' : 'grey'" :key="index"
                    
                    text="!btn.main"
                    @click="btn.action">
