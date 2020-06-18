@@ -179,7 +179,7 @@ export default {
             //Vue.prototype.$store.dispatch("gotoNotFoundPage");
             Vue.prototype.$store.dispatch(
               "showError",
-              payload(err, actions[errorCode](), false, `${i18n(errorCode)}`)
+              payload(err, actions[errorCode](), true, `${i18n(errorCode)}`)
             );
             break;
           case "409":
