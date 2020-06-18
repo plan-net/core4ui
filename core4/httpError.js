@@ -176,7 +176,11 @@ export default {
             );
             break;
           case "404":
-            Vue.prototype.$store.dispatch("gotoNotFoundPage");
+            //Vue.prototype.$store.dispatch("gotoNotFoundPage");
+            Vue.prototype.$store.dispatch(
+              "showError",
+              payload(err, actions[errorCode](), false, `${i18n(errorCode)}`)
+            );
             break;
           case "409":
             Vue.prototype.$store.dispatch(
