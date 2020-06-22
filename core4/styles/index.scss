@@ -69,7 +69,7 @@ table.v-table tfoot tr td {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* .v-content__wrap {
+/* .v-main__wrap {
   padding-top: 48px;
 } */
 .auth-routes .container,
@@ -78,8 +78,8 @@ table.v-table tfoot tr td {
   padding: 0;
 }
 
-.auth-routes .v-content__wrap,
-.embedded .v-content__wrap {
+.auth-routes .v-main__wrap,
+.embedded .v-main__wrap {
   padding-top: 0;
 }
 
