@@ -93,7 +93,7 @@ const install = (Vue, options) => {
   }
 
   window.onerror = function (message, source, line, column, error) {
-    console.error('window.onerror catch')
+    console.error(message, source, line, column, error)
   }
 
   const vuetify = getVuetify(options.config.THEME)
