@@ -1,4 +1,4 @@
-import moment from 'moment'
+//import moment from 'moment'
 export function clone (element) {
   try {
     element = JSON.parse(JSON.stringify(element))
@@ -66,7 +66,8 @@ export function stringToDate (value) {
     const yearHour = tmpTs[2].split(' ')
     const hour = yearHour[1] != null ? yearHour[1] : '00:00'
     const tmp = `${tmpTs[1]}-${tmpTs[0]}-${yearHour[0]} ${hour}`
-    const m = moment(new Date(tmp))
+    console.alert('install moment')
+    //const m = moment(new Date(tmp))
     retVal = m.format('MM-DD-YYYY HH:mm')
   } catch (err) {
     // console.warn(err)
@@ -81,7 +82,8 @@ export function stringToDate (value) {
  * @return {Object}
  */
 export function getWeek (d) {
-  if (moment(d).isValid() === false) {
+  console.alert('install moment')
+/*   if (moment(d).isValid() === false) {
     return {
       weekNr: null,
       year: null
@@ -102,7 +104,7 @@ export function getWeek (d) {
   const ret = {
     weekNr: weekNo,
     year: d.getUTCFullYear()
-  }
+  } */
   return ret
 }
 
