@@ -6,7 +6,7 @@
   >
     <v-spacer class="c4-dotted"></v-spacer>
     <strong v-if="visible">
-      v. {{version}}
+      {{version}}
     </strong>
   </v-row>
 </template>
