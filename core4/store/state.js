@@ -54,7 +54,7 @@ const actions = {
       dispatch("gotoStart");
     }
     const info = await Auth.version();
-    commit("set_version", info.version);
+    commit("set_version", `v. ${info.version}`);
     return true;
   },
   async gotoStart({ commit, dispatch }) {
