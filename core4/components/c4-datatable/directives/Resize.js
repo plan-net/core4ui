@@ -1,4 +1,4 @@
-import { debounce } from '@/dataTable/helper/debounce.js'
+import { debounce } from '../helper/debounce.js'
 require('intersection-observer')
 const ResizeSensor = require('css-element-queries/src/ResizeSensor')
 

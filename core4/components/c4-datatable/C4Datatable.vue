@@ -55,18 +55,18 @@
 
 <script>
 // import debounce from 'debounce'
-import { debounce } from '@/dataTable/helper/debounce.js'
-import { clone } from '@/dataTable/helper/helper.js'
+import { debounce } from './helper/debounce.js'
+import { clone } from './helper/helper.js'
 
-import RegularWrapper from '@/dataTable/components/RegularWrapper'
-import FullscreenWrapper from '@/dataTable/components/FullscreenWrapper'
-import Toolbar from '@/dataTable/components/options/Toolbar'
+import RegularWrapper from './components/RegularWrapper'
+import FullscreenWrapper from './components/FullscreenWrapper'
+import Toolbar from './components/options/Toolbar'
 
-import Nowrap from '@/dataTable/directives/Nowrap'
-// import Resize from '@/dataTable/directives/Resize'
+import Nowrap from './directives/Nowrap'
+// import Resize from './directives/Resize'
 
-import apiService from '@/dataTable/api/service'
-import { initialTranslation, OPTIONS } from '@/dataTable/helper/obj.js'
+import apiService from './api/service'
+import { initialTranslation, OPTIONS } from './helper/obj.js'
 
 export default {
   name: 'data-table',

@@ -4,7 +4,7 @@ import C4Card from './components/c4-card/C4Card'
 import C4Dialog from './components/c4-dialog/C4Dialog'
 import C4Numbers from './components/c4-numbers/C4Numbers'
 import C4Notification from './components/c4-notification/C4Notification'
-import C4Datatable from './components/c4-datatable/C4Datatable'
+import C4DataTablePlus from './components/c4-datatable/C4Datatable'
 import { setRoutes } from './internal/routes/index.js'
 import { setAjaxConfig } from './internal/axios.config.js'
 // import { setCookieConfig } from './internal/cookie.service.js'
@@ -69,13 +69,13 @@ const install = (Vue, options) => {
   setAjaxConfig(options.config)
   // setCookieConfig(options.config.API)
 
-  Vue.component('c4-datatable', C4Datatable)
+  Vue.component('c4-datatable', C4DataTable)
   Vue.component('c4-dialog', C4Dialog)
   Vue.component('c4-notification', C4Notification)
   Vue.component('c4-numbers', C4Numbers)
   Vue.component('c4-card', C4Card)
   Vue.component('c4-page', C4Page)
-  Vue.component('c4-datatable', C4DataTable)
+  Vue.component('c4-datatable-plus', C4DataTablePlus)
   Vue.component('c4-webapp', C4Webapp)
   Vue.component('c4-empty', C4Empty)
   Vue.component('c4-daterange', C4DateRange)

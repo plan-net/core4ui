@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import apiService from '@/dataTable/api/service'
+import apiService from '../../api/service'
 
 export default {
   name: 'Download',

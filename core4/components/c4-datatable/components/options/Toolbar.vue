@@ -79,9 +79,9 @@
 </template>
 
 <script>
-import Search from '@/dataTable/components/options/Search'
-import Download from '@/dataTable/components/options/Download'
-import AdvancedOptions from '@/dataTable/components/options/AdvancedOptions'
+import Search from './Search'
+import Download from './Download'
+import AdvancedOptions from './AdvancedOptions'
 
 export default {
   name: 'Toolbar',

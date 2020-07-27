@@ -1,5 +1,5 @@
 //import debounce from 'debounce'
-import { debounce } from '@/dataTable/helper/debounce.js'
+import { debounce } from '../helper/debounce.js'
 let noWrap = debounce((el, value) => {
   // console.log('noWrap')
   let tableRows = el.querySelector('.v-data-table table tbody').childNodes

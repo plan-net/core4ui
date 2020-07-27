@@ -69,7 +69,7 @@
 
 <script>
 import draggable from 'vuedraggable'
-import { clone } from '@/dataTable/helper/helper.js'
+import { clone } from '../../helper/helper.js'
 
 export default {
   name: 'advanced-options',

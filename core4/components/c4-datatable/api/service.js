@@ -1,7 +1,7 @@
-import api from '@/dataTable/api/index'
-import { mapDict } from '@/dataTable/helper/obj.js'
+import api from './index'
+import { mapDict } from '../helper/obj.js'
 
-let pipe = (...fns) => x => fns.reduce((v, f) => f(v), x)
+const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x)
 
 function propMap (keys = [], obj) {
   keys.forEach(item => {
@@ -25,16 +25,16 @@ function mapPaging (data) {
   // dataTable vuetify component starts count page from 1,
   // server starts count pages from 0,
   // increase page
-  data['page'] = data.paging.page + 1
+  data.page = data.paging.page + 1
 
   // rename per_page -> itemsPerPage
   propMap(['per_page'], data.paging)
 
   // check if all items are selected per page
   if (data.paging.itemsPerPage === data.paging.total_count) {
-    data['itemsPerPage'] = -1
+    data.itemsPerPage = -1
   } else {
-    data['itemsPerPage'] = data.paging.itemsPerPage
+    data.itemsPerPage = data.paging.itemsPerPage
   }
   return data
 }
@@ -60,17 +60,16 @@ function mapSort (data) {
 }
 
 function extractData (data) {
-  if(data._id != null && data.code != null && data.data != null){
-    //data is still unwrapped
+  if (data._id != null && data.code != null && data.data != null) {
+    // data is still unwrapped
     return data.data
   }
   return data
-
 }
 function buildRequest (options) {
   if (options.reset) return { reset: options.reset }
 
-  let result = {
+  const result = {
     per_page: (() => {
       if (options.itemsPerPage === -1) {
         return options.paging.total_count
@@ -82,7 +81,7 @@ function buildRequest (options) {
   }
 
   if (options.sortBy.length) {
-    result['sort'] = options.sortBy.reduce((newArr, item, i) => {
+    result.sort = options.sortBy.reduce((newArr, item, i) => {
       newArr.push({
         name: item,
         ascending: !options.sortDesc[i]
@@ -92,7 +91,7 @@ function buildRequest (options) {
   }
 
   if ('column' in options) {
-    result['column'] = options.column.map(item => {
+    result.column = options.column.map(item => {
       propMap(['text', 'value'], item)
 
       return { name: item.name, hide: item.hide }
@@ -100,11 +99,11 @@ function buildRequest (options) {
   }
 
   if ('dense' in options) {
-    result['dense'] = options.dense
+    result.dense = options.dense
   }
 
   if ('filter' in options) {
-    result['filter'] = options.filter
+    result.filter = options.filter
   }
 
   return result
@@ -115,8 +114,8 @@ export default {
     return api
       .get(url, Object.assign(buildRequest(options), payload))
       .then(data => {
-        const tmp =  pipe(extractData, mapPaging, mapColumns, mapSort)(data)
-        return  tmp
+        const tmp = pipe(extractData, mapPaging, mapColumns, mapSort)(data)
+        return tmp
       })
       .catch(error => {
         throw new Error(`ApiService ${error}`)
