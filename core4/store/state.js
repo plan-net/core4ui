@@ -41,6 +41,7 @@ const actions = {
       role: profile.role,
     };
     commit("set_profile", dto);
+    return dto
   },
   async fetchSettings({ commit, dispatch, state }) {
     const setting = await Auth.setting();
