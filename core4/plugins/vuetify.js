@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+import de from 'vuetify/lib/locale/de'
+import en from 'vuetify/lib/locale/en'
 Vue.use(Vuetify)
 
 let vuetify
@@ -18,6 +20,12 @@ export function getVuetify (theme) {
   const v = new Vuetify({
     icons: {
       iconfont: 'md'
+    },
+    lang: {
+      locales: {
+        en, de
+      },
+      current: 'en'
     },
     theme: {
       options: {
