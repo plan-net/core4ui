@@ -157,7 +157,7 @@ export default {
           case "502":
             Vue.prototype.$store.dispatch(
               "showError",
-              payload(err, actions[errorCode](), false, `${i18n(errorCode)}`)
+              payload(err, actions[errorCode](), true, `${i18n(errorCode)}`)
             );
             break;
           case "400":
@@ -185,7 +185,7 @@ export default {
           case "409":
             Vue.prototype.$store.dispatch(
               "showError",
-              payload(err, actions[errorCode](), false, `${i18n(errorCode)}`)
+              payload(err, actions[errorCode](), true, `${i18n(errorCode)}`)
             );
             break;
           default:
