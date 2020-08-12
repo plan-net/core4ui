@@ -11,7 +11,7 @@ function i18n(code, name = "default") {
   }
 }
 
-function payload(err, actions, isClosableDialog = false, html) {
+function payload(err, actions, html, isClosableDialog = true) {
   let payload = {
     error: err,
     actions: actions,
@@ -143,6 +143,17 @@ export default {
     // vm: component in which error occurred
     // info: Vue specific error information such as lifecycle hooks, events etc.
 
+    // ToDo: find a solution for differentiating regular errors from our errors
+    // Somehow axios error equals to InternalError. In this case "instanceof" check can't be used
+    // if (err instanceof EvalError) {console.log(err)}
+    // if (err instanceof RangeError) {console.log(err)}
+    // if (err instanceof ReferenceError) {console.log(err)}
+    // if (err instanceof SyntaxError) {console.log(err)}
+    // if (err instanceof TypeError) {console.log(err)}
+    // if (err instanceof URIError) {console.log(err)}
+    // if (err instanceof InternalError ) {console.log(err)}
+
+    // All of axios error can be differentiate by isAxiosError build in prop
     if (err.isAxiosError) {
       if (Vue.prototype.$store.getters.loading) {
         Vue.prototype.$store.dispatch("setLoading", false);
@@ -157,13 +168,13 @@ export default {
           case "502":
             Vue.prototype.$store.dispatch(
               "showError",
-              payload(err, actions[errorCode](), true, `${i18n(errorCode)}`)
+              payload(err, actions[errorCode](), `${i18n(errorCode)}`)
             );
             break;
           case "400":
             Vue.prototype.$store.dispatch(
               "showError",
-              payload(err, actions[errorCode](), true, `${i18n(errorCode)}`)
+              payload(err, actions[errorCode](), `${i18n(errorCode)}`)
             );
             break;
           case "401":
@@ -172,20 +183,20 @@ export default {
           case "403":
             Vue.prototype.$store.dispatch(
               "showError",
-              payload(err, actions[errorCode](), true, `${i18n(errorCode)}`)
+              payload(err, actions[errorCode](), `${i18n(errorCode)}`)
             );
             break;
           case "404":
             //Vue.prototype.$store.dispatch("gotoNotFoundPage");
             Vue.prototype.$store.dispatch(
               "showError",
-              payload(err, actions[errorCode](), true, `${i18n(errorCode)}`)
+              payload(err, actions[errorCode](), `${i18n(errorCode)}`)
             );
             break;
           case "409":
             Vue.prototype.$store.dispatch(
               "showError",
-              payload(err, actions[errorCode](), true, `${i18n(errorCode)}`)
+              payload(err, actions[errorCode](), `${i18n(errorCode)}`)
             );
             break;
           default:
@@ -193,7 +204,7 @@ export default {
             // mail = `<a href="mailto:${Vue.prototype.$store.getters.contact}">${Vue.prototype.$store.getters.contact}</a>`
             Vue.prototype.$store.dispatch(
               "showError",
-              payload(err, actions["default"]())
+              payload(err, actions["default"](), `${i18n()}`)
             );
         }
       } else {
@@ -204,7 +215,6 @@ export default {
             payload(
               err,
               actions["noInternet"](),
-              false,
               `${i18n("networkError", "noInternet")}`
             )
           );
@@ -212,10 +222,12 @@ export default {
           // all of possible not xhr errors
           Vue.prototype.$store.dispatch(
             "showError",
-            payload(err, actions["default"](), true, `${i18n("networkError")}`)
+            payload(err, actions["default"](), `${i18n("networkError")}`)
           );
         }
       }
+    } else {
+      console.info(`Core4ui error handling system: new error type - ${err}`)
     }
-  },
+  }
 };
