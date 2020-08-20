@@ -4,45 +4,12 @@
       <c4-navigation>
         <slot name="navigation-slot"></slot>
       </c4-navigation>
-      <!-- TODO refactor to compoinent-->
-      <v-app-bar
-        fixed
-        app
-        dense
-        elevate-on-scroll
-        :extended="false"
-        class="c4-toolbar"
-      >
-        <v-btn
-          class=""
-          text
-          icon
-          @click="$bus.$emit('toggleSidenav')"
-          v-if="navButtonVisible"
-        >
-          <toolbar-side-icon class=""></toolbar-side-icon>
-        </v-btn>
-        <!-- @slot Use this slot for a custom title instead of the default app-name -->
-        <router-link to="/" class="home-link">
-          <slot
-            v-if="!!this.$slots['title-slot']"
-            name="title-slot"
-          ></slot>
-          <h2
-            v-else
-            class="app-title"
-            :class="{'reset-font': !!inWidget}"
-          >{{title}}</h2>
-        </router-link>
-        <c4-spacer></c4-spacer>
-        <c4-user></c4-user>
-      </v-app-bar>
+      <c4-appbar></c4-appbar>
     </template>
-
-    <v-main class="core-background">
+    <v-main>
       <v-container
         :fluid="fluid"
-        class="pa-0"
+        class="px-6 pt-8"
       >
         <router-view />
         <c4-snackbar></c4-snackbar>
@@ -53,16 +20,15 @@
       indeterminate
       v-if="loading"
     ></v-progress-linear>
+    <slot></slot>
   </v-app>
 </template>
 <script>
 
+import C4Appbar from './c4-appbar/C4Appbar.vue'
 import C4Snackbar from './c4-snackbar/Snackbar.vue'
 import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
-import Navigation from './c4-navigation/Navigation.vue'
-import ToolbarSideIcon from './c4-navigation/c4-toolbar-side-icon.vue'
-import C4User from './c4-user/C4User.vue'
-import C4Spacer from './c4-user/C4Spacer.vue'
+import C4Navigation from './c4-navigation/C4Navigation.vue'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -76,35 +42,25 @@ export default {
       type: Boolean,
       default: false,
       required: false
-    },
-    navButtonVisible: {
-      type: Boolean,
-      default: true,
-      required: false
     }
   },
   components: {
+    C4Appbar,
     C4Snackbar,
     ErrorDialog,
-    C4User,
-    C4Spacer,
-    ToolbarSideIcon,
-    'c4-navigation': Navigation
+    C4Navigation
   },
   created () {
-    this.fetchSettings()
+    this.initC4App()
   },
   data () {
     return {
-      drawer: null,
-      alertMessage: null,
-      alertOpen: false
+      drawer: null
     }
   },
   methods: {
     ...mapActions([
-      'fetchSettings',
-      'setTitle'
+      'initC4App'
     ])
   },
   computed: {
@@ -132,7 +88,7 @@ export default {
 </script>
 
 <style lang="css">
-.home-link{
+.home-link {
   text-decoration: none;
 }
 .v-navigation-drawer__border {
@@ -180,8 +136,8 @@ pre {
   z-index: 100000;
 }
 
-.c4-toolbar >>> .v-toolbar__content {
+/* .c4-toolbar >>> .v-toolbar__content {
   padding-right: 8px;
   padding-left: 18px;
-}
+} */
 </style>

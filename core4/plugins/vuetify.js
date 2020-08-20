@@ -11,16 +11,16 @@ export function getVuetify (theme) {
   if (vuetify != null) {
     return vuetify
   }
-  const light = {}
+  /*   const light = {}
   const dark = {}
   Object.keys(theme).forEach(val => {
     light[val] = theme[val]
     dark[val] = theme[val]
-  })
+  }) */
   const v = new Vuetify({
-    icons: {
-      iconfont: 'md'
-    },
+    /*     icons: {
+      iconfont: 'mdi'
+    }, */
     lang: {
       locales: {
         en, de
@@ -35,13 +35,14 @@ export function getVuetify (theme) {
             ? css.replace(/[\r\n|\r|\n]/g, '')
             : css
         }
-      },
-      themes: {
+      }
+      /*       themes: {
         light,
         dark
-      }
+      } */
     }
   })
   vuetify = v
+  console.log(v)
   return v
 }

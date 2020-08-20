@@ -1,16 +1,6 @@
-import iHelper from './internal/$internal'
 import { axiosInternal } from './internal/axios.config.js'
-import axios from 'axios'
 export default {
-  login (user) {
-    return axiosInternal
-      .post('/login', user)
-      .then(result => {
-        window.localStorage.setItem('user', JSON.stringify(result.data))
-        return result.data
-      })
-      .catch(error => Promise.reject(error))
-  },
+
   async profile () {
     if (this.$profile != null) {
       return Promise.resolve(this.$profile)
@@ -19,7 +9,7 @@ export default {
       .get('/profile')
       .then(result => {
         this.$profile = Object.assign(result.data, {
-          short: iHelper.shortName(result.data.realname)
+          short: result.data.realname// iHelper.shortName(result.data.realname)
         })
         return this.$profile
       })
@@ -28,17 +18,18 @@ export default {
       })
   },
   async version () {
-    if(window.__VERSION__ != null){
+    if (window.__VERSION__ != null) {
       return window.__VERSION__
     }
-    return axios
+    return 'No version set.'
+    /*     return axios
       .get('/_info?version')
       .then(result => {
         return result
       })
       .catch(error => {
         throw new Error(`ApiService ${error}`)
-      })
+      })  */
   },
   async setting () {
     return axiosInternal
@@ -58,15 +49,5 @@ export default {
         return result.data
       })
       .catch(error => Promise.reject(error))
-  },
-  reset (data) {
-    // resetten mit token und neuem passwort und token
-    // anfordern mit email
-    return axiosInternal
-      .put('/login', data)
-      .then(result => result)
-      .catch(error => {
-        return Promise.reject(error)
-      })
   }
 }
