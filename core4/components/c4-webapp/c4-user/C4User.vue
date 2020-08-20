@@ -231,7 +231,7 @@ export default {
   methods: {
     _toggleTheme () {
       const theme = THEMES(Math.floor(Math.random() * 4) + 0)
-      this.$store.dispatch('setC4Theme', thme)
+      this.$store.dispatch('setC4Theme', theme)
     },
     close () {
       // this is beeing send from the iframe

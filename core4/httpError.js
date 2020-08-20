@@ -226,8 +226,8 @@ export default {
           );
         }
       }
-    } else {
+    }/*  else {
       console.info(`Core4ui error handling system: new error type - ${err}`)
-    }
+    } */
   }
 };
