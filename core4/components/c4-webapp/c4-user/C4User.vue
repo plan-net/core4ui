@@ -106,7 +106,7 @@
             v-on="on"
             small
             icon
-            @click="_toggleTheme()"
+            @click="toggleTheme"
           >
             <v-icon>mdi-shape</v-icon>
           </v-btn>
@@ -163,6 +163,16 @@ const THEMES = [
     warning: '#FFC107'
   },
   {
+    primary: '#111111',
+    accent: '#EC08B3',
+
+    secondary: '#333',
+    error: '#FF5252',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FFC107'
+  },
+  {
     primary: '#E91E63',
     accent: '#7B1FA2',
 
@@ -174,8 +184,8 @@ const THEMES = [
   },
   {
     dark: {
-      primary: '#21CFF3',
-      accent: '#FF4081',
+      primary: '#f57f17',
+      accent: '#0097a7',
       secondary: '#ffe18d',
       success: '#4CAF50',
       info: '#2196F3',
@@ -217,20 +227,17 @@ export default {
   name: 'c4-user',
   data () {
     return {
-      selected: null,
-      alertMessage: null,
-      alertOpen: false,
-      showNavigation: false,
-      clientWidth: 0,
-      sidenavOpen: null
+      curr: 0
     }
   },
   mounted () {
     this.$store.dispatch('fetchProfile')
+    this.$store.dispatch('setC4Theme', THEMES[0])
   },
   methods: {
-    _toggleTheme () {
-      const theme = THEMES(Math.floor(Math.random() * 4) + 0)
+    toggleTheme () {
+      this.curr = (this.curr + 1) % THEMES.length
+      const theme = THEMES[this.curr]
       this.$store.dispatch('setC4Theme', theme)
     },
     close () {
@@ -246,7 +253,6 @@ export default {
       }
     },
     ...mapActions([
-      'toggleTheme',
       'logout',
       'toggleDark'
     ])
