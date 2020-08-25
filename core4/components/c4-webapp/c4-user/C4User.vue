@@ -141,7 +141,7 @@
             small
             icon
           >
-            <v-icon>cancel</v-icon>
+            <v-icon>mdi-close-circle</v-icon>
           </v-btn>
         </template>
         <span>Close widget</span>
