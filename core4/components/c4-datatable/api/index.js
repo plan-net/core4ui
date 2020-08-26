@@ -2,9 +2,11 @@ import axios from 'axios'
 
 export default {
   get (url, params = {}) {
-    const user = JSON.parse(localStorage.getItem('user'))
+    let user = JSON.parse(localStorage.getItem('user'))
     if (user == null) {
-      return null
+      return user = {
+        token: -1
+      }
     }
     return axios
       .post(`${url}?token=${user.token}`, Object.assign(params, {}))
