@@ -10,6 +10,7 @@ import C4Notification from './components/c4-notification/C4Notification'
 import { setStore } from './store'
 import C4DataTable from './components/c4-table/C4Table'
 import C4Empty from './components/c4-empty/C4Empty'
+import C4DataTablePlus from './components/c4-datatable/C4Datatable'
 import bus from './event-bus'
 import Vue from 'vue'
 import PortalVue from 'portal-vue'
@@ -50,6 +51,8 @@ const install = (Vue, options) => {
   Vue.component('c4-card', C4Card)
   Vue.component('c4-page', C4Page)
   Vue.component('c4-datatable', C4DataTable)
+
+Vue.component('c4-datatable-plus', C4DataTablePlus)
   Vue.component('c4-webapp', C4Webapp)
   Vue.component('c4-empty', C4Empty)
 
