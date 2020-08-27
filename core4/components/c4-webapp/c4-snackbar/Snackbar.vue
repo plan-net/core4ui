@@ -15,7 +15,7 @@
       text
       @click="show = false"
     >
-      <v-icon>close</v-icon>
+      <v-icon>mdi-close</v-icon>
     </v-btn>
   </v-snackbar>
 </template>

@@ -14,7 +14,7 @@
 
       <!-- Search input activator btn-->
       <v-btn small icon v-if="search" @click="searchActive = true">
-        <v-icon>search</v-icon>
+        <v-icon>mdi-card-search</v-icon>
       </v-btn>
     </template>
 
@@ -24,7 +24,7 @@
     <v-tooltip bottom v-if="advanced">
       <template v-slot:activator="{ on }">
         <v-btn small icon @click="onAdvanced(false)">
-          <v-icon v-on="on" small>sort</v-icon>
+          <v-icon v-on="on" small>mdi-sort</v-icon>
           <advanced-options v-if="advancedActive"
                             :dialog="advancedActive"
                             :translation="translation"
@@ -40,7 +40,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn small icon v-on="on" @click="onDownload">
-          <v-icon small>cloud_download</v-icon>
+          <v-icon small>mdi-cloud-download</v-icon>
           <download v-if="downloadActive"
                     :url="url"
                     :dialog="downloadActive"
@@ -56,8 +56,8 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn small icon  v-on="on" @click="onDense">
-          <v-icon small v-show="dense">format_line_spacing</v-icon>
-          <v-icon small v-show="!dense">format_align_justify</v-icon>
+          <v-icon small v-show="dense">mdi-unfold-more-horizontal</v-icon>
+          <v-icon small v-show="!dense">mdi-unfold-less-horizontal</v-icon>
         </v-btn>
       </template>
       <span>{{translation.dense}}</span>
@@ -67,8 +67,8 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn small icon v-on="on" @click="onMaximize">
-          <v-icon small v-show="fullscreen">fullscreen_exit</v-icon>
-          <v-icon small v-show="!fullscreen">fullscreen</v-icon>
+          <v-icon small v-show="fullscreen">mdi-fullscreen-exit</v-icon>
+          <v-icon small v-show="!fullscreen">mdi-fullscreen</v-icon>
         </v-btn>
       </template>
       <span v-show="fullscreen" >{{translation.fullscreen_exit}}</span>
@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     onSearch (data) {
-      let { type, text = '' } = data
+      const { type, text = '' } = data
 
       this.$emit('search', { filter: text })
       if (type === 'esc' || type === 'clear') this.searchActive = false
