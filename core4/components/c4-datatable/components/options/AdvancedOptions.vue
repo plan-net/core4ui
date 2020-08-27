@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+import draggable from '../../helper/vuedraggable.umd.min.js'
 import { clone } from '../../helper/helper.js'
 
 export default {

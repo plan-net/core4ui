@@ -2,9 +2,9 @@ import axios from 'axios'
 
 export default {
   get (url, params = {}) {
-    let user = JSON.parse(localStorage.getItem('user'))
+    const user = JSON.parse(localStorage.getItem('user'))
     if (user == null) {
-      return user = {
+      return {
         token: -1
       }
     }

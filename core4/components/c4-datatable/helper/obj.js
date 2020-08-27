@@ -32,7 +32,6 @@ export const OPTIONS = {
   sortDesc: [],
   groupBy: [],
   groupDesc: [],
-  // mustSort: null,
   multiSort: true,
 
   option: {
