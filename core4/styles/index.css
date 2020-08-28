@@ -10,3 +10,12 @@
 {
   font-weight: 300;
 }
+
+
+/* c4-cards, widgets */
+.c4-card .c4-avatar.v-avatar{
+  box-shadow: inset -2px -10px 10px 0px rgba(0,0,0,0.3);
+}
+.c4-card .v-card__text{
+  flex-grow: 1;
+}
