@@ -16,7 +16,7 @@ import Vue from 'vue'
 import PortalVue from 'portal-vue'
 // import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
-import './styles/index.scss'
+import './styles/index.css'
 import './styles/theme-dark.scss'
 import './styles/theme-light.scss'
 
