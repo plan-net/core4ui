@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export default {
   get (url, params = {}) {
+    console.info('it works')
     const user = JSON.parse(localStorage.getItem('user'))
     if (user == null) {
       return {
