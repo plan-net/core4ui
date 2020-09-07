@@ -17,3 +17,7 @@
 .c4-card .v-card__text{
   flex-grow: 1;
 }
+.theme--light.c4-card .v-card__subtitle, 
+.theme--light.c4-card>.v-card__text  {
+  color: rgba(0,0,0,0.87);
+}
