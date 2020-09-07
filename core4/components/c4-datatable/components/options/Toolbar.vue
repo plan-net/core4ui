@@ -21,20 +21,40 @@
     <v-divider v-if="search" class="mx-4" vertical></v-divider>
 
     <!-- Advanced-options -->
-    <v-tooltip bottom v-if="advanced">
-      <template v-slot:activator="{ on }">
-        <v-btn small icon @click="onAdvanced(false)">
-          <v-icon v-on="on" small>mdi-sort</v-icon>
-          <advanced-options v-if="advancedActive"
-                            :dialog="advancedActive"
-                            :translation="translation"
-                            :column="column"
-                            @closeDialog="onAdvanced">
-          </advanced-options>
-        </v-btn>
-      </template>
-      <span>{{translation.advancedOptions}}</span>
-    </v-tooltip>
+<!--    <v-tooltip bottom v-if="advanced">-->
+<!--      <template v-slot:activator="{ on }">-->
+<!--        <v-btn small icon @click="onAdvanced(false)">-->
+<!--          <v-icon v-on="on" small>mdi-sort</v-icon>-->
+<!--          <advanced-options v-if="advancedActive"-->
+<!--                            :dialog="advancedActive"-->
+<!--                            :translation="translation"-->
+<!--                            :column="column"-->
+<!--                            @closeDialog="onAdvanced">-->
+<!--          </advanced-options>-->
+<!--        </v-btn>-->
+<!--      </template>-->
+<!--      <span>{{translation.advancedOptions}}</span>-->
+<!--    </v-tooltip>-->
+
+    <!-- Advanced-options -->
+    <template v-if="advanced">
+      <v-dialog
+              persistent
+              v-model="advancedActive"
+              max-width="500px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn small icon @click="onAdvanced(false)">
+            <v-icon v-on="on" v-bind="attrs" small>mdi-sort</v-icon>
+          </v-btn>
+        </template>
+        <advanced-options v-if="advancedActive"
+                          :translation="translation"
+                          :column="column"
+                          @closeDialog="onAdvanced">
+        </advanced-options>
+      </v-dialog>
+    </template>
 
     <!-- Download -->
     <v-tooltip bottom>
