@@ -13,13 +13,16 @@
       to="/"
       class="home-link ml-3"
     >
-      <c4-logo></c4-logo>
-      <!--       <portal-target name="title-portal">
-      </portal-target> -->
-
+      <c4-logo v-if="!customTitle"></c4-logo>
     </router-link>
+    <portal-target
+      slim
+      name="c4ui-title-portal"
+      @change="handlePortalUpdate"
+    >
+    </portal-target>
     <v-spacer></v-spacer>
-    <c4-user></c4-user>
+    <c4-user :in-widget="customTitle"></c4-user>
   </v-app-bar>
 </template>
 
@@ -29,6 +32,17 @@ import C4User from '../c4-user/C4User.vue'
 import C4Logo from './C4Logo.vue'
 import { mapGetters } from 'vuex'
 export default {
+  methods: {
+    handlePortalUpdate (ct) {
+      // custom title is set via portal from outside - from widgets application for eaxmple
+      this.customTitle = ct
+    }
+  },
+  data () {
+    return {
+      customTitle: false
+    }
+  },
   computed: {
     ...mapGetters([
       'dark'
