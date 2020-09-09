@@ -193,7 +193,6 @@ const THEMES = [
   {
     primary: '#AC2A41',
     accent: '#0D2D5B',
-
     secondary: '#000000',
     error: '#EC583E',
     info: '#2196F3',
@@ -203,7 +202,6 @@ const THEMES = [
   {
     primary: '#111111',
     accent: '#EC08B3',
-
     secondary: '#333',
     error: '#FF5252',
     info: '#2196F3',
