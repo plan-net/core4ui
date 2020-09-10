@@ -9,6 +9,8 @@
         close-delay="250"
         open-delay="100"
         bottom
+        :close-on-content-click="false"
+        v-model="open"
         left
         :offset-y="true"
       >
@@ -30,43 +32,90 @@
         <v-card>
           <v-card-text>
             <v-flex class="mb-4">
-              <v-avatar
-                size="96"
-                class="mr-4"
-              >
-                <img
-                  color="primary"
-                  :src="profile.avatar"
-                  alt="Avatar"
+              <v-row no-gutters align="center" justify="space-between">
+                <v-avatar
+                  size="96"
+                  class="mr-4"
                 >
-              </v-avatar>
-              <v-btn
-                small
-                color="primary"
-                @click="()=>{}"
-              >Change Avatar</v-btn>
+                  <img
+                    color="primary"
+                    :src="profile.avatar"
+                    alt="Avatar"
+                  >
+                </v-avatar>
+                <v-btn
+                  small
+                  color="primary"
+                  @click="()=>{}"
+                >Change Avatar</v-btn>
+              </v-row>
             </v-flex>
 
             <v-text-field
+              outlined
               v-model="profile.realname"
-              label="Last Name"
+              label="Name"
             ></v-text-field>
             <v-text-field
+              outlined
               v-model="profile.email"
               label="Email Address"
             ></v-text-field>
+            <v-row
+              no-gutters
+              align="center"
+              outlined
+            >
+              <h5 class="subtitle-1 mr-3"> Display &amp; Brightness</h5>
+              <v-radio-group
+                v-model="isDark"
+                row
+              >
+                <v-radio
+                  label="Dark"
+                  :value="true"
+                ></v-radio>
+                <v-radio
+                  label="Light"
+                  :value="false"
+                ></v-radio>
+              </v-radio-group>
+              <!--               <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="mx-2"
+                    v-on="on"
+                    small
+                    icon
+                    @click="toggleDark()"
+                  >
+                    <v-icon>mdi-invert-colors</v-icon>
+                  </v-btn>
+                </template>
+                <span>Toggle light / dark</span>
+              </v-tooltip> -->
+            </v-row>
           </v-card-text>
-          <v-card-actions class="pb-3">
+          <v-card-actions class="pb-5 pr-4">
             <v-spacer></v-spacer>
             <v-btn
-              small
+              text
+              color="primary"
+              @click="logout"
+            >
+              <v-icon
+                left
+                dark
+              >mdi-logout-variant</v-icon>
+              Logout
+            </v-btn>
+            <v-btn
               color="primary"
               @click.native="()=>{}"
             >
               <v-icon
                 left
                 dark
-                small
               >mdi-check</v-icon>
               Save Changes
             </v-btn>
@@ -85,7 +134,7 @@
         >
       </v-avatar>
       <!-- v-if="hasOwnTheme !== true" -->
-      <v-tooltip bottom>
+      <!--       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
             class="mx-2"
@@ -98,8 +147,8 @@
           </v-btn>
         </template>
         <span>Toggle light / dark</span>
-      </v-tooltip>
-      <v-tooltip bottom>
+      </v-tooltip> -->
+      <!--       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
             class="mx-2"
@@ -112,7 +161,7 @@
           </v-btn>
         </template>
         <span>Toggle theme</span>
-      </v-tooltip>
+      </v-tooltip> -->
 
       <!-- v-if="hasOwnTheme !== true" -->
       <v-tooltip bottom>
@@ -122,7 +171,7 @@
             v-on="on"
             small
             icon
-            @click="()=>{}"
+            @click="toggleTheme"
           >
             <v-icon>mdi-bell</v-icon>
             <!--  <v-icon>mdi-bell-alert</v-icon> -->
@@ -155,7 +204,6 @@ const THEMES = [
   {
     primary: '#AC2A41',
     accent: '#0D2D5B',
-
     secondary: '#000000',
     error: '#EC583E',
     info: '#2196F3',
@@ -165,7 +213,6 @@ const THEMES = [
   {
     primary: '#111111',
     accent: '#EC08B3',
-
     secondary: '#333',
     error: '#FF5252',
     info: '#2196F3',
@@ -227,12 +274,21 @@ export default {
   name: 'c4-user',
   data () {
     return {
-      curr: 0
+      open: false,
+      curr: 0,
+      isDarkInternal: false
+    }
+  },
+  props: {
+    inWidget: {
+      type: Boolean,
+      default: false
     }
   },
   mounted () {
     this.$store.dispatch('fetchProfile')
     this.$store.dispatch('setC4Theme', THEMES[0])
+    this.isDark = this.dark
   },
   methods: {
     toggleTheme () {
@@ -259,6 +315,14 @@ export default {
   },
 
   computed: {
+    isDark: {
+      get () {
+        return this.isDarkInternal != null ? this.isDarkInternal : this.dark
+      },
+      set (newVal) {
+        this.isDarkInternal = newVal
+      }
+    },
     inIframe () {
       try {
         return window.self !== window.top
@@ -277,10 +341,7 @@ export default {
     ...mapGetters([
       'profile',
       'menu',
-      'inWidget',
-      'dark',
-      'hasOwnTheme',
-      'title'
+      'dark'
     ])
   }
 }
