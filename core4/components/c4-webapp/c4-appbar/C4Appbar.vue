@@ -13,7 +13,7 @@
       to="/"
       class="home-link ml-3"
     >
-      <c4-logo v-if="!customTitle"></c4-logo>
+      <c4-logo v-if="!customTitle" :dark="dark"></c4-logo>
     </router-link>
     <portal-target
       slim

@@ -69,16 +69,18 @@
         />
       </g>
     </svg>
-  <!--   <pre>{{primaryColor}}</pre> -->
   </span>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 export default {
+  props: {
+    dark: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+  },
   computed: {
-    ...mapGetters([
-      'dark'
-    ]),
     primaryColor () {
       return `fill:${this.$vuetify.theme.themes.dark.primary}`
     },
