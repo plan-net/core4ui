@@ -1,92 +1,93 @@
 <template>
-    <v-card>
+  <v-card>
 
-      <!-- Title -->
-      <v-card-title>
-        <span>{{translation.advancedOptions}}</span>
-        <v-spacer></v-spacer>
-      </v-card-title>
+    <!-- Title -->
+    <v-card-title>
+      <span>{{translation.advancedOptions}}</span>
+      <v-spacer></v-spacer>
+    </v-card-title>
 
-      <!-- Draggable table -->
-      <v-card-text>
-        <v-simple-table class="px-3 pt-3">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">{{translation.dragDropColumn}}</th>
-                <th class="text-left">{{translation.show}}</th>
+    <!-- Draggable table -->
+    <v-card-text>
+      <v-simple-table class="px-3 pt-3">
+        <template v-slot:default>
+          <thead>
+          <tr>
+            <th class="text-left">{{translation.dragDropColumn}}</th>
+            <th class="text-left">{{translation.show}}</th>
+          </tr>
+          </thead>
+          <draggable
+                  tag="tbody"
+                  :componentData="componentData"
+                  :list="internalColumn"
+                  :disabled="!enabled"
+                  :animation="100"
+                  @start="dragging = true"
+                  @end="dragging = false"
+          >
+            <template v-for="element in internalColumn">
+              <tr
+                      v-if="!element.key"
+                      :key="element.value"
+              >
+                <td :class="{ unclickable: !element.editable }">
+                  <v-btn
+                          style="cursor: move"
+                          icon
+                          class="sortHandle"
+                          v-if="element.editable"
+                  >
+                    <v-icon>mdi-drag</v-icon>
+                  </v-btn>
+                  <span>{{element.text}}</span>
+                </td>
+                <td>
+                  <v-checkbox
+                          v-model="element.hide"
+                          :disabled="!element.editable"
+                          :true-value="false"
+                          :false-value="true"
+                          color="primary"
+                  >
+                  </v-checkbox>
+                </td>
               </tr>
-            </thead>
-            <draggable
-              tag="tbody"
-              :componentData="componentData"
-              :list="internalColumn"
-              :disabled="!enabled"
-              :animation="100"
-              @start="dragging = true"
-              @end="dragging = false"
-            >
-              <template v-for="element in internalColumn">
-                <tr
-                  v-if="!element.key"
-                  :key="element.value"
-                >
-                  <td :class="{ unclickable: !element.editable }">
-                    <v-btn
-                      style="cursor: move"
-                      icon
-                      class="sortHandle"
-                      v-if="element.editable"
-                    >
-                      <v-icon>mdi-drag</v-icon>
-                    </v-btn>
-                    <span>{{element.text}}</span>
-                  </td>
-                  <td>
-                    <v-checkbox
-                      v-model="element.hide"
-                      :true-value="false"
-                      :false-value="true"
-                      color="primary"
-                    >
-                    </v-checkbox>
-                  </td>
-                </tr>
-              </template>
-            </draggable>
-          </template>
-        </v-simple-table>
-      </v-card-text>
+            </template>
+          </draggable>
+        </template>
+      </v-simple-table>
+    </v-card-text>
 
-      <!-- Action buttons -->
-      <v-card-actions>
-        <!-- Reset btn -->
-        <v-btn
-          text
-          small
-          color="primary"
-          @click="reset"
-        >{{translation.resetOptions}}</v-btn>
+    <!-- Action buttons -->
+    <v-card-actions>
+      <!-- Reset btn -->
+      <v-btn
+              text
+              small
+              color="primary"
+              @click="reset"
+      >{{translation.resetOptions}}</v-btn>
 
-        <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
 
-        <!-- Cancel btn -->
-        <v-btn
-          text
-          small
-          color="primary"
-          @click="cancel"
-        >{{translation.cancel}}</v-btn>
+      <!-- Cancel btn -->
+      <v-btn
+              text
+              small
+              color="primary"
+              @click="cancel"
+      >{{translation.cancel}}</v-btn>
 
-        <!-- Save btn -->
-        <v-btn
-          text
-          small
-          color="primary"
-          @click="save"
-        >{{translation.save}}</v-btn>
-      </v-card-actions>
-    </v-card>
+      <!-- Save btn -->
+      <v-btn
+              text
+              small
+              color="primary"
+              @click="save"
+      >{{translation.save}}</v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
@@ -135,13 +136,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.flip-list-move {
-  transition: transform 0.5s;
-}
-.no-move {
-  transition: transform 0s;
-}
-.unclickable {
-  pointer-events: none;
-}
+  .flip-list-move {
+    transition: transform 0.5s;
+  }
+  .no-move {
+    transition: transform 0s;
+  }
+  .unclickable {
+    pointer-events: none;
+  }
 </style>

@@ -14,27 +14,27 @@
 
       <!-- Search input activator btn-->
       <v-btn small icon v-if="search" @click="searchActive = true">
-        <v-icon>mdi-card-search</v-icon>
+        <v-icon>mdi-magnify</v-icon>
       </v-btn>
     </template>
 
     <v-divider v-if="search" class="mx-4" vertical></v-divider>
 
-    <!-- Advanced-options -->
-<!--    <v-tooltip bottom v-if="advanced">-->
-<!--      <template v-slot:activator="{ on }">-->
-<!--        <v-btn small icon @click="onAdvanced(false)">-->
-<!--          <v-icon v-on="on" small>mdi-sort</v-icon>-->
-<!--          <advanced-options v-if="advancedActive"-->
-<!--                            :dialog="advancedActive"-->
-<!--                            :translation="translation"-->
-<!--                            :column="column"-->
-<!--                            @closeDialog="onAdvanced">-->
-<!--          </advanced-options>-->
-<!--        </v-btn>-->
-<!--      </template>-->
-<!--      <span>{{translation.advancedOptions}}</span>-->
-<!--    </v-tooltip>-->
+    <!--    &lt;!&ndash; Advanced-options &ndash;&gt;-->
+    <!--    <v-tooltip bottom v-if="advanced">-->
+    <!--      <template v-slot:activator="{ on }">-->
+    <!--        <v-btn small icon @click="onAdvanced(false)">-->
+    <!--          <v-icon v-on="on" small>mdi-sort</v-icon>-->
+    <!--          <advanced-options v-if="advancedActive"-->
+    <!--                            :dialog="advancedActive"-->
+    <!--                            :translation="translation"-->
+    <!--                            :column="column"-->
+    <!--                            @closeDialog="onAdvanced">-->
+    <!--          </advanced-options>-->
+    <!--        </v-btn>-->
+    <!--      </template>-->
+    <!--      <span>{{translation.advancedOptions}}</span>-->
+    <!--    </v-tooltip>-->
 
     <!-- Advanced-options -->
     <template v-if="advanced">
@@ -45,7 +45,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-btn small icon @click="onAdvanced(false)">
-            <v-icon v-on="on" v-bind="attrs" small>mdi-sort</v-icon>
+            <v-icon v-on="on" v-bind="attrs" small>mdi-cog</v-icon>
           </v-btn>
         </template>
         <advanced-options v-if="advancedActive"
@@ -87,8 +87,8 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn small icon v-on="on" @click="onMaximize">
-          <v-icon small v-show="fullscreen">mdi-fullscreen-exit</v-icon>
-          <v-icon small v-show="!fullscreen">mdi-fullscreen</v-icon>
+          <v-icon small v-show="fullscreen">mdi-arrow-collapse-all</v-icon>
+          <v-icon small v-show="!fullscreen">mdi-arrow-expand-all</v-icon>
         </v-btn>
       </template>
       <span v-show="fullscreen" >{{translation.fullscreen_exit}}</span>
