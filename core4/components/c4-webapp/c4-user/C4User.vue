@@ -99,6 +99,17 @@
           <v-card-actions class="pb-5 pr-4">
             <v-spacer></v-spacer>
             <v-btn
+              text
+              color="primary"
+              @click="logout"
+            >
+              <v-icon
+                left
+                dark
+              >mdi-logout-variant</v-icon>
+              Save Changes
+            </v-btn>
+            <v-btn
               color="primary"
               @click.native="()=>{}"
             >
