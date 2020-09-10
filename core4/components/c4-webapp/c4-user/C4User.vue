@@ -107,7 +107,7 @@
                 left
                 dark
               >mdi-logout-variant</v-icon>
-              Save Changes
+              Logout
             </v-btn>
             <v-btn
               color="primary"
