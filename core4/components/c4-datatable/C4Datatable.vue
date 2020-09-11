@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <!-- Settings -->
-    <slot name="settings" :headers="headers"></slot>
+    <slot name="settings" :headers="headers" :rows="rows" v-if="!!this.$scopedSlots.settings"></slot>
 
     <!--Datatable -->
     <component :is="selectedComponent">
@@ -45,8 +45,8 @@
           </toolbar>
         </template>
 
-        <template v-slot:item="{ item }">
-          <slot name="item" :headers="headers" :item="item"></slot>
+        <template v-slot:item="{ item }" v-if="!!this.$scopedSlots.item">
+          <slot name="item" :headers="headers" :rows="rows" :item="item"></slot>
         </template>
 
         <!-- Footer-->
