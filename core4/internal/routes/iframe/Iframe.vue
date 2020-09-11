@@ -23,7 +23,7 @@ export default {
       const type = this.$route.params.type
       const path = (this.menu.find(val => val.label === type) || {}).path
       if (path) {
-        return `${path}&dark=${this.dark}&dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
+        return `${path}dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
       }
       return null
     }
