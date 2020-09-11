@@ -1,10 +1,10 @@
 <template>
-<div>
+  <div>
     <iframe
       :src="path"
       frameborder="0"
     ></iframe>
-</div>
+  </div>
 </template>
 
 <script>
@@ -18,10 +18,12 @@ export default {
       'menu', 'dark'
     ]),
     path () {
+      const dark = new URLSearchParams(this.$vuetify.theme.themes.dark).toString().split('&').join('xyz')
+      const light = new URLSearchParams(this.$vuetify.theme.themes.light).toString().split('&').join('xyz')
       const type = this.$route.params.type
       const path = (this.menu.find(val => val.label === type) || {}).path
       if (path) {
-        return `${path}&dark=${this.dark}`
+        return `${path}&dark=${this.dark}&dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
       }
       return null
     }
@@ -29,17 +31,17 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  div {
-    overflow: hidden;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    padding: 0 0 0 0;
-    iframe {
-      width: 100%;
-      height: 100%;
-    }
+div {
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 0 0 0 0;
+  iframe {
+    width: 100%;
+    height: 100%;
   }
+}
 </style>
