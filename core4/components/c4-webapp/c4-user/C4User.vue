@@ -32,10 +32,14 @@
         <v-card>
           <v-card-text>
             <v-flex class="mb-4">
-              <v-row no-gutters align="center" justify="space-between">
+              <v-row
+                no-gutters
+                align="center"
+                justify="center"
+              >
                 <v-avatar
-                  size="96"
-                  class="mr-4"
+                  size="112"
+                  class="mx-auto"
                 >
                   <img
                     color="primary"
@@ -43,21 +47,25 @@
                     alt="Avatar"
                   >
                 </v-avatar>
-                <v-btn
+                <!--         <v-btn
                   small
                   color="primary"
                   @click="()=>{}"
-                >Change Avatar</v-btn>
+                >Change Avatar</v-btn> -->
               </v-row>
             </v-flex>
 
             <v-text-field
               outlined
+              readonly
+              disabled
               v-model="profile.realname"
               label="Name"
             ></v-text-field>
             <v-text-field
               outlined
+              readonly
+              disabled
               v-model="profile.email"
               label="Email Address"
             ></v-text-field>
@@ -111,13 +119,13 @@
             </v-btn>
             <v-btn
               color="primary"
-              @click.native="()=>{}"
+              :to="{name : 'content' , params: { type: profileItem.label } }"
             >
               <v-icon
                 left
                 dark
-              >mdi-check</v-icon>
-              Save Changes
+              >mdi-account-edit</v-icon>
+              View Profile
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -129,6 +137,7 @@
         class="mx-2 small"
       >
         <img
+          v-show="profile.avatar != null"
           :src="profile.avatar"
           alt="User Image"
         >
@@ -291,6 +300,11 @@ export default {
     this.isDark = this.dark
   },
   methods: {
+    openProfile () {
+      /*       window.parent.postMessage(
+        { event: 'WidgetOpen' }, '*') */
+    },
+
     toggleTheme () {
       this.curr = (this.curr + 1) % THEMES.length
       const theme = THEMES[this.curr]
@@ -315,6 +329,13 @@ export default {
   },
 
   computed: {
+    profileItem () {
+      const profile = this.menu.find(val => val.Label === 'Profile') // workaround
+      return profile || {
+        label: 'Profile', path: '/core4/api/v1/profile'
+
+      }
+    },
     isDark: {
       get () {
         return this.isDarkInternal != null ? this.isDarkInternal : this.dark
