@@ -342,6 +342,7 @@ export default {
       },
       set (newVal) {
         this.isDarkInternal = newVal
+        this.toggleDark()
       }
     },
     inIframe () {

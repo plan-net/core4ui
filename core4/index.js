@@ -52,11 +52,12 @@ const install = (Vue, options) => {
   Vue.component('c4-page', C4Page)
   Vue.component('c4-datatable', C4DataTable)
 
-Vue.component('c4-datatable-plus', C4DataTablePlus)
+  Vue.component('c4-datatable-plus', C4DataTablePlus)
   Vue.component('c4-webapp', C4Webapp)
   Vue.component('c4-empty', C4Empty)
 
   Vue.config.errorHandler = function (err, vm, info) {
+    console.error(err)
     error.show(err, vm, info)
   }
 
