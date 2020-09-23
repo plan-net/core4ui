@@ -156,8 +156,13 @@ const actions = {
   hideAppbar ({ commit, dispatch }) {
     commit('hide_appbar')
   },
-  toggleDark ({ commit, getters }) {
-    const dark = !getters.dark
+  toggleDark ({ commit, getters }, forceVariant = null) {
+    let dark
+    if (forceVariant != null) {
+      dark = forceVariant === 'dark'
+    } else {
+      dark = !getters.dark
+    }
     commit('set_dark', dark)
     return axiosInternal
       .post('/setting/_general', { data: { dark } })

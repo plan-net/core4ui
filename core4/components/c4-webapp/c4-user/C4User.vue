@@ -342,7 +342,8 @@ export default {
       },
       set (newVal) {
         this.isDarkInternal = newVal
-        this.toggleDark()
+        const variant = newVal === true ? 'dark' : 'light'
+        this.toggleDark(variant)
       }
     },
     inIframe () {
