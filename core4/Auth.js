@@ -9,12 +9,9 @@ export default {
       .get('/profile')
       .then(result => {
         this.$profile = Object.assign(result.data, {
-          short: result.data.realname// iHelper.shortName(result.data.realname)
+          short: result.data.realname
         })
         return this.$profile
-      })
-      .catch(error => {
-        throw new Error(`ApiService ${error}`)
       })
   },
   async version () {
@@ -22,23 +19,12 @@ export default {
       return window.__VERSION__
     }
     return 'No version set.'
-    /*     return axios
-      .get('/_info?version')
-      .then(result => {
-        return result
-      })
-      .catch(error => {
-        throw new Error(`ApiService ${error}`)
-      })  */
   },
   async setting () {
     return axiosInternal
       .get('/setting/_general')
       .then(result => {
         return result
-      })
-      .catch(error => {
-        throw new Error(`ApiService ${error}`)
       })
   },
   logout () {
@@ -48,6 +34,12 @@ export default {
       .then(result => {
         return result.data
       })
-      .catch(error => Promise.reject(error))
+  },
+  store () {
+    return axiosInternal
+      .put('/store')
+      .then(result => {
+        return result.data
+      })
   }
 }

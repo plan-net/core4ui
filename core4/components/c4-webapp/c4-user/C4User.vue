@@ -142,37 +142,7 @@
           alt="User Image"
         >
       </v-avatar>
-      <!-- v-if="hasOwnTheme !== true" -->
-      <!--       <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn
-            class="mx-2"
-            v-on="on"
-            small
-            icon
-            @click="toggleDark()"
-          >
-            <v-icon>mdi-invert-colors</v-icon>
-          </v-btn>
-        </template>
-        <span>Toggle light / dark</span>
-      </v-tooltip> -->
-      <!--       <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn
-            class="mx-2"
-            v-on="on"
-            small
-            icon
-            @click="toggleTheme"
-          >
-            <v-icon>mdi-shape</v-icon>
-          </v-btn>
-        </template>
-        <span>Toggle theme</span>
-      </v-tooltip> -->
 
-      <!-- v-if="hasOwnTheme !== true" -->
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
@@ -209,6 +179,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import Auth from '../../../Auth'
 const THEMES = [
   {
     primary: '#AC2A41',
@@ -294,17 +265,24 @@ export default {
       default: false
     }
   },
-  mounted () {
+  async mounted () {
     this.$store.dispatch('fetchProfile')
     this.$store.dispatch('setC4Theme', THEMES[0])
     this.isDark = this.dark
+    try {
+      const ret = await Auth.store()
+      this.$store.dispatch('setC4Theme', ret.doc.theme)
+    } catch (err) {
+      console.warn('Falling back to default theme. No theme configured for this user.')
+      const theme = THEMES[this.curr]
+      this.$store.dispatch('setC4Theme', theme)
+    }
   },
   methods: {
     openProfile () {
       /*       window.parent.postMessage(
         { event: 'WidgetOpen' }, '*') */
     },
-
     toggleTheme () {
       this.curr = (this.curr + 1) % THEMES.length
       const theme = THEMES[this.curr]
