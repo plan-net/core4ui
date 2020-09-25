@@ -274,7 +274,8 @@ export default {
       this.$store.dispatch('setC4Theme', theme)
     }
     const ret = await Auth.checkAvatar()
-    if (ret.data.includes('No avatar') === false) {
+    console.log(ret)
+    if (ret.includes('No avatar') === false) {
       this.avatar = this.url
     }
   },
