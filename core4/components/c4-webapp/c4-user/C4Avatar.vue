@@ -79,9 +79,8 @@ axiosInternal.interceptors.request.use(
 export default {
   components: { AvatarCropper },
   async mounted () {
-    const check = await axiosInternal.get(this.url)
-    console.log(check.data.includes('No avatar'))
-    if (check.data.includes('No avatar') === false) {
+    const check = await axiosInternal.get('/avatar')
+    if (check.includes('No avatar') === false) {
       this.userImage = this.url
       this.defaultAvatar = false
     } else {
@@ -89,13 +88,17 @@ export default {
     }
   },
   computed: {
-    local () {
+    /*     local () {
       return window.location.href.includes('localhost') ? 'http://0.0.0.0:5001/' : ''
-    },
+    }, */
+    /*   urlWoToken () {
+      return `${this.local}core4/api/v1/avatar`
+    }, */
     url () {
-      const user = JSON.parse(window.localStorage.getItem('user') || {})
+      return 'core4/api/v1/avatar'
+      /*       const user = JSON.parse(window.localStorage.getItem('user') || {})
       const token = `?token=${user.token || -1}`
-      return `${this.local}core4/api/v1/avatar${token}`
+      return `${this.urlWoToken}core4/api/v1/avatar${token}` */
     }
 
   },
