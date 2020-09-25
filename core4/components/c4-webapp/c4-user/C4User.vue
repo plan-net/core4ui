@@ -5,7 +5,7 @@
       align="center"
     >
       <v-menu
-        open-on-hover
+        xxxopen-on-hover
         close-delay="250"
         open-delay="100"
         bottom
@@ -28,7 +28,6 @@
             >mdi-menu-down</v-icon>
           </v-btn>
         </template>
-
         <v-card>
           <v-card-text>
             <v-flex class="mb-4">
@@ -37,24 +36,25 @@
                 align="center"
                 justify="center"
               >
-                <v-avatar
+                <c4-avatar></c4-avatar>
+                <!--  <v-avatar
                   size="112"
                   class="mx-auto"
                 >
                   <img
-                    color="primary"
-                    :src="profile.avatar"
-                    alt="Avatar"
+                    v-if="avatar"
+                    :src="avatar"
+                    alt="User Image"
                   >
-                </v-avatar>
-                <!--         <v-btn
-                  small
-                  color="primary"
-                  @click="()=>{}"
-                >Change Avatar</v-btn> -->
+                  <v-icon
+                            style="font-size: 112px"
+                    v-else
+                    x-large
+                    color="primary"
+                  >mdi-account-circle</v-icon>
+                </v-avatar> -->
               </v-row>
             </v-flex>
-
             <v-text-field
               outlined
               readonly
@@ -88,20 +88,6 @@
                   :value="false"
                 ></v-radio>
               </v-radio-group>
-              <!--               <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    class="mx-2"
-                    v-on="on"
-                    small
-                    icon
-                    @click="toggleDark()"
-                  >
-                    <v-icon>mdi-invert-colors</v-icon>
-                  </v-btn>
-                </template>
-                <span>Toggle light / dark</span>
-              </v-tooltip> -->
             </v-row>
           </v-card-text>
           <v-card-actions class="pb-5 pr-4">
@@ -137,10 +123,15 @@
         class="mx-2 small"
       >
         <img
-          v-show="profile.avatar != null"
-          :src="profile.avatar"
+          v-if="avatar"
+          :src="avatar"
           alt="User Image"
         >
+        <v-icon
+          v-else
+          large
+          color="primary"
+        >mdi-account-circle</v-icon>
       </v-avatar>
 
       <v-tooltip bottom>
@@ -179,6 +170,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import C4Avatar from './C4Avatar'
 import Auth from '../../../Auth'
 const THEMES = [
   {
@@ -252,11 +244,15 @@ const THEMES = [
 ]
 export default {
   name: 'c4-user',
+  components: {
+    C4Avatar
+  },
   data () {
     return {
       open: false,
       curr: 0,
-      isDarkInternal: false
+      isDarkInternal: false,
+      avatar: null
     }
   },
   props: {
@@ -276,6 +272,10 @@ export default {
       console.warn('Falling back to default theme. No theme configured for this user.')
       const theme = THEMES[this.curr]
       this.$store.dispatch('setC4Theme', theme)
+    }
+    const ret = await Auth.checkAvatar()
+    if (ret.data.includes('No avatar') === false) {
+      this.avatar = this.url
     }
   },
   methods: {
@@ -307,6 +307,14 @@ export default {
   },
 
   computed: {
+    local () {
+      return window.location.href.includes('localhost') ? 'http://0.0.0.0:5001/' : ''
+    },
+    url () {
+      const user = JSON.parse(window.localStorage.getItem('user') || {})
+      const token = `?token=${user.token || -1}`
+      return `${this.local}core4/api/v1/avatar${token}`
+    },
     profileItem () {
       const profile = this.menu.find(val => val.Label === 'Profile') // workaround
       return profile || {

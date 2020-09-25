@@ -41,5 +41,9 @@ export default {
       .then(result => {
         return result.data
       })
+  },
+  checkAvatar () {
+    return axiosInternal
+      .get('/avatar')
   }
 }
