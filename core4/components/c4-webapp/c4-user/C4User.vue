@@ -263,11 +263,12 @@ export default {
   },
   async mounted () {
     this.$store.dispatch('fetchProfile')
-    this.$store.dispatch('setC4Theme', THEMES[0])
+    // this.$store.dispatch('setC4Theme', THEMES[0])
     this.isDark = this.dark
     try {
       const ret = await Auth.store()
       this.$store.dispatch('setC4Theme', ret.doc.theme)
+      this.$store.dispatch('setApplicationLogo', ret.doc.logo)
     } catch (err) {
       console.warn('Falling back to default theme. No theme configured for this user.')
       const theme = THEMES[this.curr]
@@ -279,10 +280,6 @@ export default {
     }
   },
   methods: {
-    openProfile () {
-      /*       window.parent.postMessage(
-        { event: 'WidgetOpen' }, '*') */
-    },
     toggleTheme () {
       this.curr = (this.curr + 1) % THEMES.length
       const theme = THEMES[this.curr]

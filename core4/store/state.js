@@ -11,8 +11,6 @@ export function inIframe () {
   }
 }
 const state = {
-  // hasOwnTheme: false,
-
   loading: false,
   title: 'CORE4OS',
   dark: false,
@@ -21,10 +19,13 @@ const state = {
   menu: [],
   version: '',
   contact: '@',
+  logo: {
+    light: 'data:image/svg+xml;base64,',
+    dark: false
+  },
   theme: {
     primary: '#AC2A41',
     accent: '#0D2D5B',
-
     secondary: '#000000',
     error: '#EC583E',
     info: '#2196F3',
@@ -41,6 +42,11 @@ const state = {
 }
 
 const actions = {
+  setApplicationLogo ({ commit }, logo) {
+    const light = logo.light
+    const dark = logo.dark || false
+    commit('set_app_logo', { light, dark })
+  },
   setC4Theme ({ commit }, theme) {
     let light = {}
     let dark = {}
@@ -172,6 +178,10 @@ const actions = {
 }
 
 const mutations = {
+  set_app_logo (state, logo) {
+    state.logo.light = logo.light
+    state.logo.dark = logo.dark
+  },
   set_contact (state, payload) {
     state.contact = payload
   },
@@ -224,6 +234,12 @@ const mutations = {
 }
 
 const getters = {
+  logo (state) {
+    if (state.dark && state.logo.dark !== false) {
+      return state.logo.dark
+    }
+    return state.logo.light
+  },
   contact (state) {
     return state.contact
   },
