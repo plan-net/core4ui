@@ -14,7 +14,6 @@ import C4DataTablePlus from './components/c4-datatable/C4Datatable'
 import bus from './event-bus'
 import Vue from 'vue'
 import PortalVue from 'portal-vue'
-// import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import './styles/index.css'
 import './styles/theme-dark.scss'

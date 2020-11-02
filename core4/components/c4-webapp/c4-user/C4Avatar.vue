@@ -1,22 +1,19 @@
 <template>
-  <div
-    class="card vue-avatar-cropper-demo text-center"
-    style=""
-  >
+  <div class="card vue-avatar-cropper-demo text-center">
     <div class="card-body">
       <v-row
         align="center"
         justify="space-around"
       >
         <v-icon
-          v-if="defaultAvatar"
+          v-if="defaultAvatar === true"
           x-large
           style="font-size: 130px;"
           color="primary"
           class="mb-3"
         >mdi-account-circle</v-icon>
         <img
-          v-else
+          v-else=""
           id="uploader-avatar"
           :src="userImage"
           class="card-img avatar"
@@ -31,7 +28,7 @@
     </div>
     <div
       v-if="error"
-      class="card-footer error--textmt-3"
+      class="card-footer error--text mt-3"
       v-html="error"
     ></div>
     <avatar-cropper
@@ -77,7 +74,9 @@ axiosInternal.interceptors.request.use(
 )
 
 export default {
-  components: { AvatarCropper },
+  components: {
+    AvatarCropper
+  },
   async mounted () {
     const check = await axiosInternal.get('/avatar')
     if (check.includes('No avatar') === false) {
@@ -88,23 +87,14 @@ export default {
     }
   },
   computed: {
-    /*     local () {
-      return window.location.href.includes('localhost') ? 'http://0.0.0.0:5001/' : ''
-    }, */
-    /*   urlWoToken () {
-      return `${this.local}core4/api/v1/avatar`
-    }, */
     url () {
       return 'core4/api/v1/avatar'
-      /*       const user = JSON.parse(window.localStorage.getItem('user') || {})
-      const token = `?token=${user.token || -1}`
-      return `${this.urlWoToken}core4/api/v1/avatar${token}` */
     }
 
   },
   data () {
     return {
-      defaultAvatar: true,
+      defaultAvatar: null,
       message: 'ready',
       error: null,
       userImage: 'data:image/png;base64,'
@@ -144,7 +134,7 @@ export default {
   width: 160px;
   border-radius: 6px;
   display: block;
-  min-height: 90px;
+  height: 160px;
   margin: 20px auto;
 }
 ::v-deep .avatar-cropper-btn {

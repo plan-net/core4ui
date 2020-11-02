@@ -2,9 +2,11 @@
   <v-navigation-drawer
     v-model="sidenavOpen"
     app
+    width="325"
     fixed
     stateless
-    class="c4-navigation"
+    class="c4-navigation px-2"
+
   >
     <!-- @slot Use this slot for SideNavigation v-list -->
     <v-row
@@ -15,19 +17,40 @@
         class="mt-12 pt-8 mb-12"
         cols="12"
       >
-         <img
+        <img
           class="client"
-          style="max-height: 80px;"
+          style="max-height: 80px; min-height: 80px;"
           :src="logo"
           alt=""
         >
       </v-col>
     </v-row>
     <slot></slot>
+
+    <footer
+      :class="textColorClass"
+      class="px-8 pt-7 pb-3"
+      :style="{'background-color': this.$vuetify.theme.themes.light.accent}"
+    >
+      <v-row no-gutters class="pb-5">
+        <v-col
+          v-for="item in menu"
+          :key="item.label"
+          :to="{name : 'content' , params: { type: item.label } }"
+        >
+          {{item.label}}
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <p>© {{new Date().getFullYear()}} Serviceplan Group</p>
+      </v-row>
+    </footer>
   </v-navigation-drawer>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'c4-navigation',
   mounted () {
@@ -35,12 +58,24 @@ export default {
   },
   data () {
     return {
-      sidenavOpen: false
+      sidenavOpen: true
     }
   },
   computed: {
+    ...mapGetters([
+      'isAccentLightColor',
+      'menu'
+    ]),
     logo () {
       return this.$store.getters.logo
+    },
+    textColorClass () {
+      return this.isAccentLightColor ? 'black--text' : 'white--text'
+    },
+    bgColor () {
+      const dark = this.$store.getters.dark
+      const color = this.$vuetify.theme.themes[dark ? 'dark' : 'light'].accent
+      return color
     }
   },
   methods: {
@@ -51,5 +86,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+}
 </style>

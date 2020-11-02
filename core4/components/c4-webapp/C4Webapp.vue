@@ -55,7 +55,6 @@ export default {
   },
   data () {
     return {
-      drawer: null
     }
   },
   methods: {
@@ -91,9 +90,9 @@ export default {
 .home-link {
   text-decoration: none;
 }
-.v-navigation-drawer__border {
+/* .v-navigation-drawer__border {
   opacity: 0.15;
-}
+} */
 </style>
 
 <style scoped lang="css">

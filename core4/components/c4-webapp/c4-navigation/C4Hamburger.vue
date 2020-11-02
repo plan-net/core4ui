@@ -1,5 +1,5 @@
 <template>
-  <div class="c4-hamburger">
+  <div class="c4-hamburger" style="margin-top: -3px;">
     <v-btn
       text
       icon
