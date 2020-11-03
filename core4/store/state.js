@@ -10,6 +10,7 @@ export function inIframe () {
     return true
   }
 }
+
 const state = {
   loading: false,
   title: 'CORE4OS',
@@ -269,12 +270,13 @@ const getters = {
   },
   isAccentLightColor (state) {
     const dark = state.dark
-    const color = getVuetify().framework.theme.themes[dark ? 'dark' : 'light'].accent
+    const color = getVuetify().framework.theme.themes[dark ? 'dark' : 'light']
+      .accent
     const hex = color.replace('#', '')
     const cr = parseInt(hex.substr(0, 2), 16)
     const cg = parseInt(hex.substr(2, 2), 16)
     const cb = parseInt(hex.substr(4, 2), 16)
-    const brightness = ((cr * 299) + (cg * 587) + (cb * 114)) / 1000
+    const brightness = (cr * 299 + cg * 587 + cb * 114) / 1000
     return brightness > 155
   },
   menu (state) {
@@ -288,14 +290,23 @@ const getters = {
         }
       ]
     }
-    return (state.menu || []).map(item => {
-      const path = debug ? 'http://0.0.0.0:5001' : ''
-      const label = Object.keys(item)[0]
-      return {
-        path: `${path}${item[label]}?token=${user.token}`,
-        label
+    const ret = (state.menu || [])
+      .map(item => {
+        const path = debug ? 'http://0.0.0.0:5001' : ''
+        const label = Object.keys(item)[0]
+        return {
+          path: `${path}${item[label]}?token=${user.token}`,
+          label
+        }
+      })
+      .filter(val => val.label.toLowerCase() !== 'profile')
+    return ret.concat([
+      {
+        path: `mailto:${state.contact}`,
+        label: 'Contact',
+        type: 'mail'
       }
-    }).filter(val => val.label.toLowerCase() !== 'profile')
+    ])
   }
 }
 

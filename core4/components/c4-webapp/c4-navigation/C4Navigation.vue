@@ -6,7 +6,6 @@
     fixed
     stateless
     class="c4-navigation px-2"
-
   >
     <!-- @slot Use this slot for SideNavigation v-list -->
     <v-row
@@ -32,13 +31,27 @@
       class="px-8 pt-7 pb-3"
       :style="{'background-color': this.$vuetify.theme.themes.light.accent}"
     >
-      <v-row no-gutters class="pb-5">
+      <v-row
+        no-gutters
+        class="pb-5"
+      >
         <v-col
           v-for="item in menu"
           :key="item.label"
-          :to="{name : 'content' , params: { type: item.label } }"
         >
-          {{item.label}}
+          <!-- <a :href="item.path">{{item.label}}</a> -->
+          <v-btn
+            :dark="!isAccentLightColor"
+            v-if="item.type === 'mail'"
+            :href="item.path"
+            text
+          > {{item.label}}</v-btn>
+          <v-btn
+            :dark="!isAccentLightColor"
+            v-else
+            :to="{name : 'content' , params: { type: item.label } }"
+            text
+          > {{item.label}}</v-btn>
         </v-col>
       </v-row>
       <v-row no-gutters>
@@ -69,6 +82,7 @@ export default {
     logo () {
       return this.$store.getters.logo
     },
+
     textColorClass () {
       return this.isAccentLightColor ? 'black--text' : 'white--text'
     },
