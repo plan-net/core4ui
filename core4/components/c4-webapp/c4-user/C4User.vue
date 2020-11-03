@@ -134,7 +134,7 @@
         >mdi-account-circle</v-icon>
       </v-avatar>
 
-      <v-tooltip bottom>
+<!--       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
             class="mx-2"
@@ -144,11 +144,10 @@
             @click="toggleTheme"
           >
             <v-icon>mdi-bell</v-icon>
-            <!--  <v-icon>mdi-bell-alert</v-icon> -->
           </v-btn>
         </template>
         <span>Notifications</span>
-      </v-tooltip>
+      </v-tooltip> -->
       <v-tooltip
         bottom
         v-if="showCloseButton"
