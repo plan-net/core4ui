@@ -71,7 +71,7 @@ export default {
   },
   data () {
     return {
-      sidenavOpen: true
+      sidenavOpen: false
     }
   },
   computed: {
