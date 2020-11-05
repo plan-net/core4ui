@@ -37,22 +37,6 @@
                 justify="center"
               >
                 <c4-avatar></c4-avatar>
-                <!--  <v-avatar
-                  size="112"
-                  class="mx-auto"
-                >
-                  <img
-                    v-if="avatar"
-                    :src="avatar"
-                    alt="User Image"
-                  >
-                  <v-icon
-                            style="font-size: 112px"
-                    v-else
-                    x-large
-                    color="primary"
-                  >mdi-account-circle</v-icon>
-                </v-avatar> -->
               </v-row>
             </v-flex>
             <v-text-field
@@ -134,7 +118,7 @@
         >mdi-account-circle</v-icon>
       </v-avatar>
 
-<!--       <v-tooltip bottom>
+      <!--       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
             class="mx-2"
@@ -274,7 +258,7 @@ export default {
       this.$store.dispatch('setC4Theme', theme)
     }
     const ret = await Auth.checkAvatar()
-    if (ret.includes('No avatar') === false) {
+    if (typeof ret === 'string') {
       this.avatar = this.url
     }
   },

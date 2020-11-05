@@ -6,14 +6,15 @@
         justify="space-around"
       >
         <v-icon
-          v-if="defaultAvatar === true"
+          v-if="defaultAvatar === true || userImage === 'data:image/png;base64,'"
           x-large
           style="font-size: 130px;"
           color="primary"
           class="mb-3"
         >mdi-account-circle</v-icon>
+
         <img
-          v-else=""
+          v-else
           id="uploader-avatar"
           :src="userImage"
           class="card-img avatar"
