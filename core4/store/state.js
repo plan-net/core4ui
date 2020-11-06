@@ -198,7 +198,7 @@ const mutations = {
       ]
       return
     }
-    const path = debug ? 'http://0.0.0.0:5001' : ''
+    const path = ''// debug ? 'http://0.0.0.0:5001' : ''
     const ret = (payload || [])
       .map(item => {
         const label = Object.keys(item)[0]

@@ -22,9 +22,8 @@ export default {
       const light = new URLSearchParams(this.$vuetify.theme.themes.light).toString().split('&').join('xyz')
       const type = this.$route.params.type
       const path = (this.menu.find(val => val.label === type) || {}).path
-      console.log(this.menu)
       if (path) {
-        return `${path}dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
+        return `${path}&dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
       }
       return null
     }
