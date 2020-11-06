@@ -88,9 +88,9 @@ const actions = {
     const setting = await Auth.setting()
     commit('set_menu', setting.data.menu)
     commit('set_profile', { authenticated: true })
-    if (state.hasOwnTheme === false) {
-      commit('set_dark', setting.data.dark)
-    }
+    // if (state.hasOwnTheme === false) {
+    commit('set_dark', setting.data.dark)
+    // }
     commit('set_contact', setting.data.contact)
 
     const version = await Auth.version()
@@ -187,7 +187,7 @@ const mutations = {
     state.contact = payload
   },
   set_menu (state, payload) {
-    const debug = process.env.NODE_ENV !== 'production'
+    // const debug = process.env.NODE_ENV !== 'production'
     const user = JSON.parse(window.localStorage.getItem('user'))
     if (user == null) {
       state.menu = [
