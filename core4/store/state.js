@@ -187,7 +187,35 @@ const mutations = {
     state.contact = payload
   },
   set_menu (state, payload) {
-    state.menu = payload
+    const debug = process.env.NODE_ENV !== 'production'
+    const user = JSON.parse(window.localStorage.getItem('user'))
+    if (user == null) {
+      state.menu = [
+        {
+          path: '',
+          label: ''
+        }
+      ]
+      return
+    }
+    const path = debug ? 'http://0.0.0.0:5001' : ''
+    const ret = (payload || [])
+      .map(item => {
+        const label = Object.keys(item)[0]
+        return {
+          showInNav: !label.toLowerCase().includes('profile'),
+          path: `${path}${item[label]}?token=${user.token}`,
+          label
+        }
+      }).concat([
+        {
+          path: `mailto:${state.contact}`,
+          label: 'Contact',
+          showInNav: true,
+          type: 'mail'
+        }
+      ])
+    state.menu = ret
   },
   set_version (state, payload) {
     state.version = payload
@@ -280,33 +308,7 @@ const getters = {
     return brightness > 155
   },
   menu (state) {
-    const debug = process.env.NODE_ENV !== 'production'
-    const user = JSON.parse(window.localStorage.getItem('user'))
-    if (user == null) {
-      return [
-        {
-          path: '',
-          label: ''
-        }
-      ]
-    }
-    const ret = (state.menu || [])
-      .map(item => {
-        const path = debug ? 'http://0.0.0.0:5001' : ''
-        const label = Object.keys(item)[0]
-        return {
-          path: `${path}${item[label]}?token=${user.token}`,
-          label
-        }
-      })
-      .filter(val => val.label.toLowerCase() !== 'profile')
-    return ret.concat([
-      {
-        path: `mailto:${state.contact}`,
-        label: 'Contact',
-        type: 'mail'
-      }
-    ])
+    return state.menu
   }
 }
 

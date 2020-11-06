@@ -36,7 +36,7 @@
         class="pb-5"
       >
         <v-col
-          v-for="item in menu"
+          v-for="item in internalMenu"
           :key="item.label"
         >
           <!-- <a :href="item.path">{{item.label}}</a> -->
@@ -79,6 +79,9 @@ export default {
       'isAccentLightColor',
       'menu'
     ]),
+    internalMenu () {
+      return this.menu.filter(val => val.showInNav)
+    },
     logo () {
       return this.$store.getters.logo
     },
