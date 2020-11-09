@@ -61,6 +61,7 @@
               <h5 class="subtitle-1 mr-3"> Display &amp; Brightness</h5>
               <v-radio-group
                 v-model="isDark"
+                @change="onDarkChange"
                 row
               >
                 <v-radio
@@ -263,6 +264,8 @@ export default {
     }
   },
   methods: {
+    onDarkChange (event) {
+    },
     toggleTheme () {
       this.curr = (this.curr + 1) % THEMES.length
       const theme = THEMES[this.curr]
@@ -304,10 +307,10 @@ export default {
     },
     isDark: {
       get () {
-        return this.isDarkInternal != null ? this.isDarkInternal : this.dark
+        return this.dark// this.isDarkInternal != null ? this.isDarkInternal : this.dark
       },
       set (newVal) {
-        this.isDarkInternal = newVal
+        // this.isDarkInternal = newVal
         const variant = newVal === true ? 'dark' : 'light'
         this.toggleDark(variant)
       }
