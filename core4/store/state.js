@@ -86,7 +86,6 @@ const actions = {
   },
   async initC4App ({ commit, dispatch, state }) {
     const setting = await Auth.setting()
-    commit('set_menu', setting.data.menu)
     commit('set_profile', { authenticated: true })
     // if (state.hasOwnTheme === false) {
     commit('set_dark', setting.data.dark)
@@ -95,6 +94,8 @@ const actions = {
 
     const version = await Auth.version()
     commit('set_version', version)
+
+    commit('set_menu', setting.data.menu)
     return true
   },
   async gotoStart ({ commit, dispatch }) {
