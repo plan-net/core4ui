@@ -208,14 +208,7 @@ const mutations = {
           path: `${path}${item[label]}?token=${user.token}`,
           label
         }
-      }).concat([
-        {
-          path: `mailto:${state.contact}`,
-          label: 'Contact',
-          showInNav: true,
-          type: 'mail'
-        }
-      ])
+      })
     state.menu = ret
   },
   set_version (state, payload) {

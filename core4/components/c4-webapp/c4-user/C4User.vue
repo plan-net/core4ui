@@ -301,11 +301,15 @@ export default {
       return `${this.local}core4/api/v1/avatar${token}`
     },
     profileItem () {
-      const profile = this.menu.find(val => val.Label === 'Profile') // workaround
+      return {
+        label: 'Profile', path: '/core4/api/v1/profile'
+      }
+      // todo: extract from settings: profile - same level as mail
+      /*       const profile = this.menu.find(val => val.Label === 'Profile') // workaround
       return profile || {
         label: 'Profile', path: '/core4/api/v1/profile'
 
-      }
+      } */
     },
     /*     isDark: {
       get () {
