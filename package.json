@@ -19,7 +19,8 @@
     "vuex": "^3.5.1",
     "portal-vue": "^2.1.7",
     "vuedraggable": "^2.23.2",
-    "vue-avatar-cropper": "^1.0.9" 
+    "vue-avatar-cropper": "^1.0.9",
+    "@mdi/font": "^5.8.55" 
   },
   "devDependencies": {}
 }
