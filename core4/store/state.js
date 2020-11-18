@@ -204,8 +204,9 @@ const mutations = {
       .map(item => {
         const label = Object.keys(item)[0]
         return {
-          showInNav: !label.toLowerCase().includes('profile'),
-          path: `${path}${item[label]}?token=${user.token}`,
+          // showInNav: true,
+          path: `${path}${item[label]}`,
+          // path: `${path}${item[label]}?token=${user.token}`,
           label
         }
       })

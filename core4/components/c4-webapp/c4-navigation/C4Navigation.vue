@@ -80,7 +80,7 @@ export default {
       'menu'
     ]),
     internalMenu () {
-      return this.menu.filter(val => val.showInNav)
+      return this.menu// .filter(val => val.showInNav)
     },
     logo () {
       return this.$store.getters.logo
