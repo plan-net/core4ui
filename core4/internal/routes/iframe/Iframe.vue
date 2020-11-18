@@ -26,9 +26,10 @@ export default {
         path = '/core4/api/v1/profile'
       }
       if (path) {
-        const user = JSON.parse(window.localStorage.getItem('user') || {})
-        const token = `?token=${user.token || -1}`
-        return `${path}${token}&dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
+        // const user = JSON.parse(window.localStorage.getItem('user') || {})
+        // const token = `?token=${user.token || -1}`
+        // return `${path}${token}&dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
+        return `${path}?dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
       }
       return null
     }
