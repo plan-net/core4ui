@@ -273,9 +273,9 @@ export default {
       this.$store.dispatch('setC4Theme', theme)
     },
     close () {
-      // this is beeing send from the iframe
       this.$router.push('/')
-/*       if (this.inIframe && this.isMenuPage === false) {
+      // this is beeing send from the iframe
+      /*       if (this.inIframe && this.isMenuPage === false) {
         window.parent.postMessage('c4-application-close', '*')
         return
       }
