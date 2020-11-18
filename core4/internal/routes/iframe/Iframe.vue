@@ -30,7 +30,7 @@ export default {
         // const token = `?token=${user.token || -1}`
         // return `${path}${token}&dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
         const p = `${path}?dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
-        console.info(p)
+        // console.info(p)
         return p
       }
       return null
