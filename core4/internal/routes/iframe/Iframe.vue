@@ -29,7 +29,9 @@ export default {
         // const user = JSON.parse(window.localStorage.getItem('user') || {})
         // const token = `?token=${user.token || -1}`
         // return `${path}${token}&dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
-        return `${path}?dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
+        const p = `${path}?dark=${this.dark}&themeDark=${dark}&themeLight=${light}`
+        console.info(p)
+        return p
       }
       return null
     }
