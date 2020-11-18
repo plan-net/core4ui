@@ -274,7 +274,8 @@ export default {
     },
     close () {
       // this is beeing send from the iframe
-      if (this.inIframe && this.isMenuPage === false) {
+      this.$router.push('/')
+/*       if (this.inIframe && this.isMenuPage === false) {
         window.parent.postMessage('c4-application-close', '*')
         return
       }
@@ -282,7 +283,7 @@ export default {
         this.$router.go(-1)
       } else {
         this.$bus.$emit('c4-application-close')
-      }
+      } */
     },
     ...mapActions([
       'logout',
