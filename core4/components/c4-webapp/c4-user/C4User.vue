@@ -273,8 +273,9 @@ export default {
       this.$store.dispatch('setC4Theme', theme)
     },
     close () {
+      this.$router.push('/')
       // this is beeing send from the iframe
-      if (this.inIframe && this.isMenuPage === false) {
+/*       if (this.inIframe && this.isMenuPage === false) {
         window.parent.postMessage('c4-application-close', '*')
         return
       }
@@ -283,7 +284,7 @@ export default {
       } else {
         this.$bus.$emit('c4-application-close')
       }
-    },
+    }, */
     ...mapActions([
       'logout',
       'toggleDark'
