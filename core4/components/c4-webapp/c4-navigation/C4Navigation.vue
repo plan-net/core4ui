@@ -15,13 +15,19 @@
       <v-col
         class="mt-12 pt-8 mb-12"
         cols="12"
+        align="center"
       >
-        <img
-          class="client"
-          style="max-height: 80px; min-height: 80px;"
-          :src="logo"
-          alt=""
+        <router-link
+          to="/"
+          class="home-link"
         >
+          <img
+            class="client"
+            style="max-height: 80px; min-height: 80px;"
+            :src="logo"
+            alt="Logo"
+          >
+        </router-link>
       </v-col>
     </v-row>
     <slot></slot>

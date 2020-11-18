@@ -3,11 +3,10 @@
     <v-row
       no-gutters
       align="center"
+      v-click-outside="open = false"
     >
       <v-menu
         xxxopen-on-hover
-        close-delay="250"
-        open-delay="100"
         bottom
         :close-on-content-click="false"
         v-model="open"
