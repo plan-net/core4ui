@@ -245,7 +245,8 @@ export default {
     }
   },
   async mounted () {
-    this.$store.dispatch('fetchProfile')
+    const p = await this.$store.dispatch('fetchProfile')
+    console.log(p.perm)
     // this.$store.dispatch('setC4Theme', THEMES[0])
     this.isDark = this.dark
     try {
