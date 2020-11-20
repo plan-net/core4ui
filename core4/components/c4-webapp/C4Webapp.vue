@@ -11,8 +11,6 @@
         :fluid="fluid"
         class="px-6 pt-8"
       >
-        <!-- Slot for component that should be rendered on each page like: menu -->
-        <slot name="top-global-bar-slot"></slot>
         <router-view />
         <c4-snackbar></c4-snackbar>
         <error-dialog></error-dialog>
@@ -32,6 +30,7 @@ import C4Snackbar from './c4-snackbar/Snackbar.vue'
 import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
 import C4Navigation from './c4-navigation/C4Navigation.vue'
 import { mapActions, mapGetters } from 'vuex'
+import Auth from '../Auth'
 export function inIframe () {
   try {
     return window.self !== window.top
@@ -58,8 +57,15 @@ export default {
     ErrorDialog,
     C4Navigation
   },
-  created () {
+  async created () {
     this.initC4App()
+    try {
+      const ret = await Auth.store()
+      this.$store.dispatch('setC4Theme', ret.doc.theme)
+      this.$store.dispatch('setApplicationLogo', ret.doc.logo)
+    } catch (err) {
+      console.warn('Falling back to default theme. No theme configured for this user.')
+    }
   },
   data () {
     return {

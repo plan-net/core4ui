@@ -155,7 +155,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import C4Avatar from './C4Avatar'
 import Auth from '../../../Auth'
-const THEMES = [
+/* const THEMES = [
   {
     primary: '#AC2A41',
     accent: '#0D2D5B',
@@ -224,7 +224,7 @@ const THEMES = [
       error: '#FF5252'
     }
   }
-]
+] */
 export default {
   name: 'c4-user',
   components: {
@@ -245,11 +245,9 @@ export default {
     }
   },
   async mounted () {
-    const p = await this.$store.dispatch('fetchProfile')
-    console.log(p.perm)
-    // this.$store.dispatch('setC4Theme', THEMES[0])
+    this.$store.dispatch('fetchProfile')
     this.isDark = this.dark
-    try {
+    /*     try {
       const ret = await Auth.store()
       this.$store.dispatch('setC4Theme', ret.doc.theme)
       this.$store.dispatch('setApplicationLogo', ret.doc.logo)
@@ -257,7 +255,7 @@ export default {
       console.warn('Falling back to default theme. No theme configured for this user.')
       const theme = THEMES[this.curr]
       this.$store.dispatch('setC4Theme', theme)
-    }
+    } */
     const ret = await Auth.checkAvatar()
     if (typeof ret === 'string') {
       this.avatar = this.url
@@ -268,11 +266,11 @@ export default {
       const variant = event === true ? 'dark' : 'light'
       this.toggleDark(variant)
     },
-    toggleTheme () {
+    /*     toggleTheme () {
       this.curr = (this.curr + 1) % THEMES.length
       const theme = THEMES[this.curr]
       this.$store.dispatch('setC4Theme', theme)
-    },
+    }, */
     close () {
       this.$router.push('/')
       // this is beeing send from the iframe
