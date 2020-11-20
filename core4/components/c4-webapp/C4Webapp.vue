@@ -30,7 +30,7 @@ import C4Snackbar from './c4-snackbar/Snackbar.vue'
 import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
 import C4Navigation from './c4-navigation/C4Navigation.vue'
 import { mapActions, mapGetters } from 'vuex'
-import Auth from '../Auth'
+import Auth from '../../Auth'
 export function inIframe () {
   try {
     return window.self !== window.top
