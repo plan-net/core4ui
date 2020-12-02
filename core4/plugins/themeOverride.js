@@ -2,7 +2,7 @@ import { axiosInternal } from 'core4ui/core4/internal/axios.config.js'
 import _ from 'lodash'
 
 export function applyTheme (conf) {
-  this.$Loading.config(conf)
+  console.log(conf)
   axiosInternal.interceptors.response.use(
     response => {
       console.log(response)
