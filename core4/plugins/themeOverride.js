@@ -8,10 +8,11 @@ export function applyTheme (conf) {
       console.log(response)
       try {
         const tester = response.config.baseURL + response.config.url
-        console.log(tester)
+        console.log(tester, response)
         if (tester.includes('core4/api/v1/store')) {
           // custom theme
           response.data.data.doc.theme = _.merge(response.data.data.doc.theme, conf.theme)
+          console.log(response.data.data.doc.theme)
         }
       } catch (err) {}
       return response
