@@ -12,6 +12,7 @@ export function setAjaxConfig (config) {
   instances.forEach(axiosInstance => {
     axiosInstance.interceptors.response.use(
       response => {
+        console.log('2')
         return response.data
       },
       error => {
