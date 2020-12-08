@@ -91,6 +91,12 @@ export default {
   text-decoration: none;
   color: unset !important;
 }
+.v-toolbar.topnav, .c4ui-topnav {
+
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
 /* .v-navigation-drawer__border {
   opacity: 0.15;
 } */
@@ -135,11 +141,7 @@ pre {
   background: rgba(100, 100, 100, 0.05);
   z-index: 100000;
 }
-.v-toolbar.topnav, .c4ui-topnav {
-  position: absolute;
-  top: 0;
-  z-index: 1;
-}
+
 /* .c4-toolbar >>> .v-toolbar__content {
   padding-right: 8px;
   padding-left: 18px;
