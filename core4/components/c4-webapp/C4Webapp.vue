@@ -8,7 +8,7 @@
     </template>
     <v-main>
       <v-container :fluid="fluid" class="px-6 pt-8">
-        <slot name="top-navigation-slot"></slot>
+        <portal-target slim name="c4ui-topnav-portal"> </portal-target>
         <router-view />
         <c4-snackbar></c4-snackbar>
         <error-dialog></error-dialog>
@@ -95,6 +95,7 @@ export default {
 <style lang="css">
 .home-link {
   text-decoration: none;
+  color: unset !important;
 }
 /* .v-navigation-drawer__border {
   opacity: 0.15;

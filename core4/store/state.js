@@ -3,7 +3,7 @@ import bus from '../event-bus.js'
 import router from '../internal/routes/index.js'
 import { axiosInternal } from '../internal/axios.config.js'
 import { getVuetify } from '../plugins/vuetify'
-export function inIframe () {
+export function inIframe() {
   try {
     return window.self !== window.top
   } catch (e) {
@@ -43,12 +43,12 @@ const state = {
 }
 
 const actions = {
-  setApplicationLogo ({ commit }, logo) {
+  setApplicationLogo({ commit }, logo) {
     const light = logo.light
     const dark = logo.dark || false
     commit('set_app_logo', { light, dark })
   },
-  setC4Theme ({ commit }, theme) {
+  setC4Theme({ commit }, theme) {
     let light = {}
     let dark = {}
     if (theme.light == null) {
@@ -63,10 +63,10 @@ const actions = {
     getVuetify().framework.theme.themes.light = light
     getVuetify().framework.theme.themes.dark = dark
   },
-  showNotification ({ commit }, payload) {
+  showNotification({ commit }, payload) {
     bus.$emit('SHOW_NOTIFICATION', payload)
   },
-  async fetchProfile ({ commit, dispatch, state }) {
+  async fetchProfile({ commit, dispatch, state }) {
     const profile = await Auth.profile()
     const dto = {
       authenticated: true,
@@ -80,11 +80,11 @@ const actions = {
     commit('set_profile', dto)
     return dto
   },
-  fetchSettings ({ commit, dispatch, state }) {
+  fetchSettings({ commit, dispatch, state }) {
     console.warn('fetchSettings is deprected')
     dispatch('initC4App')
   },
-  async initC4App ({ commit, dispatch, state }) {
+  async initC4App({ commit, dispatch, state }) {
     const setting = await Auth.setting()
     commit('set_profile', { authenticated: true })
     // if (state.hasOwnTheme === false) {
@@ -96,36 +96,42 @@ const actions = {
     commit('set_version', version)
 
     commit('set_menu', setting.data.menu)
+    /*     commit('set_menu', [
+      { About: '/about' },
+      { Mail: 'mailto://bi-ops@plan-net.com' },
+      { 'Privacy Policy': '/home4/devops/pp' },
+      { Imprint: '/home4/devops/imprint' }
+    ]) */
     return true
   },
-  async gotoStart ({ commit, dispatch }) {
+  async gotoStart({ commit, dispatch }) {
     router.instance.push('/')
     commit('set_profile', { authenticated: true })
     await dispatch('initC4App')
   },
-  gotoMainPage () {
+  gotoMainPage() {
     router.instance.push('/').catch(() => {
       window.location.assign('/')
     })
   },
-  reloadCurrentPage () {
+  reloadCurrentPage() {
     router.instance.go().catch(() => {
       location.reload()
     })
   },
-  gotoNotFoundPage () {
+  gotoNotFoundPage() {
     router.instance.push({ name: 'notfound' })
   },
-  gotoLogin ({ commit }) {
+  gotoLogin({ commit }) {
     window.localStorage.clear()
     commit('clear_profile')
     window.setTimeout(() => {
       window.location.assign('/core4/api/v1/login')
     }, 200)
   },
-  logout ({ dispatch }) {
+  logout({ dispatch }) {
     Auth.logout()
-      .then(function () {
+      .then(function() {
         dispatch('gotoLogin')
       })
       .catch(err => {
@@ -133,38 +139,38 @@ const actions = {
         return Promise.reject(err)
       })
   },
-  setLoading ({ commit }, payload) {
+  setLoading({ commit }, payload) {
     commit('set_loading', payload)
   },
-  setTitle ({ commit }, payload) {
+  setTitle({ commit }, payload) {
     commit('set_title', payload)
   },
-  initializeApp ({ commit, dispatch }, payload) {
+  initializeApp({ commit, dispatch }, payload) {
     dispatch('setTitle', payload.TITLE)
     if (payload.DARK != null) {
       commit('set_dark', payload.DARK)
       // state.hasOwnTheme = true // do not show theme switch
     }
   },
-  setWidgetTitle ({ commit, dispatch }, payload) {
+  setWidgetTitle({ commit, dispatch }, payload) {
     commit('set_title', payload)
   },
-  resetWidgetTitle ({ commit, dispatch }, payload) {
+  resetWidgetTitle({ commit, dispatch }, payload) {
     commit('set_title', payload)
   },
-  setInWidget ({ commit, dispatch }, payload) {
+  setInWidget({ commit, dispatch }, payload) {
     commit('set_in_widget', true)
   },
-  resetInWidget ({ commit, dispatch }) {
+  resetInWidget({ commit, dispatch }) {
     commit('set_in_widget', false)
   },
-  showAppbar ({ commit, dispatch }) {
+  showAppbar({ commit, dispatch }) {
     commit('show_appbar')
   },
-  hideAppbar ({ commit, dispatch }) {
+  hideAppbar({ commit, dispatch }) {
     commit('hide_appbar')
   },
-  toggleDark ({ commit, getters }, forceVariant = null) {
+  toggleDark({ commit, getters }, forceVariant = null) {
     let dark
     if (forceVariant != null) {
       dark = forceVariant === 'dark'
@@ -180,14 +186,14 @@ const actions = {
 }
 
 const mutations = {
-  set_app_logo (state, logo) {
+  set_app_logo(state, logo) {
     state.logo.light = logo.light
     state.logo.dark = logo.dark
   },
-  set_contact (state, payload) {
+  set_contact(state, payload) {
     state.contact = payload
   },
-  set_menu (state, payload) {
+  set_menu(state, payload) {
     // const debug = process.env.NODE_ENV !== 'production'
     const user = JSON.parse(window.localStorage.getItem('user'))
     if (user == null) {
@@ -199,50 +205,49 @@ const mutations = {
       ]
       return
     }
-    const path = ''// debug ? 'http://0.0.0.0:5001' : ''
-    const ret = (payload || [])
-      .map(item => {
-        const label = Object.keys(item)[0]
-        return {
-          // showInNav: true,
-          path: `${path}${item[label]}`,
-          // path: `${path}${item[label]}?token=${user.token}`,
-          label
-        }
-      })
+    const path = '' // debug ? 'http://0.0.0.0:5001' : ''
+    const ret = (payload || []).map(item => {
+      const label = Object.keys(item)[0]
+      return {
+        // showInNav: true,
+        path: `${path}${item[label]}`,
+        // path: `${path}${item[label]}?token=${user.token}`,
+        label
+      }
+    })
     state.menu = ret
   },
-  set_version (state, payload) {
+  set_version(state, payload) {
     state.version = payload
   },
-  set_in_widget (state, payload) {
+  set_in_widget(state, payload) {
     state.inWidget = payload
   },
-  set_dark (state, dark) {
+  set_dark(state, dark) {
     if (dark != null) {
       getVuetify().framework.theme.dark = dark
       state.dark = dark
     }
   },
-  set_profile (state, payload) {
+  set_profile(state, payload) {
     state.profile = Object.assign({}, state.profile, payload)
   },
-  clear_profile (state, payload) {
+  clear_profile(state, payload) {
     state.profile = {
       authenticated: false,
       name: null
     }
   },
-  set_loading (state, payload) {
+  set_loading(state, payload) {
     state.loading = payload
   },
-  show_appbar (state) {
+  show_appbar(state) {
     state.appBarVisible = true
   },
-  hide_appbar (state) {
+  hide_appbar(state) {
     state.appBarVisible = false
   },
-  set_title (state, payload) {
+  set_title(state, payload) {
     state.title = payload
     document.title = payload
     document.querySelector('body').classList.add(
@@ -252,46 +257,46 @@ const mutations = {
         .join('-')
     )
   },
-  initialize_app (state, payload) {
+  initialize_app(state, payload) {
     state.title = payload.title
   }
 }
 
 const getters = {
-  logo (state) {
+  logo(state) {
     if (state.dark && state.logo.dark !== false) {
       return state.logo.dark
     }
     return state.logo.light
   },
-  contact (state) {
+  contact(state) {
     return state.contact
   },
-  profile (state) {
+  profile(state) {
     return state.profile
   },
-  authenticated (state) {
+  authenticated(state) {
     return state.profile.authenticated
   },
-  loading (state) {
+  loading(state) {
     return state.loading
   },
-  inWidget (state) {
+  inWidget(state) {
     return state.inWidget
   },
-  appBarVisible (state) {
+  appBarVisible(state) {
     return state.appBarVisible
   },
-  title (state) {
+  title(state) {
     return state.title
   },
-  dark (state) {
+  dark(state) {
     return state.dark
   },
-  version (state) {
+  version(state) {
     return state.version
   },
-  isAccentLightColor (state) {
+  isAccentLightColor(state) {
     const dark = state.dark
     const color = getVuetify().framework.theme.themes[dark ? 'dark' : 'light']
       .accent
@@ -302,7 +307,7 @@ const getters = {
     const brightness = (cr * 299 + cg * 587 + cb * 114) / 1000
     return brightness > 155
   },
-  menu (state) {
+  menu(state) {
     return state.menu
   }
 }

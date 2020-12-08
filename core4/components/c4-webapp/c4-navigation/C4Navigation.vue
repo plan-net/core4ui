@@ -8,25 +8,15 @@
     class="c4-navigation px-2"
   >
     <!-- @slot Use this slot for SideNavigation v-list -->
-    <v-row
-      column
-      no-gutters
-    >
-      <v-col
-        class="mt-12 pt-8 mb-12"
-        cols="12"
-        align="center"
-      >
-        <router-link
-          to="/"
-          class="home-link"
-        >
+    <v-row column no-gutters>
+      <v-col class="mt-12 pt-8 mb-12" cols="12" align="center">
+        <router-link to="/" class="home-link">
           <img
             class="client"
             style="max-height: 80px; min-height: 80px;"
             :src="logo"
             alt="Logo"
-          >
+          />
         </router-link>
       </v-col>
     </v-row>
@@ -35,33 +25,30 @@
     <footer
       :class="textColorClass"
       class="px-8 pt-7 pb-3"
-      :style="{'background-color': this.$vuetify.theme.themes.light.accent}"
+      :style="{ 'background-color': this.$vuetify.theme.themes.light.accent }"
     >
-      <v-row
-        no-gutters
-        class="pb-5"
-      >
-        <v-col
-          v-for="item in internalMenu"
-          :key="item.label"
-        >
-          <!-- <a :href="item.path">{{item.label}}</a> -->
+      <v-row no-gutters class="pb-5">
+        <v-col v-for="item in internalMenu" :key="item.label">
           <v-btn
             :dark="!isAccentLightColor"
             v-if="item.type === 'mail'"
             :href="item.path"
             text
-          > {{item.label}}</v-btn>
+          >
+            {{ item.label }}</v-btn
+          >
           <v-btn
             :dark="!isAccentLightColor"
             v-else
-            :to="{name : 'content' , params: { type: item.label } }"
+            :to="{ name: 'content', params: { type: item.label } }"
             text
-          > {{item.label}}</v-btn>
+          >
+            {{ item.label }}</v-btn
+          >
         </v-col>
       </v-row>
       <v-row no-gutters>
-        <p>© {{new Date().getFullYear()}} Serviceplan Group</p>
+        <p>© {{ new Date().getFullYear() }} Serviceplan Group</p>
       </v-row>
     </footer>
   </v-navigation-drawer>
@@ -72,37 +59,34 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'c4-navigation',
-  mounted () {
+  mounted() {
     this.$bus.$on('toggleSidenav', this.toggleSidenav)
   },
-  data () {
+  data() {
     return {
       sidenavOpen: false
     }
   },
   computed: {
-    ...mapGetters([
-      'isAccentLightColor',
-      'menu'
-    ]),
-    internalMenu () {
-      return this.menu// .filter(val => val.showInNav)
+    ...mapGetters(['isAccentLightColor', 'menu']),
+    internalMenu() {
+      return this.menu // .filter(val => val.showInNav)
     },
-    logo () {
+    logo() {
       return this.$store.getters.logo
     },
 
-    textColorClass () {
+    textColorClass() {
       return this.isAccentLightColor ? 'black--text' : 'white--text'
     },
-    bgColor () {
+    bgColor() {
       const dark = this.$store.getters.dark
       const color = this.$vuetify.theme.themes[dark ? 'dark' : 'light'].accent
       return color
     }
   },
   methods: {
-    toggleSidenav () {
+    toggleSidenav() {
       this.sidenavOpen = !this.sidenavOpen
     }
   }
