@@ -1,4 +1,4 @@
-  <template>
+<template>
   <v-app>
     <template v-if="isNavVisible">
       <c4-navigation>
@@ -7,31 +7,25 @@
       <c4-appbar></c4-appbar>
     </template>
     <v-main>
-      <v-container
-        :fluid="fluid"
-        class="px-6 pt-8"
-      >
+      <v-container :fluid="fluid" class="px-6 pt-8">
+        <slot name="top-navigation-slot"></slot>
         <router-view />
         <c4-snackbar></c4-snackbar>
         <error-dialog></error-dialog>
       </v-container>
     </v-main>
-    <v-progress-linear
-      indeterminate
-      v-if="loading"
-    ></v-progress-linear>
+    <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
     <slot></slot>
   </v-app>
 </template>
 <script>
-
 import C4Appbar from './c4-appbar/C4Appbar.vue'
 import C4Snackbar from './c4-snackbar/Snackbar.vue'
 import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
 import C4Navigation from './c4-navigation/C4Navigation.vue'
 import { mapActions, mapGetters } from 'vuex'
 import Auth from '../../Auth'
-export function inIframe () {
+export function inIframe() {
   try {
     return window.self !== window.top
   } catch (e) {
@@ -42,9 +36,9 @@ export default {
   name: 'c4-webapp',
   props: {
     /**
-       * Controls responsive behavior of the app.
-       * If set to true the app content is full-width of the browser, even in large screen reslutions
-       */
+     * Controls responsive behavior of the app.
+     * If set to true the app content is full-width of the browser, even in large screen reslutions
+     */
     fullWidth: {
       type: Boolean,
       default: false,
@@ -57,34 +51,27 @@ export default {
     ErrorDialog,
     C4Navigation
   },
-  async created () {
+  async created() {
     this.initC4App()
     try {
       const ret = await Auth.store()
       this.$store.dispatch('setC4Theme', ret.doc.theme)
       this.$store.dispatch('setApplicationLogo', ret.doc.logo)
     } catch (err) {
-      console.warn('Falling back to default theme. No theme configured for this user.')
+      console.warn(
+        'Falling back to default theme. No theme configured for this user.'
+      )
     }
   },
-  data () {
-    return {
-    }
+  data() {
+    return {}
   },
   methods: {
-    ...mapActions([
-      'initC4App'
-    ])
+    ...mapActions(['initC4App'])
   },
   computed: {
-    ...mapGetters([
-      'appBarVisible',
-      'loading',
-      'inWidget',
-      'dark',
-      'title'
-    ]),
-    isNavVisible () {
+    ...mapGetters(['appBarVisible', 'loading', 'inWidget', 'dark', 'title']),
+    isNavVisible() {
       if (this.appBarVisible === false) {
         return false
       }
@@ -96,8 +83,10 @@ export default {
       }
       return !meta.hideNav
     },
-    fluid () {
-      return ('xs_sm_md').includes(this.$vuetify.breakpoint.name) || (this.fullWidth)
+    fluid() {
+      return (
+        'xs_sm_md'.includes(this.$vuetify.breakpoint.name) || this.fullWidth
+      )
     }
   }
 }
@@ -139,7 +128,7 @@ pre {
   top: 0px !important;
 }
 .embedded .v-progress-linear:after {
-  content: "";
+  content: '';
   position: fixed;
   cursor: forbidden;
   top: 6px;
