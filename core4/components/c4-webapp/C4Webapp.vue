@@ -25,13 +25,7 @@ import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
 import C4Navigation from './c4-navigation/C4Navigation.vue'
 import { mapActions, mapGetters } from 'vuex'
 import Auth from '../../Auth'
-export function inIframe() {
-  try {
-    return window.self !== window.top
-  } catch (e) {
-    return true
-  }
-}
+
 export default {
   name: 'c4-webapp',
   props: {
@@ -51,7 +45,7 @@ export default {
     ErrorDialog,
     C4Navigation
   },
-  async created() {
+  async created () {
     this.initC4App()
     try {
       const ret = await Auth.store()
@@ -63,19 +57,19 @@ export default {
       )
     }
   },
-  data() {
+  data () {
     return {}
   },
   methods: {
     ...mapActions(['initC4App'])
   },
   computed: {
-    ...mapGetters(['appBarVisible', 'loading', 'inWidget', 'dark', 'title']),
-    isNavVisible() {
+    ...mapGetters(['appBarVisible', 'loading', 'inWidget', 'dark', 'title', 'inIframe']),
+    isNavVisible () {
       if (this.appBarVisible === false) {
         return false
       }
-      if (inIframe()) {
+      if (this.inIframe) {
         return false
       }
       const meta = this.$route.meta || {
@@ -83,7 +77,7 @@ export default {
       }
       return !meta.hideNav
     },
-    fluid() {
+    fluid () {
       return (
         'xs_sm_md'.includes(this.$vuetify.breakpoint.name) || this.fullWidth
       )
