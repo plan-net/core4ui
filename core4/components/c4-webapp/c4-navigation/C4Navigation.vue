@@ -28,7 +28,7 @@
       :style="{ 'background-color': this.$vuetify.theme.themes.light.accent }"
     >
       <v-row no-gutters class="pb-5">
-        <v-col v-for="item in internalMenu" :key="item.label">
+        <v-col v-for="item in menu" :key="item.label">
           <v-btn
             :dark="!isAccentLightColor"
             v-if="item.type === 'mail'"
@@ -59,34 +59,32 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'c4-navigation',
-  mounted() {
+  mounted () {
     this.$bus.$on('toggleSidenav', this.toggleSidenav)
   },
-  data() {
+  data () {
     return {
-      sidenavOpen: false
+      sidenavOpen: true
     }
   },
   computed: {
     ...mapGetters(['isAccentLightColor', 'menu']),
-    internalMenu() {
-      return this.menu // .filter(val => val.showInNav)
-    },
-    logo() {
+
+    logo () {
       return this.$store.getters.logo
     },
 
-    textColorClass() {
+    textColorClass () {
       return this.isAccentLightColor ? 'black--text' : 'white--text'
     },
-    bgColor() {
+    bgColor () {
       const dark = this.$store.getters.dark
       const color = this.$vuetify.theme.themes[dark ? 'dark' : 'light'].accent
       return color
     }
   },
   methods: {
-    toggleSidenav() {
+    toggleSidenav () {
       this.sidenavOpen = !this.sidenavOpen
     }
   }

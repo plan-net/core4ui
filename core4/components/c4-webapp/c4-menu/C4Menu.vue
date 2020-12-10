@@ -18,7 +18,8 @@
               <v-list-item-title>{{ item.label }}</v-list-item-title>
             </v-list-item-action>
           </v-list-item>
-          <v-list-item v-else :key="item.label" router :href="item.path">
+
+          <v-list-item v-else :key="item.label" :href="item.path">
             <v-list-item-action>
               <v-list-item-title>{{ item.label }}</v-list-item-title>
             </v-list-item-action>

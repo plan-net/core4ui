@@ -14,12 +14,12 @@ export default {
         return this.$profile
       })
   },
-  async version () {
+  /*   async version () {
     if (window.__VERSION__ != null) {
       return window.__VERSION__
     }
     return 'No version set.'
-  },
+  }, */
   async setting () {
     return axiosInternal
       .get('/setting/_general')

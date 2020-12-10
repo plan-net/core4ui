@@ -24,7 +24,7 @@ import C4Snackbar from './c4-snackbar/Snackbar.vue'
 import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
 import C4Navigation from './c4-navigation/C4Navigation.vue'
 import { mapActions, mapGetters } from 'vuex'
-import Auth from '../../Auth'
+// import Auth from '../../Auth'
 
 export default {
   name: 'c4-webapp',
@@ -47,7 +47,7 @@ export default {
   },
   async created () {
     this.initC4App()
-    try {
+    /*     try {
       const ret = await Auth.store()
       this.$store.dispatch('setC4Theme', ret.doc.theme)
       this.$store.dispatch('setApplicationLogo', ret.doc.logo)
@@ -55,7 +55,7 @@ export default {
       console.warn(
         'Falling back to default theme. No theme configured for this user.'
       )
-    }
+    } */
   },
   data () {
     return {}

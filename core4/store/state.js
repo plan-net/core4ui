@@ -3,6 +3,7 @@ import bus from '../event-bus.js'
 import router from '../internal/routes/index.js'
 import { axiosInternal } from '../internal/axios.config.js'
 import { getVuetify } from '../plugins/vuetify'
+import Vue from 'vue'
 export function inIframe () {
   try {
     return window.self !== window.top
@@ -25,15 +26,6 @@ const state = {
     light: 'data:image/svg+xml;base64,',
     dark: false
   },
-  /*   theme: {
-    primary: '#AC2A41',
-    accent: '#0D2D5B',
-    secondary: '#000000',
-    error: '#EC583E',
-    info: '#2196F3',
-    success: '#4CAF50',
-    warning: '#FFC107'
-  }, */
   profile: {
     error: null,
     authenticated: false,
@@ -86,23 +78,32 @@ const actions = {
     dispatch('initC4App')
   },
   async initC4App ({ commit, dispatch, state }) {
-    const setting = await Auth.setting()
-    commit('set_profile', { authenticated: true })
-    // if (state.hasOwnTheme === false) {
-    commit('set_dark', setting.data.dark)
-    // }
-    commit('set_contact', setting.data.contact)
+    try {
+      const setting = await Auth.setting()
+      commit('set_profile', { authenticated: true })
+      commit('set_dark', setting.data.dark)
+      console.info('setting light/dark>>', setting.data.dark ? 'dark' : 'light')
+    } catch (err) {
+      Vue.prototype.raiseError(err)
+    }
+    try {
+      const store = await Auth.store()
+      dispatch('setC4Theme', store.doc.theme)
+      console.info('setting theme>>', store.doc.theme)
 
-    const version = await Auth.version()
-    commit('set_version', version)
+      dispatch('setApplicationLogo', store.doc.logo)
+      commit('set_contact', store.doc.contact)
+      commit('set_menu', store.doc.menu)
 
-    commit('set_menu', setting.data.menu)
-    /*     commit('set_menu', [
-      { About: '/about' },
-      { Mail: 'mailto://bi-ops@plan-net.com' },
-      { 'Privacy Policy': '/home4/devops/pp' },
-      { Imprint: '/home4/devops/imprint' }
-    ]) */
+      console.info('setting menu>>', store.doc.menu)
+    } catch (err) {
+      console.log(err)
+      Vue.prototype.raiseError(err)
+    }
+    if (window.__VERSION__ != null) {
+      commit('set_version', window.__VERSION__)
+    }
+
     commit('set_iniframe', inIframe())
     return true
   },
@@ -211,9 +212,8 @@ const mutations = {
     const ret = (payload || []).map(item => {
       const label = Object.keys(item)[0]
       return {
-        // showInNav: true,
+        type: item[label].includes('mailto') ? 'mail' : 'default',
         path: `${path}${item[label]}`,
-        // path: `${path}${item[label]}?token=${user.token}`,
         label
       }
     })
