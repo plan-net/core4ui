@@ -45,7 +45,6 @@ export default {
   methods: {
     handlePortalUpdate (ct) {
       // custom title is set via portal from outside - from widgets application for eaxmple
-      console.log(ct)
       this.customTitle = ct
     }
   },
