@@ -7,16 +7,16 @@
     class="c4-appbar"
     :dark="dark"
   >
+    <c4-hamburger v-if="showHamburger"/>
     <template v-if="!customTitle">
-      <c4-hamburger />
       <!-- @slot Use this slot for a custom title instead of the default app-name -->
       <router-link to="/" class="home-link ml-3">
         <c4-logo :dark="dark"></c4-logo>
       </router-link>
     </template>
 
-    <router-link to="/" class="home-link">
-      <portal-target tag="span" name="c4ui-title-portal">
+    <router-link to="/" class="home-link pl-3">
+      <portal-target tag="span" name="c4ui-title-portal" @change="handlePortalUpdate">
       </portal-target>
     </router-link>
 
@@ -32,9 +32,20 @@ import C4User from '../c4-user/C4User.vue'
 import C4Logo from './C4Logo.vue'
 import { mapGetters } from 'vuex'
 export default {
+  props: {
+    /**
+     * Controls visibility of hamburger menu.
+     */
+    showHamburger: {
+      type: Boolean,
+      default: true,
+      required: false
+    }
+  },
   methods: {
     handlePortalUpdate (ct) {
       // custom title is set via portal from outside - from widgets application for eaxmple
+      console.log(ct)
       this.customTitle = ct
     }
   },
@@ -53,8 +64,8 @@ export default {
     C4Logo
   },
   async mounted () {
-    await this.$nextTick()
-    this.customTitle = this.$el.querySelectorAll('.vue-portal-target > *').length > 0
+    // await this.$nextTick()
+    // this.customTitle = this.$el.querySelectorAll('.vue-portal-target > *').length > 0
   }
 }
 </script>

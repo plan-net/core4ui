@@ -4,7 +4,7 @@
       <c4-navigation>
         <slot name="navigation-slot"></slot>
       </c4-navigation>
-      <c4-appbar></c4-appbar>
+      <c4-appbar :show-hamburger="hasNavigationSlot"></c4-appbar>
     </template>
     <v-main>
       <v-container :fluid="fluid" class="px-6 pt-8">
@@ -64,6 +64,9 @@ export default {
     ...mapActions(['initC4App'])
   },
   computed: {
+    hasNavigationSlot () {
+      return !!this.$slots['navigation-slot']
+    },
     ...mapGetters(['appBarVisible', 'loading', 'inWidget', 'dark', 'title', 'inIframe']),
     isNavVisible () {
       if (this.appBarVisible === false) {
