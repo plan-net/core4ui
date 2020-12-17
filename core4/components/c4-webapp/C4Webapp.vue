@@ -37,6 +37,13 @@ export default {
       type: Boolean,
       default: false,
       required: false
+    },
+    /**
+     */
+    navButtonVisible: {
+      type: Boolean,
+      default: true,
+      required: false
     }
   },
   components: {
@@ -65,7 +72,7 @@ export default {
   },
   computed: {
     hasNavigationSlot () {
-      return !!this.$slots['navigation-slot']
+      return !!this.$slots['navigation-slot'] 
     },
     ...mapGetters(['appBarVisible', 'loading', 'inWidget', 'dark', 'title', 'inIframe']),
     isNavVisible () {

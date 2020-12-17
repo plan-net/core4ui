@@ -295,13 +295,15 @@ export default {
       return window.location.href.includes('localhost') ? 'http://0.0.0.0:5001/' : ''
     },
     url () {
-      const user = JSON.parse(window.localStorage.getItem('user') || {})
-      const token = `?token=${user.token || -1}`
-      return `${this.local}core4/api/v1/avatar${token}`
+      //const user = JSON.parse(window.localStorage.getItem('user') || {})
+      //const token = `?token=${user.token || -1}`
+      return `${process.env.VUE_APP_APIBASE_CORE}/avatar`
+
+      
     },
     profileItem () {
       return {
-        label: 'Profile', path: '/core4/api/v1/profile'
+        label: 'Profile', path: `${process.env.VUE_APP_APIBASE_CORE}/profile`
       }
       // todo: extract from settings: profile - same level as mail
       /*       const profile = this.menu.find(val => val.Label === 'Profile') // workaround
