@@ -62,9 +62,16 @@ export default {
     }
   },
   computed: {
-    url () {
+/*     url () {
       return `${process.env.VUE_APP_APIBASE_CORE}/avatar`
-    }
+    } */
+        url () {
+      const user = JSON.parse(window.localStorage.getItem('user') || {})
+      const token = `?token=${user.token || -1}`
+      return `${process.env.VUE_APP_APIBASE_CORE}/avatar${token}`
+
+      
+    },
 
   },
   data () {

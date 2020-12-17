@@ -295,9 +295,9 @@ export default {
       return window.location.href.includes('localhost') ? 'http://0.0.0.0:5001/' : ''
     },
     url () {
-      //const user = JSON.parse(window.localStorage.getItem('user') || {})
-      //const token = `?token=${user.token || -1}`
-      return `${process.env.VUE_APP_APIBASE_CORE}/avatar`
+      const user = JSON.parse(window.localStorage.getItem('user') || {})
+      const token = `?token=${user.token || -1}`
+      return `${process.env.VUE_APP_APIBASE_CORE}/avatar${token}`
 
       
     },
