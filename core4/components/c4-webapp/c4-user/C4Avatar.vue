@@ -48,33 +48,6 @@
 import AvatarCropper from 'vue-avatar-cropper'
 import Auth from '../../../Auth'
 
-/* import axios from 'axios'
-const axiosInternal = axios.create({
-  baseURL: 'core4/api/v1'
-})
-
-axiosInternal.interceptors.response.use(
-  response => {
-    return response.data
-  },
-  error => {
-    return Promise.reject(error)
-  }
-)
-
-axiosInternal.interceptors.request.use(
-  request => {
-    const user = JSON.parse(window.localStorage.getItem('user'))
-    if (user != null) {
-      request.headers.Authorization = `Bearer ${user.token}`
-    }
-    return request
-  },
-  error => {
-    return Promise.reject(error)
-  }
-) */
-
 export default {
   components: {
     AvatarCropper
@@ -87,18 +60,10 @@ export default {
     } else {
       this.defaultAvatar = true
     }
-    /*     const check = await axiosInternal.get('/avatar')
-    console.log(check)
-    if ((check.data || '').includes('No avatar')) {
-      this.defaultAvatar = true
-    } else {
-      this.userImage = this.url
-      this.defaultAvatar = false
-    } */
   },
   computed: {
     url () {
-      return 'core4/api/v1/avatar'
+      return `${process.env.VUE_APP_APIBASE_CORE}/avatar`
     }
 
   },
