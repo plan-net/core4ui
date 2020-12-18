@@ -62,16 +62,14 @@ export default {
     }
   },
   computed: {
-/*     url () {
+    /*     url () {
       return `${process.env.VUE_APP_APIBASE_CORE}/avatar`
     } */
-        url () {
+    url () {
       const user = JSON.parse(window.localStorage.getItem('user') || {})
       const token = `?token=${user.token || -1}`
       return `${process.env.VUE_APP_APIBASE_CORE}/avatar${token}`
-
-      
-    },
+    }
 
   },
   data () {
@@ -119,8 +117,20 @@ export default {
   height: 160px;
   margin: 20px auto;
 }
+
 ::v-deep .avatar-cropper-btn {
   font-weight: 500;
+  &:hover {
+    background-color: var(--v-primary-base) !important;
+  }
+}
+</style>
+<style lang="scss" >
+.avatar-cropper
+  .avatar-cropper-container
+  .avatar-cropper-footer
+  .avatar-cropper-btn {
+  background: #333 !important;
   &:hover {
     background-color: var(--v-primary-base) !important;
   }
