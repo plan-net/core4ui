@@ -95,9 +95,9 @@ export default {
       await this.$nextTick()
       this.defaultAvatar = false
       this.userImage = this.url
+      this.$bus.$emit('c4_reload_avatar')
     },
     handlerError (message, type, xhr) {
-      console.log(message, type, xhr)
       this.message = 'Oops! Something went wrong...'
       this.error = message
     }
@@ -130,6 +130,7 @@ export default {
   .avatar-cropper-container
   .avatar-cropper-footer
   .avatar-cropper-btn {
+  color: #fff;
   background: #333 !important;
   &:hover {
     background-color: var(--v-primary-base) !important;

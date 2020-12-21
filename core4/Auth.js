@@ -1,6 +1,5 @@
 import { axiosInternal } from './internal/axios.config.js'
 export default {
-
   async profile () {
     if (this.$profile != null) {
       return Promise.resolve(this.$profile)
@@ -14,12 +13,6 @@ export default {
         return this.$profile
       })
   },
-  /*   async version () {
-    if (window.__VERSION__ != null) {
-      return window.__VERSION__
-    }
-    return 'No version set.'
-  }, */
   async setting () {
     return axiosInternal
       .get('/setting/_general')

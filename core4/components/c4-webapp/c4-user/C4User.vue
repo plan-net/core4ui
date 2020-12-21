@@ -117,21 +117,6 @@
           color="primary"
         >mdi-account-circle</v-icon>
       </v-avatar>
-
-      <!--       <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn
-            class="mx-2"
-            v-on="on"
-            small
-            icon
-            @click="toggleTheme"
-          >
-            <v-icon>mdi-bell</v-icon>
-          </v-btn>
-        </template>
-        <span>Notifications</span>
-      </v-tooltip> -->
       <v-tooltip
         bottom
         v-if="showCloseButton"
@@ -155,76 +140,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import C4Avatar from './C4Avatar'
 import Auth from '../../../Auth'
-/* const THEMES = [
-  {
-    primary: '#AC2A41',
-    accent: '#0D2D5B',
-    secondary: '#000000',
-    error: '#EC583E',
-    info: '#2196F3',
-    success: '#4CAF50',
-    warning: '#FFC107'
-  },
-  {
-    primary: '#111111',
-    accent: '#EC08B3',
-    secondary: '#333',
-    error: '#FF5252',
-    info: '#2196F3',
-    success: '#4CAF50',
-    warning: '#FFC107'
-  },
-  {
-    primary: '#E91E63',
-    accent: '#7B1FA2',
 
-    secondary: '#000000',
-    error: '#FF5252',
-    info: '#2196F3',
-    success: '#4CAF50',
-    warning: '#FFC107'
-  },
-  {
-    dark: {
-      primary: '#f57f17',
-      accent: '#0097a7',
-      secondary: '#ffe18d',
-      success: '#4CAF50',
-      info: '#2196F3',
-      warning: '#FB8C00',
-      error: '#FF5252'
-    },
-    light: {
-      primary: '#1976D2',
-      accent: '#e91e63',
-      secondary: '#30b1dc',
-      success: '#4CAF50',
-      info: '#2196F3',
-      warning: '#FB8C00',
-      error: '#FF5252'
-    }
-  },
-  {
-    dark: {
-      primary: '#21CFF3',
-      accent: '#FF4081',
-      secondary: '#ffe18d',
-      success: '#4CAF50',
-      info: '#2196F3',
-      warning: '#FB8C00',
-      error: '#FF5252'
-    },
-    light: {
-      primary: '#388E3C',
-      accent: '#5C6BC0',
-      secondary: '#30b1dc',
-      success: '#4CAF50',
-      info: '#2196F3',
-      warning: '#FB8C00',
-      error: '#FF5252'
-    }
-  }
-] */
 export default {
   name: 'c4-user',
   components: {
@@ -247,42 +163,25 @@ export default {
   async mounted () {
     this.$store.dispatch('fetchProfile')
     this.isDark = this.dark
-    /*     try {
-      const ret = await Auth.store()
-      this.$store.dispatch('setC4Theme', ret.doc.theme)
-      this.$store.dispatch('setApplicationLogo', ret.doc.logo)
-    } catch (err) {
-      console.warn('Falling back to default theme. No theme configured for this user.')
-      const theme = THEMES[this.curr]
-      this.$store.dispatch('setC4Theme', theme)
-    } */
-    const ret = await Auth.checkAvatar()
-    if (typeof ret === 'string') {
-      this.avatar = this.url
-    }
+    this.$bus.$on('c4_reload_avatar', this.checkAvatar)
+    this.checkAvatar()
   },
   methods: {
+    async checkAvatar () {
+      const ret = await Auth.checkAvatar()
+      this.avatar = null
+      await this.$nextTick()
+      if (typeof ret === 'string') {
+        this.avatar = this.url
+      }
+    },
     onDarkChange (event) {
       const variant = event === true ? 'dark' : 'light'
       this.toggleDark(variant)
     },
-    /*     toggleTheme () {
-      this.curr = (this.curr + 1) % THEMES.length
-      const theme = THEMES[this.curr]
-      this.$store.dispatch('setC4Theme', theme)
-    }, */
+
     close () {
       this.$router.push('/')
-      // this is beeing send from the iframe
-      /*       if (this.inIframe && this.isMenuPage === false) {
-        window.parent.postMessage('c4-application-close', '*')
-        return
-      }
-      if (this.isMenuPage) {
-        this.$router.go(-1)
-      } else {
-        this.$bus.$emit('c4-application-close')
-      } */
     },
     ...mapActions([
       'logout',
@@ -298,30 +197,12 @@ export default {
       const user = JSON.parse(window.localStorage.getItem('user') || {})
       const token = `?token=${user.token || -1}`
       return `${process.env.VUE_APP_APIBASE_CORE}/avatar${token}`
-
-      
     },
     profileItem () {
       return {
         label: 'Profile', path: `${process.env.VUE_APP_APIBASE_CORE}/profile`
       }
-      // todo: extract from settings: profile - same level as mail
-      /*       const profile = this.menu.find(val => val.Label === 'Profile') // workaround
-      return profile || {
-        label: 'Profile', path: '/core4/api/v1/profile'
-
-      } */
     },
-    /*     isDark: {
-      get () {
-        return this.dark// this.isDarkInternal != null ? this.isDarkInternal : this.dark
-      },
-      set (newVal) {
-        // this.isDarkInternal = newVal
-        const variant = newVal === true ? 'dark' : 'light'
-        this.toggleDark(variant)
-      }
-    }, */
     inIframe () {
       try {
         return window.self !== window.top
