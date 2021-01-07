@@ -4,7 +4,7 @@
   "private": false,
   "scripts": {},
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.6.4",
     "is": "^3.2.1",
     "material-design-icons-iconfont": "^4.0.5",
