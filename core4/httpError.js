@@ -37,13 +37,13 @@ const actions = {
           Vue.prototype.$store.dispatch("reloadCurrentPage");
         },
       },
-      {
+     /*  {
         main: true,
         name: Vue.prototype.i18n.t("toTheMainPage"),
         action() {
           Vue.prototype.$store.dispatch("gotoMainPage");
         },
-      },
+      }, */
     ];
   },
   "400"() {
@@ -58,24 +58,31 @@ const actions = {
           window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`;
         },
       },
-      {
+/*       {
         main: true,
         name: Vue.prototype.i18n.t("toTheMainPage"),
         action() {
           Vue.prototype.$store.dispatch("gotoMainPage");
         },
-      },
+      }, */
     ];
   },
   "404"() {
     return [
       {
+        main: false,
+        name: Vue.prototype.i18n.t("contact"),
+        action() {
+          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`;
+        },
+      },
+/*       {
         main: true,
         name: Vue.prototype.i18n.t("toTheMainPage"),
         action() {
           Vue.prototype.$store.dispatch("gotoMainPage");
         },
-      },
+      }, */
     ];
   },
   "409"() {
@@ -87,13 +94,13 @@ const actions = {
           Vue.prototype.$store.dispatch("reloadCurrentPage");
         },
       },
-      {
+/*       {
         main: false,
         name: Vue.prototype.i18n.t("toTheMainPage"),
         action() {
           Vue.prototype.$store.dispatch("gotoMainPage");
         },
-      },
+      }, */
     ];
   },
   noInternet() {
@@ -126,13 +133,13 @@ const actions = {
           window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`;
         },
       },
-      {
+/*       {
         main: true,
         name: Vue.prototype.i18n.t("toTheMainPage"),
         action() {
           Vue.prototype.$store.dispatch("gotoMainPage");
         },
-      },
+      }, */
     ];
   },
 };
