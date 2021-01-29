@@ -54,15 +54,6 @@ export default {
   },
   async created () {
     this.initC4App()
-    /*     try {
-      const ret = await Auth.store()
-      this.$store.dispatch('setC4Theme', ret.doc.theme)
-      this.$store.dispatch('setApplicationLogo', ret.doc.logo)
-    } catch (err) {
-      console.warn(
-        'Falling back to default theme. No theme configured for this user.'
-      )
-    } */
   },
   data () {
     return {}
@@ -72,7 +63,7 @@ export default {
   },
   computed: {
     hasNavigationSlot () {
-      return !!this.$slots['navigation-slot'] 
+      return !!this.$slots['navigation-slot']
     },
     ...mapGetters(['appBarVisible', 'loading', 'inWidget', 'dark', 'title', 'inIframe']),
     isNavVisible () {

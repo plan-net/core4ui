@@ -12,9 +12,8 @@
       <v-col class="mt-12 pt-8 mb-12" cols="12" align="center">
         <router-link to="/" class="home-link">
           <img
-            class="client"
-            style="max-height: 80px; min-height: 80px;"
-            :src="logo"
+            style="max-height: 80px; min-height: 80px; max-width: 270px;"
+            :src="$store.getters.logo"
             alt="Logo"
           />
         </router-link>
@@ -69,10 +68,6 @@ export default {
   },
   computed: {
     ...mapGetters(['isAccentLightColor', 'menu']),
-
-    logo () {
-      return this.$store.getters.logo
-    },
 
     textColorClass () {
       return this.isAccentLightColor ? 'black--text' : 'white--text'

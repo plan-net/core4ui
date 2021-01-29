@@ -7,16 +7,32 @@
     class="c4-appbar"
     :dark="dark"
   >
-    <c4-hamburger v-if="showHamburger"/>
+    <c4-hamburger v-if="showHamburger" />
     <template v-if="!customTitle && showHamburger">
       <!-- @slot Use this slot for a custom title instead of the default app-name -->
-      <router-link to="/" class="home-link ml-3">
-        <c4-logo :dark="dark"></c4-logo>
+      <router-link
+        to="/"
+        class="home-link ml-3"
+      >
+        <!-- <c4-logo :dark="dark"></c4-logo> -->
+        <img
+          style="height: 44px; position: relative; top: 4px;"
+          :src="$store.getters.logoTop"
+          alt="Logo"
+        />
       </router-link>
     </template>
 
-    <router-link to="/" class="home-link pl-3" >
-      <portal-target tag="span" ref="portal" name="c4ui-title-portal" @change="handlePortalUpdate">
+    <router-link
+      to="/"
+      class="home-link pl-3"
+    >
+      <portal-target
+        tag="span"
+        ref="portal"
+        name="c4ui-title-portal"
+        @change="handlePortalUpdate"
+      >
       </portal-target>
     </router-link>
 

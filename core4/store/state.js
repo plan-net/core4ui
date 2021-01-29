@@ -26,6 +26,10 @@ const state = {
     light: 'data:image/svg+xml;base64,',
     dark: false
   },
+  logoTop: {
+    light: 'data:image/svg+xml;base64,',
+    dark: false
+  },
   profile: {
     error: null,
     authenticated: false,
@@ -40,6 +44,11 @@ const actions = {
     const light = logo.light
     const dark = logo.dark || false
     commit('set_app_logo', { light, dark })
+  },
+  setApplicationLogoTop ({ commit }, logo) {
+    const light = logo.light
+    const dark = logo.dark || false
+    commit('set_app_logo_top', { light, dark })
   },
   setC4Theme ({ commit }, theme) {
     let light = {}
@@ -89,13 +98,11 @@ const actions = {
     try {
       const store = await Auth.store()
       dispatch('setC4Theme', store.doc.theme)
-      console.info('setting theme>>', store.doc.theme)
 
       dispatch('setApplicationLogo', store.doc.logo)
+      dispatch('setApplicationLogoTop', store.doc.label)
       commit('set_contact', store.doc.contact)
       commit('set_menu', store.doc.menu)
-
-      console.info('setting menu>>', store.doc.menu)
     } catch (err) {
       console.log(err)
       Vue.prototype.raiseError(err)
@@ -189,6 +196,10 @@ const actions = {
 }
 
 const mutations = {
+  set_app_logo_top (state, logo) {
+    state.logoTop.light = logo.light
+    state.logoTop.dark = logo.dark
+  },
   set_app_logo (state, logo) {
     state.logo.light = logo.light
     state.logo.dark = logo.dark
@@ -273,6 +284,12 @@ const getters = {
       return state.logo.dark
     }
     return state.logo.light
+  },
+  logoTop (state) {
+    if (state.dark && state.logoTop.dark !== false) {
+      return state.logoTop.dark
+    }
+    return state.logoTop.light
   },
   contact (state) {
     return state.contact
