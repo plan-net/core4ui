@@ -9,7 +9,7 @@
     <v-main>
       <v-container :fluid="fluid" class="px-6 pt-8">
         <portal-target slim name="c4ui-topnav-portal"> </portal-target>
-        <router-view />
+        <router-view :key="$route.fullPath"/>
         <c4-snackbar></c4-snackbar>
         <error-dialog></error-dialog>
       </v-container>
