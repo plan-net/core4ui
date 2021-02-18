@@ -44,7 +44,7 @@
         :fluid="fluid"
         class="pa-0"
       >
-        <router-view />
+        <router-view :key="$route.fullPath"/>
         <c4-snackbar></c4-snackbar>
         <error-dialog></error-dialog>
       </v-container>
