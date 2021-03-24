@@ -1,123 +1,187 @@
 <template>
   <span class="c4-user">
-    <v-row no-gutters>
-      <v-col>
-        <v-tooltip
-          bottom
-          v-if="hasOwnTheme !== true"
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn
-              v-on="on"
-              class="theme-btn"
+    <v-row
+      no-gutters
+      align="center"
+      v-click-outside="open = false"
+    >
+      <v-menu
+        xxxopen-on-hover
+        bottom
+        :close-on-content-click="false"
+        v-model="open"
+        left
+        :offset-y="true"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            style="text-transform: none;"
+            text
+            v-bind="attrs"
+            v-on="on"
+          >
+            {{profile.realname || ''}}
+            <v-icon
+              right
               small
-              text
-              icon
-              @click="toggleDark()"
-            >
-              <v-icon>invert_colors</v-icon>
-            </v-btn>
-          </template>
-          <span>Toggle theme</span>
-        </v-tooltip>
-      </v-col>
-      <v-col>
-        <v-menu
-          left
-          class="c4-more-menu"
-          absolute
-          offset-y
-          close-on-click
-          close-on-content-click
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn
-              small
-              dark
-              icon
-              v-on="on"
-            >
-              <v-icon>more_vert</v-icon>
-            </v-btn>
-          </template>
-
-          <v-list shaped>
-            <!-- <v-subheader>Controls</v-subheader> -->
-            <v-list-item-group
-              v-model="selected"
-              color="primary"
-            >
-              <v-list-item
-                v-for="(item,index) in menu"
-                :key="index"
-                :to="{name : 'content' , params: { type: item.label } }"
+            >mdi-menu-down</v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-text>
+            <v-flex class="mb-4">
+              <v-row
+                no-gutters
+                align="center"
+                justify="center"
               >
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.label"></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-group>
-
-            <v-list-item-group color="primary">
-              <v-list-item @click="logout()">
-
-                <v-list-item-content>
-                  <v-list-item-title>Logout</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
-        </v-menu>
-      </v-col>
-      <v-col v-if="showCloseButton">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn
-              @click="close"
-              v-on="on"
-              small
-              dark
-              text
-              icon
+                <c4-avatar></c4-avatar>
+              </v-row>
+            </v-flex>
+            <v-text-field
+              outlined
+              readonly
+              disabled
+              v-model="profile.realname"
+              label="Name"
+            ></v-text-field>
+            <v-text-field
+              outlined
+              readonly
+              disabled
+              v-model="profile.email"
+              label="Email Address"
+            ></v-text-field>
+            <v-row
+              no-gutters
+              align="center"
+              outlined
             >
-              <v-icon>cancel</v-icon>
+              <h5 class="subtitle-1 mr-3"> Display &amp; Brightness</h5>
+              <v-radio-group
+                :value="dark"
+                @change="onDarkChange"
+                row
+              >
+                <v-radio
+                  label="Dark"
+                  :value="true"
+                ></v-radio>
+                <v-radio
+                  label="Light"
+                  :value="false"
+                ></v-radio>
+              </v-radio-group>
+            </v-row>
+          </v-card-text>
+          <v-card-actions class="pb-5 pr-4">
+            <v-spacer></v-spacer>
+            <v-btn
+              text
+              color="primary"
+              @click="logout"
+            >
+              <v-icon
+                left
+                dark
+              >mdi-logout-variant</v-icon>
+              Logout
             </v-btn>
-          </template>
-          <span>Close widget</span>
-        </v-tooltip>
-      </v-col>
+            <v-btn
+              color="primary"
+              :to="{name : 'content' , params: { type: profileItem.label } }"
+            >
+              <v-icon
+                left
+                dark
+              >mdi-account-edit</v-icon>
+              View Profile
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+
+      </v-menu>
+
+      <v-avatar
+        size="40"
+        class="mx-2 small"
+      >
+        <img
+          v-if="avatar"
+          :src="avatar"
+          alt="User Image"
+        >
+        <v-icon
+          v-else
+          large
+          color="primary"
+        >mdi-account-circle</v-icon>
+      </v-avatar>
+      <v-tooltip
+        bottom
+        v-if="showCloseButton"
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+            @click="close"
+            v-on="on"
+            small
+            icon
+          >
+            <v-icon>mdi-close-circle</v-icon>
+          </v-btn>
+        </template>
+        <span>Close widget</span>
+      </v-tooltip>
     </v-row>
   </span>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import C4Avatar from './C4Avatar'
+import Auth from '../../../Auth'
 
 export default {
   name: 'c4-user',
+  components: {
+    C4Avatar
+  },
   data () {
     return {
-      selected: null,
-      alertMessage: null,
-      alertOpen: false,
-      showNavigation: false,
-      clientWidth: 0,
-      sidenavOpen: null
+      open: false,
+      curr: 0,
+      isDarkInternal: false,
+      avatar: null
     }
   },
-  mounted () {
+  props: {
+    inWidget: {
+      type: Boolean,
+      default: false
+    }
+  },
+  async mounted () {
+    this.$store.dispatch('fetchProfile')
+    this.isDark = this.dark
+    this.$bus.$on('c4_reload_avatar', this.checkAvatar)
+    this.checkAvatar()
   },
   methods: {
+    async checkAvatar () {
+      const ret = await Auth.checkAvatar()
+      this.avatar = null
+      await this.$nextTick()
+      if (typeof ret === 'string') {
+        this.avatar = this.url
+      }
+    },
+    onDarkChange (event) {
+      const variant = event === true ? 'dark' : 'light'
+      this.toggleDark(variant)
+    },
+
     close () {
-      // this is beeing send from the iframe
-      if (this.inIframe && this.isMenuPage === false) {
-        window.parent.postMessage('c4-application-close', '*')
-        return
-      }
-      if (this.isMenuPage) {
-        this.$router.go(-1)
-      } else {
-        this.$bus.$emit('c4-application-close')
-      }
+      this.$router.push('/')
     },
     ...mapActions([
       'logout',
@@ -126,6 +190,19 @@ export default {
   },
 
   computed: {
+    local () {
+      return window.location.href.includes('localhost') ? 'http://0.0.0.0:5001/' : ''
+    },
+    url () {
+      const user = JSON.parse(window.localStorage.getItem('user') || {})
+      const token = `?token=${user.token || -1}`
+      return `${process.env.VUE_APP_APIBASE_CORE}/avatar${token}`
+    },
+    profileItem () {
+      return {
+        label: 'Profile', path: `${process.env.VUE_APP_APIBASE_CORE}/profile`
+      }
+    },
     inIframe () {
       try {
         return window.self !== window.top
@@ -142,21 +219,36 @@ export default {
     },
 
     ...mapGetters([
+      'profile',
       'menu',
-      'inWidget',
-      'dark',
-      'hasOwnTheme',
-      'title'
+      'dark'
     ])
   }
 }
 </script>
 
-<style scoped lang="css">
+<style scoped lang="scss">
+.v-avatar {
+  border: 2px solid var(--v-primary-base);
+  position: relative;
+  &.small {
+    &:after {
+      top: -2px;
+      left: -2px;
+      position: absolute;
+      height: 40px;
+      width: 40px;
+      display: block;
+      border-radius: 18px;
+      border: 4px solid white;
+      content: "";
+    }
+  }
+}
 .c4-user > * {
   display: inline-flex;
 }
-.col{
+.col {
   padding-left: 0;
   padding-right: 0;
 }

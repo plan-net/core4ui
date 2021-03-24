@@ -1,4 +1,4 @@
-export function clone(element) {
+export function clone (element) {
   try {
     element = JSON.parse(JSON.stringify(element))
   } catch (err) {

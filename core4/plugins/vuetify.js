@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+import de from 'vuetify/lib/locale/de'
+import en from 'vuetify/lib/locale/en'
+//import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
+
 Vue.use(Vuetify)
 
 let vuetify
@@ -9,15 +13,15 @@ export function getVuetify (theme) {
   if (vuetify != null) {
     return vuetify
   }
-  const light = {}
-  const dark = {}
-  Object.keys(theme).forEach(val => {
-    light[val] = theme[val]
-    dark[val] = theme[val]
-  })
   const v = new Vuetify({
     icons: {
-      iconfont: 'md'
+      iconfont: 'mdi' // default - only for display purposes
+    },
+    lang: {
+      locales: {
+        en, de
+      },
+      current: 'en'
     },
     theme: {
       options: {
@@ -27,11 +31,11 @@ export function getVuetify (theme) {
             ? css.replace(/[\r\n|\r|\n]/g, '')
             : css
         }
-      },
-      themes: {
+      }
+      /*       themes: {
         light,
         dark
-      }
+      } */
     }
   })
   vuetify = v

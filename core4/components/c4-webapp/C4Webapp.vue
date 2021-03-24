@@ -1,82 +1,45 @@
-  <template>
+<template>
   <v-app>
     <template v-if="isNavVisible">
       <c4-navigation>
         <slot name="navigation-slot"></slot>
       </c4-navigation>
-      <!-- TODO refactor to compoinent-->
-      <v-app-bar
-        fixed
-        app
-        dense
-        elevate-on-scroll
-        :extended="false"
-        class="c4-toolbar"
-      >
-        <v-btn
-          class=""
-          text
-          icon
-          @click="$bus.$emit('toggleSidenav')"
-          v-if="navButtonVisible"
-        >
-          <toolbar-side-icon class=""></toolbar-side-icon>
-        </v-btn>
-        <!-- @slot Use this slot for a custom title instead of the default app-name -->
-        <router-link to="/" class="home-link">
-          <slot
-            v-if="!!this.$slots['title-slot']"
-            name="title-slot"
-          ></slot>
-          <h2
-            v-else
-            class="app-title"
-            :class="{'reset-font': !!inWidget}"
-          >{{title}}</h2>
-        </router-link>
-        <c4-spacer></c4-spacer>
-        <c4-user></c4-user>
-      </v-app-bar>
+      <c4-appbar :show-hamburger="hasNavigationSlot"></c4-appbar>
     </template>
-
-    <v-main class="core-background">
-      <v-container
-        :fluid="fluid"
-        class="pa-0"
-      >
+    <v-main>
+      <v-container :fluid="fluid" class="px-6 pt-8">
+        <portal-target slim name="c4ui-topnav-portal"> </portal-target>
         <router-view :key="$route.fullPath"/>
         <c4-snackbar></c4-snackbar>
         <error-dialog></error-dialog>
       </v-container>
     </v-main>
-    <v-progress-linear
-      indeterminate
-      v-if="loading"
-    ></v-progress-linear>
+    <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
+    <slot></slot>
   </v-app>
 </template>
 <script>
-
+import C4Appbar from './c4-appbar/C4Appbar.vue'
 import C4Snackbar from './c4-snackbar/Snackbar.vue'
 import ErrorDialog from './c4-error-dialog/ErrorDialog.vue'
-import Navigation from './c4-navigation/Navigation.vue'
-import ToolbarSideIcon from './c4-navigation/c4-toolbar-side-icon.vue'
-import C4User from './c4-user/C4User.vue'
-import C4Spacer from './c4-user/C4Spacer.vue'
+import C4Navigation from './c4-navigation/C4Navigation.vue'
 import { mapActions, mapGetters } from 'vuex'
+// import Auth from '../../Auth'
 
 export default {
   name: 'c4-webapp',
   props: {
     /**
-       * Controls responsive behavior of the app.
-       * If set to true the app content is full-width of the browser, even in large screen reslutions
-       */
+     * Controls responsive behavior of the app.
+     * If set to true the app content is full-width of the browser, even in large screen reslutions
+     */
     fullWidth: {
       type: Boolean,
       default: false,
       required: false
     },
+    /**
+     */
     navButtonVisible: {
       type: Boolean,
       default: true,
@@ -84,39 +47,30 @@ export default {
     }
   },
   components: {
+    C4Appbar,
     C4Snackbar,
     ErrorDialog,
-    C4User,
-    C4Spacer,
-    ToolbarSideIcon,
-    'c4-navigation': Navigation
+    C4Navigation
   },
-  created () {
-    this.fetchSettings()
+  async created () {
+    this.initC4App()
   },
   data () {
-    return {
-      drawer: null,
-      alertMessage: null,
-      alertOpen: false
-    }
+    return {}
   },
   methods: {
-    ...mapActions([
-      'fetchSettings',
-      'setTitle'
-    ])
+    ...mapActions(['initC4App'])
   },
   computed: {
-    ...mapGetters([
-      'appBarVisible',
-      'loading',
-      'inWidget',
-      'dark',
-      'title'
-    ]),
+    hasNavigationSlot () {
+      return !!this.$slots['navigation-slot']
+    },
+    ...mapGetters(['appBarVisible', 'loading', 'inWidget', 'dark', 'title', 'inIframe']),
     isNavVisible () {
       if (this.appBarVisible === false) {
+        return false
+      }
+      if (this.inIframe) {
         return false
       }
       const meta = this.$route.meta || {
@@ -125,19 +79,26 @@ export default {
       return !meta.hideNav
     },
     fluid () {
-      return ('xs_sm_md').includes(this.$vuetify.breakpoint.name) || (this.fullWidth)
+      return (
+        'xs_sm_md'.includes(this.$vuetify.breakpoint.name) || this.fullWidth
+      )
     }
   }
 }
 </script>
 
 <style lang="css">
-.home-link{
+.home-link {
   text-decoration: none;
+  color: unset !important;
 }
-.v-navigation-drawer__border {
-  opacity: 0.15;
+.v-toolbar.topnav, .c4ui-topnav {
+
+  position: absolute;
+  top: 0;
+  z-index: 1;
 }
+
 </style>
 
 <style scoped lang="css">
@@ -167,7 +128,7 @@ pre {
   top: 0px !important;
 }
 .embedded .v-progress-linear:after {
-  content: "";
+  content: '';
   position: fixed;
   cursor: forbidden;
   top: 6px;
@@ -178,10 +139,5 @@ pre {
   height: 100vw;
   background: rgba(100, 100, 100, 0.05);
   z-index: 100000;
-}
-
-.c4-toolbar >>> .v-toolbar__content {
-  padding-right: 8px;
-  padding-left: 18px;
 }
 </style>

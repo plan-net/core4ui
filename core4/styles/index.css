@@ -1,0 +1,23 @@
+.v-btn{
+  text-transform: none;
+}
+
+.v-application .text-h1,
+.v-application .text-h2,
+.v-application .text-h3
+{
+  font-weight: 300 !important;
+}
+
+
+/* c4-cards, widgets */
+.c4-card .c4-avatar.v-avatar{
+  box-shadow: inset -2px -10px 10px 0px rgba(0,0,0,0.3);
+}
+.c4-card .v-card__text{
+  flex-grow: 1;
+}
+.theme--light.c4-card .v-card__subtitle, 
+.theme--light.c4-card>.v-card__text  {
+  color: rgba(0,0,0,0.87);
+}

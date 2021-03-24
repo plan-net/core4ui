@@ -66,6 +66,7 @@ function extractData (data) {
   }
   return data
 }
+
 function buildRequest (options) {
   if (options.reset) return { reset: options.reset }
 
@@ -116,9 +117,6 @@ export default {
       .then(data => {
         const tmp = pipe(extractData, mapPaging, mapColumns, mapSort)(data)
         return tmp
-      })
-      .catch(error => {
-        throw new Error(`ApiService ${error}`)
       })
   },
   downloadTable (url, reset) {

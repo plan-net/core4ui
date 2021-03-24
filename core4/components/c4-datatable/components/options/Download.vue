@@ -24,7 +24,7 @@
                text
                small
                @click="download">
-            {{translation.download}}
+          {{translation.download}}
         </v-btn>
       </v-card-actions>
     </v-card>

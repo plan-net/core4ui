@@ -7,8 +7,8 @@
                 dense
                 single-line
                 clearable
-                prepend-inner-icon="search"
-                append-icon="send"
+                prepend-inner-icon="mdi-magnify"
+                append-icon="mdi-send"
                 v-on:keyup.enter="submit"
                 v-on:keyup.esc="esc"
                 @click:append="submit"
