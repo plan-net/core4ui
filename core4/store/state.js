@@ -35,7 +35,9 @@ const state = {
     authenticated: false,
     name: null,
     realname: null,
-    email: null
+    email: null,
+    role: [],
+    role_total: []
   }
 }
 
@@ -70,6 +72,7 @@ const actions = {
   },
   async fetchProfile ({ commit, dispatch, state }) {
     const profile = await Auth.profile()
+    console.log(profile)
     const dto = {
       authenticated: true,
       name: profile.name,
@@ -77,6 +80,7 @@ const actions = {
       email: profile.email,
       perm: profile.perm,
       role: profile.role,
+      role_total: profile.role_total,
       avatar: '//cdn.vuetifyjs.com/images/john.jpg'
     }
     commit('set_profile', dto)
