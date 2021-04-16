@@ -19,7 +19,7 @@
         <v-text-field clearable class="c4-datatable__search" solo-inverted flat v-model="search" append-icon="search"></v-text-field>
       </v-flex>
       <v-btn v-if="buttonLabel !== false" small color="primary" dark @click="$emit('new')">
-        <v-icon class="mr-1" dark left>add</v-icon>
+        <v-icon class="mr-1" dark left>mdi-plus-box</v-icon>
         {{buttonLabel}}
       </v-btn>
     </v-toolbar>

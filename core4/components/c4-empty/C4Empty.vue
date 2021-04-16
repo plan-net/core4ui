@@ -2,7 +2,7 @@
   <v-alert
     :value="true"
     class="secondary lighten-4"
-    icon="warning"
+    icon="mdi-alert"
   >
     <!-- @slot optional for custom content -->
     <slot></slot>

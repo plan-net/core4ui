@@ -11,48 +11,19 @@
     -webkit-box-shadow: none;
     transition: background-color 5000s ease-in-out 0s;
   }
-
-  &.core-navigation-container {
+  &.c4-navigation.v-navigation-drawer{
+    background-color: #272727;//var(--v-secondary-lighten1);
+    
+  }
+/*   &.core-navigation-container {
     background-color: darken(#232323, 1)
-  }
-
-  .core-background {
-    background: linear-gradient(120deg, #232323 55%, darken(#232323, 1) 55%);
-  }
+  } */
 
   // theme top navbar
-
-  .circle-container .v-icon {
-    color: var(--v-secondary-lighten5) !important;
-  }
-
-
-  .c4-user .v-icon {
-    color: var(--v-secondary-lighten5) !important;
-  }
-
-  h2.app-title {
-    color: var(--v-secondary-lighten5);
-  }
 
   // theme top navbar end
   &.application {
     background-color: #232323 !important;
   }
-  &.c4-toolbar {
-    background-color: #212121 !important;
-    border-color: #212121;
-    color: #fff;
-}
-/*   .spacer.c4-dotted {
-    margin-left: 12px;
-    margin-right: 12px;
-    margin-top: 3px;
-    opacity: .2;
-    height: 10px;
-    background: radial-gradient(ellipse at center, var(--v-secondary-lighten5) 0%, var(--v-secondary-lighten5) 30%, transparent 30%);
-    background-size: 20px 20px;
-    background-repeat: repeat-x;
-    background-position: 5px center;
-  } */
+
 }
