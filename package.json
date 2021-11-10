@@ -9,7 +9,7 @@
     "vee-validate": "^2.1.7"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "core-js": "^3.6.4",
     "is": "^3.2.1",
     "portal-vue": "^2.1.7",
