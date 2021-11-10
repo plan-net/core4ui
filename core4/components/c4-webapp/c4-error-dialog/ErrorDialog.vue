@@ -1,23 +1,23 @@
 <template>
   <v-dialog
-    scrollable
-    max-width="720"
     v-model="open"
+    max-width="960"
     persistent
+    scrollable
   >
     <v-card
-      tile
       class="pa-0"
+      tile
     >
       <template v-if="errorData">
         <v-app-bar
           class="px-0"
+          color="error"
+          dark
           dense
           flat
-          dark
-          color="error"
         >
-          <v-toolbar-title class="title">{{i18n.t('error')}}</v-toolbar-title>
+          <v-toolbar-title class="title">{{ i18n.t('error') }}</v-toolbar-title>
           <v-progress-linear
             :active="loading"
             :indeterminate="loading"
@@ -28,32 +28,44 @@
           ></v-progress-linear>
           <v-spacer></v-spacer>
           <v-btn
-            icon
             v-if="errorData.close"
+            icon
             @click="open = !open"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-app-bar>
         <v-card-text class="px-4 py-3">
-          <p
-            v-if="errorData.html"
-            v-html="errorData.html"
-          >
-          </p>
-          <div v-if="errorData.json">
-            <pre class="mt-2 pa-1">{{errorData.json}}</pre>
-          </div>
-          <div v-else>
-            <pre class="mt-2 pa-1">{{errorData.data}}</pre>
-          </div>
+          <template v-if="errorData.customErrorContentHtml">
+
+
+            <transition name="slide-fade">
+              <div
+                class="customErrorContentHtml">
+                <div v-html="errorData.customErrorContentHtml"></div>
+              </div>
+            </transition>
+          </template>
+          <template v-else>
+            <p
+              v-if="errorData.html"
+              v-html="errorData.html"
+            >
+            </p>
+            <div v-if="errorData.json">
+              <pre class="mt-2 pa-1">{{ errorData.json }}</pre>
+            </div>
+            <div v-else>
+              <pre class="mt-2 pa-1">{{ errorData.data }}</pre>
+            </div>
+          </template>
 
           <transition name="slide-fade">
             <div
               v-if="showTechInfo"
               class="response"
             >
-              <pre>{{errorData.error.response || errorData.error}}</pre>
+              <pre>{{ errorData.error.response || errorData.error }}</pre>
             </div>
           </transition>
         </v-card-text>
@@ -61,20 +73,21 @@
           <v-btn
             class="ma-2"
             color="grey lighten-1"
-            @click="showTechInfo = !showTechInfo"
             text
+            @click="showTechInfo = !showTechInfo"
           >
-            <v-icon>{{showTechInfo ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon> technical details
+            <v-icon>{{ showTechInfo ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            technical details
           </v-btn>
           <v-spacer></v-spacer>
           <template v-for="(btn, index) in errorData.actions">
             <v-btn
-              :color="btn.main ? 'primary' : 'grey'"
               :key="index"
+              :color="btn.main ? 'primary' : 'grey'"
               text
               @click="btn.action"
             >
-              {{btn.name}}
+              {{ btn.name }}
             </v-btn>
           </template>
         </v-card-actions>
@@ -88,12 +101,8 @@ import {
   mapGetters,
   mapActions
 } from 'vuex'
+
 export default {
-  mixins: [],
-  props: {},
-  created () {},
-  mounted () {
-  },
   computed: {
     ...mapGetters(['error', 'loading'])
   },
@@ -120,15 +129,18 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .slide-fade-enter-active {
   transition: all 0.8s ease;
 }
+
 .slide-fade-leave-active {
   transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
 }
+
 .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active до версии 2.1.8 */ {
+  /* .slide-fade-leave-active до версии 2.1.8 */
+{
   transform: translateX(10px);
   opacity: 0;
 }
@@ -137,6 +149,11 @@ export default {
   max-width: 720px;
   max-height: 250px;
   overflow-y: scroll;
+}
+.customErrorContentHtml {
+  max-width: 100%;
+  max-height: 720px;
+  overflow-y: auto;
 }
 
 .wrap {
