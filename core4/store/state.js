@@ -72,7 +72,6 @@ const actions = {
   },
   async fetchProfile ({ commit, dispatch, state }) {
     const profile = await Auth.profile()
-    console.log(profile)
     const dto = {
       authenticated: true,
       name: profile.name,
@@ -108,7 +107,6 @@ const actions = {
       commit('set_contact', store.doc.contact)
       commit('set_menu', store.doc.menu)
     } catch (err) {
-      console.log(err)
       Vue.prototype.raiseError(err)
     }
     if (window.__VERSION__ != null) {

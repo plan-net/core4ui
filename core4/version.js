@@ -10,13 +10,11 @@ fs.readFile('../../__init__.py', 'utf8', function(err, data) {
     .split(' = ')[1]
     .split('"')
     .join('')
-  console.log(version)
   let name = tmp.find(val => val.includes('name ='))
   name = name
     .split(' = ')[1]
     .split('"')
     .join('')
-  console.log(name)
   let built = tmp.find(val => val.includes('__built__'))
   built = built
     .split(' = ')[1]

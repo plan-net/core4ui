@@ -64,11 +64,6 @@ export default {
       this.customTitle = ct
     }
   },
-  async updated () {
-    await this.$nextTick()
-    console.log(this.$refs.portal, '---------------')
-    console.log(this.customTitle)
-  },
   data () {
     return {
       customTitle: false
