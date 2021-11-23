@@ -94,7 +94,7 @@ const actions = {
       const setting = await Auth.setting()
       commit('set_profile', { authenticated: true })
       commit('set_dark', setting.data.dark)
-      console.info('setting light/dark>>', setting.data.dark ? 'dark' : 'light')
+      // console.info('setting light/dark>>', setting.data.dark ? 'dark' : 'light')
     } catch (err) {
       Vue.prototype.raiseError(err)
     }
