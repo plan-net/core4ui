@@ -170,13 +170,16 @@ export default {
         var doc = new DOMParser().parseFromString(str, 'text/html')
         return Array.from(doc.body.childNodes).some(node => node.nodeType === 1)
       }
-      const getHtmlToRender = (str) => {
+      const getHtmlToRender = (str, ignoreHTML = false) => {
         const start = str.indexOf('(') + 1
         const end = str.indexOf(')', start)
         if (start >= 0 && end >= 2) {
-          const extracted = str.substring(start, end)
+          let extracted = str.substring(start, end)
+          if(ignoreHTML){
+            extracted = `<span>${extracted}</span>`
+          }
           const isValidHtml = isHTML(extracted)
-          if (isValidHtml) {
+          if (isValidHtml) { // message doesnt contain html, but anyway
             return extracted
           }
         }
@@ -186,7 +189,7 @@ export default {
 
       if (err.response) {
         const errorCode = err.response.status.toString()
-        const htmlContent = getHtmlToRender(err.response.data.error)
+        const htmlContent = getHtmlToRender(err.response.data.error, err.response.renderWithoutHTML)
         switch (errorCode) {
           case '503':
           // error will be handled by 502 case, because missed "break" instruction
