@@ -2,6 +2,7 @@
   <v-dialog
     v-model="open"
     max-width="960"
+    min-width="480"
     persistent
     scrollable
   >

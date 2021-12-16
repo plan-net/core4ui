@@ -11,7 +11,7 @@ let $router = {
 }
 
 export function setRoutes (router) {
-  router.addRoutes([
+  router.addRoute(
     {
       path: '/content/:type',
       name: 'content',
@@ -20,7 +20,9 @@ export function setRoutes (router) {
         auth: false,
         hideNav: false
       }
-    },
+    }
+  )
+  router.addRoute(
     {
       path: '*',
       name: 'notfound',
@@ -30,7 +32,8 @@ export function setRoutes (router) {
         hideNav: false
       }
     }
-  ])
+  )
+
   function removeURLParameter (url, parameter) {
     // prefer to use l.search if you have a location/link object
     var urlparts = url.split('?')
@@ -50,6 +53,7 @@ export function setRoutes (router) {
     }
     return url
   }
+
   router.beforeEach((to, from, next) => {
     // Wenn token in der url update localstorage user und remove token + h
     let url
