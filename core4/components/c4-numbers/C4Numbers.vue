@@ -1,18 +1,19 @@
 <template>
   <v-text-field
-    :disabled="disabled"
-    :label="label"
-    autocomplete="off"
     v-model="internalValue"
-    @keydown.native.stop="onKeyDown"
-    :error-messages="errorMessages"
+    :disabled="disabled"
     :error="errorMessages.length > 0"
+    :error-messages="errorMessages"
+    :label="label"
     :suffix="suffix"
+    autocomplete="off"
+    @keydown.native.stop="onKeyDown"
   ></v-text-field>
 </template>
 
 <script>
 import is from 'is'
+
 export default {
   name: 'c4-numbers',
 
@@ -29,14 +30,14 @@ export default {
   props: {
     /**
      * v-model
-    */
+     */
     value: {
       type: Number,
       default: null
     },
     /**
      * See v-text-field docs
-    */
+     */
     label: {
       type: String,
       default: null,
@@ -44,7 +45,7 @@ export default {
     },
     /**
      * See v-text-field docs
-    */
+     */
     disabled: {
       type: Boolean,
       default: false
@@ -52,7 +53,7 @@ export default {
     /**
      * Displayed after v-text-field.
      * See v-text-field docs
-    */
+     */
     suffix: {
       type: String,
       required: false,
@@ -60,7 +61,7 @@ export default {
     },
     /**
      * Parent component errorMessages object containing errors for this instance
-    */
+     */
     errorMessages: {
       type: Array,
       default: () => [],
@@ -70,13 +71,19 @@ export default {
      * Value by which the v-model is multiplied.<br>
      * Example: unit=1000, v-model=1000000; displayed value: <strong>1.000</strong>
      * Suffix should be set to <strong>>T€</strong> (ThousandsEuro) if unit=1000
-    */
+     */
     unit: {
       type: Number,
       required: false,
       default: 1
+    },
+    mantissa: {
+      type: Number,
+      required: false,
+      default: 0
     }
   },
+
   // mounted () {
   /*     console.warn('TODO: check c4-numbers implementation. Remove error, remove type, use suffix for type')
     this.$nextTick(function () {
@@ -85,11 +92,11 @@ export default {
   // },
   methods: {
     /** Triggered onKeyDown in component.
-    * Supported keyboard keys (only digits): 1234567890, down,up,left,right arrow
-    * On up/down click v-model is incremented, decremented
-    * @event keydown
-    * @type {Event}
-    */
+     * Supported keyboard keys (only digits): 1234567890, down,up,left,right arrow
+     * On up/down click v-model is incremented, decremented
+     * @event keydown
+     * @type {Event}
+     */
     onKeyDown (event) {
       if (event.keyCode === 38) { // up
         this.internalValue = (this.value / this.unit) + this.incrementor
@@ -102,26 +109,36 @@ export default {
       }
       if (
         (event.keyCode >= 48 && event.keyCode <= 57) ||
-          (event.keyCode >= 96 && event.keyCode <= 105) ||
-          event.keyCode === 8 ||
-          event.keyCode === 9 ||
-          event.keyCode === 37 ||
-          event.keyCode === 39 ||
-          event.keyCode === 46 ||
-          event.keyCode === 110 ||
-          event.keyCode === 188 ||
-          event.keyCode === 35 ||
-          event.keyCode === 36
-      ) {} else {
+        (event.keyCode >= 96 && event.keyCode <= 105) ||
+        event.keyCode === 8 ||
+        event.keyCode === 9 ||
+        event.keyCode === 37 ||
+        event.keyCode === 39 ||
+        event.keyCode === 46 ||
+        event.keyCode === 110 ||
+        event.keyCode === 188 ||
+        event.keyCode === 35 ||
+        event.keyCode === 36
+      ) {
+      } else {
         event.preventDefault()
       }
     }
   },
   computed: {
+    nachkommastellen () {
+      /*       0 > 1
+      1 > 10
+      2 > 100
+      3 > 1000
+      4 > 10000 */
+      return Math.pow(10, Math.abs(this.mantissa || 0))
+    },
     internalValue: {
       get: function () {
         if (is.number(this.value)) {
-          const number = (this.value / this.unit) // .toLocaleString('de-DE')
+          const nst = this.nachkommastellen
+          const number = Math.round(((this.value / this.unit) + Number.EPSILON) * nst) / nst
           const splitted = number.toString().split('.')
           splitted[0] = parseInt(splitted[0]).toLocaleString('de-DE')
           return splitted.join(',')
