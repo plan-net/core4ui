@@ -1,19 +1,25 @@
 <template>
-  <v-text-field
-    v-model="internalValue"
-    :disabled="disabled"
-    :error="errorMessages.length > 0"
-    :error-messages="errorMessages"
-    :label="label"
-    :suffix="suffix"
-    autocomplete="off"
-    @keydown.native.stop="onKeyDown"
-  ></v-text-field>
+    <v-text-field
+      v-model="internalValue"
+      :disabled="disabled"
+      :error="errorMessages.length > 0"
+      :error-messages="errorMessages"
+      :label="label"
+      :suffix="suffix"
+      autocomplete="off"
+      @keydown.native.stop="onKeyDown"
+    ></v-text-field>
 </template>
 
 <script>
 import is from 'is'
 
+const countDecimals = function (value) {
+  if ((value % 1) != 0) {
+    return value.toString().split('.')[1].length
+  }
+  return 0
+}
 export default {
   name: 'c4-numbers',
 
@@ -98,19 +104,9 @@ export default {
      * @type {Event}
      */
     onKeyDown (event) {
-      if (event.keyCode === 38) { // up
-        this.internalValue = (this.value / this.unit) + this.incrementor
-        return false
-      }
-      if (event.keyCode === 40) { //  down
-        this.internalValue = Math.max((this.value / this.unit) - this.incrementor, 0)
-
-        return false
-      }
-      if (
-        (event.keyCode >= 48 && event.keyCode <= 57) ||
-        (event.keyCode >= 96 && event.keyCode <= 105) ||
-        event.keyCode === 8 ||
+      const isNumberKeycode = (event.keyCode >= 48 && event.keyCode <= 57) ||
+        (event.keyCode >= 96 && event.keyCode <= 105)
+      const isSpecialKeyCode = event.keyCode === 8 ||
         event.keyCode === 9 ||
         event.keyCode === 37 ||
         event.keyCode === 39 ||
@@ -119,7 +115,14 @@ export default {
         event.keyCode === 188 ||
         event.keyCode === 35 ||
         event.keyCode === 36
+      if (
+        isNumberKeycode || isSpecialKeyCode
       ) {
+        const dec = countDecimals(this.value / this.unit)
+        if (dec === this.mantissa && isNumberKeycode) {
+          event.preventDefault()
+        }
+        // continue
       } else {
         event.preventDefault()
       }
@@ -139,6 +142,7 @@ export default {
         if (is.number(this.value)) {
           const nst = this.nachkommastellen
           const number = Math.round(((this.value / this.unit) + Number.EPSILON) * nst) / nst
+          //console.log(nst, number)
           const splitted = number.toString().split('.')
           splitted[0] = parseInt(splitted[0]).toLocaleString('de-DE')
           return splitted.join(',')
@@ -150,11 +154,16 @@ export default {
           this.$emit('input', null)
           return
         }
+        let tmpo
         if (is.number(newValue)) {
+          //tmpo = newValue * this.unit
           this.$emit('input', newValue * this.unit)
         } else {
+          // tmpo = Number(newValue.replace(/\./g, '').replace(/,/g, '.')) * this.unit
           this.$emit('input', Number(newValue.replace(/\./g, '').replace(/,/g, '.')) * this.unit)
         }
+        //console.log(tmpo.toFixed(this.mantissa))
+        // this.$emit('input', Number(tmpo.toFixed(this.mantissa)))
       }
     },
     incrementor () {
