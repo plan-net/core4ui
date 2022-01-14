@@ -1,14 +1,15 @@
 <template>
-    <v-text-field
-      v-model="internalValue"
-      :disabled="disabled"
-      :error="errorMessages.length > 0"
-      :error-messages="errorMessages"
-      :label="label"
-      :suffix="suffix"
-      autocomplete="off"
-      @keydown.native.stop="onKeyDown"
-    ></v-text-field>
+  <v-text-field
+    :disabled="disabled"
+    :error="errorMessages.length > 0"
+    :error-messages="errorMessages"
+    :label="label"
+    :suffix="suffix"
+    :value="internalValue"
+    autocomplete="off"
+    @input="internalValue = $event"
+    @keydown.native.stop="onKeyDown"
+  ></v-text-field>
 </template>
 
 <script>
@@ -112,16 +113,22 @@ export default {
         event.keyCode === 39 ||
         event.keyCode === 46 ||
         event.keyCode === 110 ||
-        event.keyCode === 188 ||
+        (event.keyCode === 188 && this.mantissa > 0) || // komma
         event.keyCode === 35 ||
         event.keyCode === 36
+
       if (
         isNumberKeycode || isSpecialKeyCode
       ) {
         const dec = countDecimals(this.value / this.unit)
-        if (dec === this.mantissa && isNumberKeycode) {
-          event.preventDefault()
+        if (isNumberKeycode) {
+          // wenn mantissa 0  ist, dann beliebig viele normale zahlen erlauben
+          if ((this.mantissa != 0 && dec >= this.mantissa)
+          ) {
+            event.preventDefault()
+          }
         }
+
         // continue
       } else {
         event.preventDefault()
@@ -142,7 +149,6 @@ export default {
         if (is.number(this.value)) {
           const nst = this.nachkommastellen
           const number = Math.round(((this.value / this.unit) + Number.EPSILON) * nst) / nst
-          //console.log(nst, number)
           const splitted = number.toString().split('.')
           splitted[0] = parseInt(splitted[0]).toLocaleString('de-DE')
           return splitted.join(',')
@@ -156,14 +162,11 @@ export default {
         }
         let tmpo
         if (is.number(newValue)) {
-          //tmpo = newValue * this.unit
           this.$emit('input', newValue * this.unit)
         } else {
-          // tmpo = Number(newValue.replace(/\./g, '').replace(/,/g, '.')) * this.unit
           this.$emit('input', Number(newValue.replace(/\./g, '').replace(/,/g, '.')) * this.unit)
         }
-        //console.log(tmpo.toFixed(this.mantissa))
-        // this.$emit('input', Number(tmpo.toFixed(this.mantissa)))
+
       }
     },
     incrementor () {
