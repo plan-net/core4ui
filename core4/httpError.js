@@ -59,13 +59,6 @@ const actions = {
           window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
         },
       },
-      /*       {
-              main: true,
-              name: Vue.prototype.i18n.t("toTheMainPage"),
-              action() {
-                Vue.prototype.$store.dispatch("gotoMainPage");
-              },
-            }, */
     ]
   },
   '404' () {
@@ -77,13 +70,6 @@ const actions = {
           window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
         },
       },
-      /*       {
-              main: true,
-              name: Vue.prototype.i18n.t("toTheMainPage"),
-              action() {
-                Vue.prototype.$store.dispatch("gotoMainPage");
-              },
-            }, */
     ]
   },
   '409' () {
@@ -95,13 +81,6 @@ const actions = {
           Vue.prototype.$store.dispatch('reloadCurrentPage')
         },
       },
-      /*       {
-              main: false,
-              name: Vue.prototype.i18n.t("toTheMainPage"),
-              action() {
-                Vue.prototype.$store.dispatch("gotoMainPage");
-              },
-            }, */
     ]
   },
   noInternet () {
@@ -134,13 +113,6 @@ const actions = {
           window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
         },
       },
-      /*       {
-              main: true,
-              name: Vue.prototype.i18n.t("toTheMainPage"),
-              action() {
-                Vue.prototype.$store.dispatch("gotoMainPage");
-              },
-            }, */
     ]
   },
 }
@@ -172,7 +144,7 @@ export default {
       }
       const getHtmlToRender = (str, ignoreHTML = false) => {
         const start = str.indexOf('(') + 1
-        const end = str.lastIndexOf(')')
+        const end = str.indexOf(')')
         if (start >= 0 && end >= 2) {
           let extracted = str.substring(start, end)
           if(ignoreHTML){
@@ -254,8 +226,6 @@ export default {
           )
         }
       }
-    }/*  else {
-      console.info(`Core4ui error handling system: new error type - ${err}`)
-    } */
+    }
   }
 }
