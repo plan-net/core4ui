@@ -78,7 +78,8 @@
             @click="showTechInfo = !showTechInfo"
           >
             <v-icon>{{ showTechInfo ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            technical details
+            {{i18n.t('technicaldetails')}}
+            <!--technical details-->
           </v-btn>
           <v-spacer></v-spacer>
           <template v-for="(btn, index) in errorData.actions">
