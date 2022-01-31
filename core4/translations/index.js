@@ -29,6 +29,7 @@ export const i18n = new VueI18n({
       toTheMainPage: "To the main page",
       checkConnectivity: "Check connectivity",
       contact: "Contact",
+      technicaldetails: "technical details",
       error: "Error",
       errors: {
         default:
@@ -68,6 +69,8 @@ export const i18n = new VueI18n({
       toTheMainPage: "Zur Hauptseite",
       checkConnectivity: "Überprüfen Sie die Konnektivität",
       contact: "Kontakt",
+      technicaldetails: "Technische Details",
+
       error: "Error",
       errors: {
         default:
