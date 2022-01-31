@@ -14,11 +14,10 @@ function i18n (code, name = 'default') {
 function payload (err, actions, html, customErrorContentHtml) {
   let payload = {
     error: err,
-    actions: actions,
+    actions: actions, //checkForEmail(actions, customErrorContentHtml || ''),
     close: true,
     customErrorContentHtml
   }
-
   if (err.json != null) {
     payload.json = err.json
   } else {
@@ -29,7 +28,7 @@ function payload (err, actions, html, customErrorContentHtml) {
 }
 
 const actions = {
-  '502' () {
+  '502' (htmlContent) {
     return [
       {
         main: false,
@@ -38,41 +37,34 @@ const actions = {
           Vue.prototype.$store.dispatch('reloadCurrentPage')
         },
       },
-      /*  {
-         main: true,
-         name: Vue.prototype.i18n.t("toTheMainPage"),
-         action() {
-           Vue.prototype.$store.dispatch("gotoMainPage");
-         },
-       }, */
     ]
   },
-  '400' () {
+  '400' (htmlContent) {
     return []
   },
-  '403' () {
+  '403' (htmlContent) {
     return [
       {
         main: false,
         name: Vue.prototype.i18n.t('contact'),
         action () {
-          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
+          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${encodeURIComponent(htmlContent || '')}`
         },
       },
     ]
   },
-  '404' () {
+  '404' (htmlContent) {
     return [
       {
         main: false,
         name: Vue.prototype.i18n.t('contact'),
         action () {
-          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
+          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${encodeURIComponent(htmlContent || '')}`
         },
       },
     ]
   },
-  '409' () {
+  '409' (htmlContent) {
     return [
       {
         main: true,
@@ -104,13 +96,14 @@ const actions = {
     }
     return [action]
   },
-  default () {
+  default (htmlContent) {
     return [
       {
         main: false,
         name: Vue.prototype.i18n.t('contact'),
         action () {
-          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}`
+
+          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${encodeURIComponent(htmlContent || '')}`
         },
       },
     ]
@@ -147,7 +140,7 @@ export default {
         const end = str.indexOf(')')
         if (start >= 0 && end >= 2) {
           let extracted = str.substring(start, end)
-          if(ignoreHTML){
+          if (ignoreHTML) {
             extracted = `<span>${extracted}</span>`
           }
           const isValidHtml = isHTML(extracted)
@@ -168,13 +161,13 @@ export default {
           case '502':
             Vue.prototype.$store.dispatch(
               'showError',
-              payload(err, actions[errorCode](), `${i18n(errorCode)}`, htmlContent)
+              payload(err, actions[errorCode](htmlContent), `${i18n(errorCode)}`, htmlContent)
             )
             break
           case '400':
             Vue.prototype.$store.dispatch(
               'showError',
-              payload(err, actions[errorCode](), `${i18n(errorCode)}`, htmlContent)
+              payload(err, actions[errorCode](htmlContent), `${i18n(errorCode)}`, htmlContent)
             )
             break
           case '401':
@@ -183,28 +176,29 @@ export default {
           case '403':
             Vue.prototype.$store.dispatch(
               'showError',
-              payload(err, actions[errorCode](), `${i18n(errorCode)}`, htmlContent)
+              payload(err, actions[errorCode](htmlContent), `${i18n(errorCode)}`, htmlContent)
             )
             break
           case '404':
             //Vue.prototype.$store.dispatch("gotoNotFoundPage");
             Vue.prototype.$store.dispatch(
               'showError',
-              payload(err, actions[errorCode](), `${i18n(errorCode)}`, htmlContent)
+              payload(err, actions[errorCode](htmlContent), `${i18n(errorCode)}`, htmlContent)
             )
             break
           case '409':
             Vue.prototype.$store.dispatch(
               'showError',
-              payload(err, actions[errorCode](), `${i18n(errorCode)}`, htmlContent)
+              payload(err, actions[errorCode](htmlContent), `${i18n(errorCode)}`, htmlContent)
             )
             break
           default:
             // cases: 4xx, 5xx, 500, 405, 406
             // mail = `<a href="mailto:${Vue.prototype.$store.getters.contact}">${Vue.prototype.$store.getters.contact}</a>`
+
             Vue.prototype.$store.dispatch(
               'showError',
-              payload(err, actions['default'](), `${i18n()}`, htmlContent)
+              payload(err, actions['default'](htmlContent), `${i18n()}`, htmlContent)
             )
         }
       } else {
@@ -214,7 +208,7 @@ export default {
             'showError',
             payload(
               err,
-              actions['noInternet'](),
+              actions['noInternet'](htmlContent),
               `${i18n('networkError', 'noInternet')}`
             )
           )
@@ -222,7 +216,7 @@ export default {
           // all of possible not xhr errors
           Vue.prototype.$store.dispatch(
             'showError',
-            payload(err, actions['default'](), `${i18n('networkError')}`)
+            payload(err, actions['default'](htmlContent), `${i18n('networkError')}`)
           )
         }
       }
