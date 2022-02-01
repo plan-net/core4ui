@@ -2,7 +2,6 @@ import Vue from 'vue'
 
 function i18n (code, name = 'default') {
   const defaultError = Vue.prototype.i18n.t('errors.default')
-
   try {
     const translate = Vue.prototype.i18n.t(`errors.${code}.${name}`)
     return translate.includes('undefined') ? defaultError : translate
@@ -102,7 +101,6 @@ const actions = {
         main: false,
         name: Vue.prototype.i18n.t('contact'),
         action () {
-
           window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${encodeURIComponent(htmlContent || '')}&subject=Brandinvestor Fehler`
         },
       },
@@ -195,10 +193,11 @@ export default {
           default:
             // cases: 4xx, 5xx, 500, 405, 406
             // mail = `<a href="mailto:${Vue.prototype.$store.getters.contact}">${Vue.prototype.$store.getters.contact}</a>`
-
+            const errorText = `${i18n()}`.replace('<email>', Vue.prototype.$store.getters.contact)
+            
             Vue.prototype.$store.dispatch(
               'showError',
-              payload(err, actions['default'](htmlContent), `${i18n()}`, htmlContent)
+              payload(err, actions['default'](htmlContent), errorText, htmlContent)
             )
         }
       } else {
