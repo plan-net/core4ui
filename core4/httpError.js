@@ -103,7 +103,7 @@ const actions = {
         name: Vue.prototype.i18n.t('contact'),
         action () {
 
-          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${encodeURIComponent(htmlContent || '')}`
+          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${encodeURIComponent(htmlContent || '')}&subject=Brandinvestor Fehler`
         },
       },
     ]
