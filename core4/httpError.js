@@ -135,7 +135,7 @@ export default {
       }
       const getHtmlToRender = (str, ignoreHTML = false) => {
         const start = str.indexOf('(') + 1
-        const end = str.indexOf(')')
+        const end = str.lastIndexOf(')')
         if (start >= 0 && end >= 2) {
           let extracted = str.substring(start, end)
           if (ignoreHTML) {
