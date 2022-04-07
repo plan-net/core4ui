@@ -22,6 +22,7 @@ export const veeValidateDictionary = {
 
 export const i18n = new VueI18n({
   locale: "en",
+  lazy: true,
   fallbackLocale: "en",
   messages: {
     en: {
