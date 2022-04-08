@@ -39,10 +39,10 @@ vue-avatar-cropper@^1.0.9:
   resolved "https://registry.yarnpkg.com/vue-avatar-cropper/-/vue-avatar-cropper-1.0.9.tgz#b4e04cdb407fe16d159a7b2d0db6cb170ab1bf80"
   integrity sha512-qTHlx+PLtU/iZc9Pu6muP2hGrBbL0CpaBDGsenRvS7qKDsV/WzWQSM8z8CD5XpBWXm7l2toNAYwkhmWepk0YMg==
 
-vue-i18n@^7.3.2:
-  version "7.8.1"
-  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-7.8.1.tgz#2ce4b6efde679a1e05ddb5d907bfc1bc218803b2"
-  integrity sha512-BzB+EAPo/iFyFn/GXd/qVdDe67jfk+gmQaWUKD5BANhUclGrFxzRExzW2pYEAbhNm2pg0F12Oo+gL2IMLDcTAw==
+vue-i18n@^8.27.1:
+  version "8.27.1"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.27.1.tgz#fe660f6c14793ae404d6a715875d772594a3324f"
+  integrity sha512-lWrGm4F25qReJ7XxSnFVb2h3PfW54ldnM4C+YLBGGJ75+Myt/kj4hHSTKqsyDLamvNYpvINMicSOdW+7yuqgIQ==
 
 vue-router@^3.5.3:
   version "3.5.3"
