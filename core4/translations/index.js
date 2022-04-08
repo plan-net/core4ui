@@ -23,7 +23,9 @@ export const veeValidateDictionary = {
 export const i18n = new VueI18n({
   locale: "en",
   lazy: true,
-  fallbackLocale: "en",
+  silentTranslationWarn: true,
+  silentFallbackWarn: true,
+  fallbackLocale: "de",
   messages: {
     en: {
       reloadPage: "Reload page",
