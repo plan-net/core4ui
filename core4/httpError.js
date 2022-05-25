@@ -151,8 +151,8 @@ export default {
       }
       const getHtmlToRender = (str, ignoreHTML = false) => {
         const markers = getMarkers(str)
-        const start = str.indexOf(markers.start) + 1
-        const end = str.lastIndexOf(markers.end)
+        const start = str.indexOf(markers.start) + 2
+        const end = str.indexOf(markers.end)
         if (start >= 0 && end >= 2) {
           let extracted = str.substring(start, end)
           if (ignoreHTML) {
