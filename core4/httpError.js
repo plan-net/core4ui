@@ -133,9 +133,26 @@ export default {
         var doc = new DOMParser().parseFromString(str, 'text/html')
         return Array.from(doc.body.childNodes).some(node => node.nodeType === 1)
       }
+      const getMarkers = str => {
+        const markers = {
+          start : '(',
+          end : ')',
+        }
+        if(str.includes('[[') && str.includes(']]')){
+          return {
+            start : '[[',
+            end : ']]',
+          }
+        }
+        return {
+          start : '(',
+          end : ')',
+        }
+      }
       const getHtmlToRender = (str, ignoreHTML = false) => {
-        const start = str.indexOf('(') + 1
-        const end = str.lastIndexOf(')')
+        const markers = getMarkers(str)
+        const start = str.indexOf(markers.start) + 1
+        const end = str.lastIndexOf(markers.end)
         if (start >= 0 && end >= 2) {
           let extracted = str.substring(start, end)
           if (ignoreHTML) {
