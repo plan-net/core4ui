@@ -41,29 +41,29 @@ const actions = {
   '400' (htmlContent) {
     return []
   },
-  '403' (htmlContent) {
+  '403' (errContent) {
     return [
       {
         main: false,
         name: Vue.prototype.i18n.t('contact'),
         action () {
-          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${encodeURIComponent(htmlContent || '')}`
+          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${errContent}&subject=ApplicationError`
         },
       },
     ]
   },
-  '404' (htmlContent) {
+  '404' (errContent) {
     return [
       {
         main: false,
         name: Vue.prototype.i18n.t('contact'),
         action () {
-          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${encodeURIComponent(htmlContent || '')}`
+          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${errContent}&subject=ApplicationError`
         },
       },
     ]
   },
-  '409' (htmlContent) {
+  '409' () {
     return [
       {
         main: true,
@@ -95,13 +95,14 @@ const actions = {
     }
     return [action]
   },
-  default (htmlContent) {
+  default (errContent) {
+    //const body = `${encodeURIComponent(htmlContent || '')}`
     return [
       {
         main: false,
         name: Vue.prototype.i18n.t('contact'),
         action () {
-          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${encodeURIComponent(htmlContent || '')}&subject=Brandinvestor Fehler`
+          window.location.href = `mailto:${Vue.prototype.$store.getters.contact}?body=${errContent}&subject=ApplicationError`
         },
       },
     ]
@@ -135,18 +136,18 @@ export default {
       }
       const getMarkers = str => {
         const markers = {
-          start : '(',
-          end : ')',
+          start: '(',
+          end: ')',
         }
-        if(str.includes('[[') && str.includes(']]')){
+        if (str.includes('[[') && str.includes(']]')) {
           return {
-            start : '[[',
-            end : ']]',
+            start: '[[',
+            end: ']]',
           }
         }
         return {
-          start : '(',
-          end : ')',
+          start: '(',
+          end: ')',
         }
       }
       const getHtmlToRender = (str, ignoreHTML = false) => {
@@ -168,6 +169,7 @@ export default {
       }
 
       if (err.response) {
+        const errorContentShort = JSON.stringify(err.response.data.error).substring(0, 1799) + '...'
         const errorCode = err.response.status.toString()
         const htmlContent = getHtmlToRender(err.response.data.error, err.response.renderWithoutHTML)
         switch (errorCode) {
@@ -191,14 +193,14 @@ export default {
           case '403':
             Vue.prototype.$store.dispatch(
               'showError',
-              payload(err, actions[errorCode](htmlContent), `${i18n(errorCode)}`, htmlContent)
+              payload(err, actions[errorCode](errorContentShort), `${i18n(errorCode)}`, htmlContent)
             )
             break
           case '404':
             //Vue.prototype.$store.dispatch("gotoNotFoundPage");
             Vue.prototype.$store.dispatch(
               'showError',
-              payload(err, actions[errorCode](htmlContent), `${i18n(errorCode)}`, htmlContent)
+              payload(err, actions[errorCode](errorContentShort), `${i18n(errorCode)}`, htmlContent)
             )
             break
           case '409':
@@ -211,10 +213,10 @@ export default {
             // cases: 4xx, 5xx, 500, 405, 406
             // mail = `<a href="mailto:${Vue.prototype.$store.getters.contact}">${Vue.prototype.$store.getters.contact}</a>`
             const errorText = `${i18n()}`.replace('<email>', Vue.prototype.$store.getters.contact)
-            
+
             Vue.prototype.$store.dispatch(
               'showError',
-              payload(err, actions['default'](htmlContent), errorText, htmlContent)
+              payload(err, actions['default'](errorContentShort), errorText, htmlContent)
             )
         }
       } else {
