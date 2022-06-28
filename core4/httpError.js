@@ -88,7 +88,6 @@ const actions = {
           if (navigator.onLine) {
             Vue.prototype.$store.dispatch('hideError')
           }
-
           Vue.prototype.$store.dispatch('setLoading', false)
         }, 2000)
       },
@@ -108,7 +107,16 @@ const actions = {
     ]
   },
 }
-
+window.addEventListener('offline', function(event){
+  Vue.prototype.$store.dispatch(
+    'showError',
+    payload(
+      new Error('No internet connection.'),
+      actions['noInternet'](),
+      `${i18n('networkError', 'noInternet')}`
+    )
+  )
+});
 export default {
   show (err, vm, info) {
     // err: error trace
