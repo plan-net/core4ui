@@ -169,7 +169,12 @@ export default {
       }
 
       if (err.response) {
-        const errorContentShort = JSON.stringify(err.response.data.error).substring(0, 1799) + '...'
+        let errorContentShort = 'Error'
+        try {
+          errorContentShort = JSON.stringify(err.response.data.error).substring(0, 1799) + '...'
+        }catch(err){
+
+        }
         const errorCode = err.response.status.toString()
         const htmlContent = getHtmlToRender(err.response.data.error, err.response.renderWithoutHTML)
         switch (errorCode) {
