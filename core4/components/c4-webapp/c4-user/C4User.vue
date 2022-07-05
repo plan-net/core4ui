@@ -140,7 +140,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import C4Avatar from './C4Avatar'
 import Auth from '../../../Auth'
-
+let ti = null
 export default {
   name: 'c4-user',
   components: {
@@ -160,11 +160,16 @@ export default {
       default: false
     }
   },
+  beforeDestroy () {
+    clearTimeout(ti)
+  },
   async mounted () {
     this.$store.dispatch('fetchProfile')
     this.isDark = this.dark
     this.$bus.$on('c4_reload_avatar', this.checkAvatar)
-    this.checkAvatar()
+    ti = window.setTimeout(() => {
+      this.checkAvatar()
+    }, 3333)
   },
   methods: {
     async checkAvatar () {
