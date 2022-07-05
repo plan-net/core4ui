@@ -44,7 +44,7 @@ fs.readFile('../../__init__.py', 'utf8', function(err, data) {
     if (err) throw err
     const tmp = data.split('</head>')
     const v =
-      '<script>window.__VERSION__ ="v.' +
+      '<script>window.__VERSION__ ="' +
       version +
       '"; window.__CACHEB__ = "' +
       date +
