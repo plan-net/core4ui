@@ -3,22 +3,17 @@
   "version": "2.2.2",
   "private": false,
   "scripts": {},
-  "bak": {
-    "numbro": "^2.2.0",
-    "moment": "^2.24.0",
-    "vee-validate": "^2.1.7"
-  },
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.4",
     "is": "^3.2.1",
     "portal-vue": "^2.1.7",
-    "vue": "^2.6.14",
+    "vue": "^2.7.5",
     "vue-avatar-cropper": "^1.0.9",
     "vue-i18n": "^8.27.1",
-    "vue-router": "^3.5.3",
+    "vue-router": "^3.5.4",
     "vuedraggable": "^2.23.2",
-    "vuetify": "^2.6.4",
+    "vuetify": "^2.6.7",
     "vuex": "^3.6.2"
   },
   "devDependencies": {}
