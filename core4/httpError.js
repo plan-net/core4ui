@@ -107,7 +107,7 @@ const actions = {
     ]
   },
 }
-window.addEventListener('offline', function(event){
+/*window.addEventListener('offline', function(event){
   Vue.prototype.$store.dispatch(
     'showError',
     payload(
@@ -116,7 +116,29 @@ window.addEventListener('offline', function(event){
       `${i18n('networkError', 'noInternet')}`
     )
   )
-});
+});*/
+// Check if currently offline
+import { check, watch } from 'is-offline';
+let onOffCallback = bool => {
+  if (bool) {
+    Vue.prototype.$store.dispatch(
+      'showError',
+      payload(
+        new Error('No internet connection.'),
+        actions['noInternet'](),
+        `${i18n('networkError', 'noInternet')}`
+      )
+    )
+  } else {
+    Vue.prototype.$store.dispatch('hideError')
+  }
+};
+check().then(onOffCallback);
+// Setup a "watcher" to respond to all online/offline changes
+let unwatch = watch(foobar);
+
+// The "watcher" will be active until it's deactivated
+// unwatch();
 export default {
   show (err, vm, info) {
     // err: error trace
