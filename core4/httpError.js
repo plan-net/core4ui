@@ -135,7 +135,7 @@ let onOffCallback = bool => {
 };
 check().then(onOffCallback);
 // Setup a "watcher" to respond to all online/offline changes
-let unwatch = watch(foobar);
+let unwatch = watch(onOffCallback);
 
 // The "watcher" will be active until it's deactivated
 // unwatch();
