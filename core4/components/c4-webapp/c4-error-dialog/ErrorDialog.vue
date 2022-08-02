@@ -78,7 +78,7 @@
             @click="showTechInfo = !showTechInfo"
           >
             <v-icon>{{ showTechInfo ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            {{i18n.t('technicaldetails')}}
+            {{ i18n.t('technicaldetails') }}
             <!--technical details-->
           </v-btn>
           <v-spacer></v-spacer>
@@ -152,6 +152,7 @@ export default {
   max-height: 250px;
   overflow-y: scroll;
 }
+
 .customErrorContentHtml {
   max-width: 100%;
   max-height: 720px;

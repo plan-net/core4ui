@@ -10,11 +10,11 @@ function i18n (code, name = 'default') {
   }
 }
 
-function payload (err, actions, html, customErrorContentHtml) {
+function payload (err, actions, html, customErrorContentHtml, closeable = true) {
   let payload = {
     error: err,
     actions: actions, //checkForEmail(actions, customErrorContentHtml || ''),
-    close: true,
+    close: closeable,
     customErrorContentHtml
   }
   if (err.json != null) {
@@ -126,7 +126,9 @@ let onOffCallback = bool => {
       payload(
         new Error('No internet connection.'),
         actions['noInternet'](),
-        `${i18n('networkError', 'noInternet')}`
+        `${i18n('networkError', 'noInternet')}`,
+        null,
+        false
       )
     )
   } else {
@@ -141,6 +143,10 @@ let unwatch = watch(onOffCallback);
 // unwatch();
 export default {
   show (err, vm, info) {
+    if (!navigator.onLine) {
+      onOffCallback(true);
+      return
+    }
     // err: error trace
     // vm: component in which error occurred
     // info: Vue specific error information such as lifecycle hooks, events etc.
