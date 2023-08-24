@@ -14,6 +14,7 @@ export function inIframe () {
 
 const state = {
   loading: false,
+  language: 'DE',
   title: 'CORE4OS',
   dark: false,
   inWidget: false,
@@ -92,7 +93,11 @@ const actions = {
   async initC4App ({ commit, dispatch, state }) {
     try {
       const setting = await Auth.setting()
+      console.log(setting.data.language)
       commit('set_profile', { authenticated: true })
+      console.log(setting.data.language)
+      commit('set_language',setting.data.language )
+      console.log(state.language)
       commit('set_dark', setting.data.dark)
       // console.info('setting light/dark>>', setting.data.dark ? 'dark' : 'light')
     } catch (err) {
@@ -247,6 +252,9 @@ const mutations = {
   set_profile (state, payload) {
     state.profile = Object.assign({}, state.profile, payload)
   },
+  set_language (state, payload) {
+    state.language = payload
+  },
   clear_profile (state, payload) {
     state.profile = {
       authenticated: false,
@@ -295,6 +303,9 @@ const getters = {
   },
   contact (state) {
     return state.contact
+  },
+  language (state) {
+    return state.language
   },
   inIframe (state) {
     return state.inIframe

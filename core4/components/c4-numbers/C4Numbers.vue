@@ -105,6 +105,7 @@ export default {
      * @type {Event}
      */
     onKeyDown (event) {
+      const decSeperator = this.language === 'DE' ? 188 : 190
       const isNumberKeycode = (event.keyCode >= 48 && event.keyCode <= 57) ||
         (event.keyCode >= 96 && event.keyCode <= 105)
       const isSpecialKeyCode = event.keyCode === 8 ||
@@ -113,7 +114,7 @@ export default {
         event.keyCode === 39 ||
         event.keyCode === 46 ||
         event.keyCode === 110 ||
-        (event.keyCode === 188 && this.mantissa > 0) || // komma
+        (event.keyCode === decSeperator && this.mantissa > 0) || // komma, point / decimal seperator for lang
         event.keyCode === 35 ||
         event.keyCode === 36
 
@@ -144,14 +145,26 @@ export default {
       4 > 10000 */
       return Math.pow(10, Math.abs(this.mantissa || 0))
     },
+    language() {
+      return this.$store.getters.language || 'DE'
+    },
     internalValue: {
       get: function () {
         if (is.number(this.value)) {
           const nst = this.nachkommastellen
           const number = Math.round(((this.value / this.unit) + Number.EPSILON) * nst) / nst
-          const splitted = number.toString().split('.')
-          splitted[0] = parseInt(splitted[0]).toLocaleString('de-DE')
-          return splitted.join(',')
+          let formattedNumber;
+          if (this.language === 'DE') {
+            let splitted = number.toString().split('.')
+            splitted[0] = parseInt(splitted[0]).toLocaleString('de-DE')
+            formattedNumber = splitted.join(',')
+          } else {
+            let splitted = number.toString().split('.')
+            splitted[0] = parseInt(splitted[0]).toLocaleString('en-GB')
+            formattedNumber = splitted.join('.')
+          }
+
+          return formattedNumber
         }
         return null
       },
@@ -160,13 +173,20 @@ export default {
           this.$emit('input', null)
           return
         }
-        let tmpo
+
+        let valueToEmit;
+
         if (is.number(newValue)) {
-          this.$emit('input', newValue * this.unit)
+          valueToEmit = newValue
         } else {
-          this.$emit('input', Number(newValue.replace(/\./g, '').replace(/,/g, '.')) * this.unit)
+          if (this.language === 'DE') {
+            valueToEmit = Number(newValue.replace(/\./g, '').replace(/,/g, '.'))
+          } else {
+              valueToEmit = Number(newValue.replace(/,/g, ''))
+          }
         }
 
+        this.$emit('input', valueToEmit * this.unit)
       }
     },
     incrementor () {
