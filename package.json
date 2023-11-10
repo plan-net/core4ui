@@ -4,7 +4,7 @@
   "private": false,
   "scripts": {},
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^1.6.0",
     "core-js": "^3.6.4",
     "is": "^3.2.1",
     "is-offline": "^2.1.1",
